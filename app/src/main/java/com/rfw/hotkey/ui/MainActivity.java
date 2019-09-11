@@ -1,8 +1,10 @@
-package com.rfw.hotkey;
+package com.rfw.hotkey.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.rfw.hotkey.R;
 
 public class MainActivity extends AppCompatActivity {
 
