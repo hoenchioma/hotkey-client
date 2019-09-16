@@ -4,108 +4,145 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.rfw.hotkey.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link KeyboardFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link KeyboardFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class KeyboardFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class KeyboardFragment extends Fragment implements View.OnClickListener , View.OnTouchListener {
 
-    private OnFragmentInteractionListener mListener;
-
-    public KeyboardFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment KeyboardFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static KeyboardFragment newInstance(String param1, String param2) {
-        KeyboardFragment fragment = new KeyboardFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private View contextView;
+    private Button copyButton;
+    private String previousText = "";
+    private EditText typeHere;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @NonNull ViewGroup container,
+                             @NonNull Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_keyboard, container, false);
+        initialization(rootView);
+        //Log.d("HALALA", "It works");
+        typeHere.addTextChangedListener(new TextWatcher() {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                if (!s.equals("")) {
+                    //do your work here
+                    char ch = newCharacter(s, previousText);
+                    if (ch == 0) {
+                        return;
+                    }
+                    Log.d("ONTEXTCHANGE", String.valueOf(ch));
+                    Log.d("ONTEXTCHANGE", String.valueOf((int)ch));
+                    sendMessageToServer("TYPE_CHARACTER");
+                    sendMessageToServer(String.valueOf(ch));
+                    //MainActivity.sendMessageToServer("TYPE_CHARACTER");
+                    //MainActivity.sendMessageToServer(Character.toString(ch));
+                    previousText = s.toString();
+                }
+            }
+
+
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        //System.out.println("Check");
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_keyboard, container, false);
+        return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    private void initialization(View rootView){
+
+        typeHere = (EditText) rootView.findViewById(R.id.keyboardInputID);
+        copyButton = (Button) rootView.findViewById(R.id.copyButtonID);
+    }
+    private char newCharacter(CharSequence currentText, CharSequence previousText) {
+        char ch = 0;
+        int currentTextLength = currentText.length();
+        int previousTextLength = previousText.length();
+        int difference = currentTextLength - previousTextLength;
+        if (currentTextLength > previousTextLength) {
+            if (1 == difference) {
+                ch = currentText.charAt(previousTextLength);
+            }
+        } else if (currentTextLength < previousTextLength) {
+            if (-1 == difference) {
+                ch = '\b';
+            } else {
+                ch = ' ';
+            }
+        }
+       // Log.d("NEWCHARACTER", String.valueOf(ch));
+        return ch;
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        if(id == R.id.copyButtonID){
+            Log.d("onclick","copy");
         }
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        String action = "KEY_PRESS";
+        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+            action = "KEY_PRESS";
+            Log.d("Pressed","Kaj kore"); // kaj korena
+        } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+            action = "KEY_RELEASE";
         }
+        int keyCode = 17;//dummy initialization
+        switch (view.getId()) {
+
+            // TODO CTRL,ALT
+            /* Example
+            case com.example.fragmenttest.R.id.CTRLButton :
+                keyCode = 17;
+                break;
+            */
+
+        }
+        Log.d("ONTOUCH", Integer.toString(keyCode));
+        //System.out.println(keyCode);
+        //sendKeyCodeToServer(action, keyCode);
+        return false;
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void sendMessageToServer(String message)
+    {
+        //TODO
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+/*    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        char ch = newCharacter(s, previousText);
+        if (ch == 0) {
+            return;
+        }
+        Log.d("ONTEXTCHANGE", String.valueOf(ch));
+
+        //MainActivity.sendMessageToServer("TYPE_CHARACTER");
+        //MainActivity.sendMessageToServer(Character.toString(ch));
+        previousText = s.toString();
+    }*/
 }
