@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         connectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                replaceFragment(new ConnectionsFragment());
             }
         });
 
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameContainer, fragment);
         //fragmentTransaction.addToBackStack(fragment.toString());
-        fragmentTransaction.addToBackStack(null);
+        //fragmentTransaction.addToBackStack(null);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
     }
