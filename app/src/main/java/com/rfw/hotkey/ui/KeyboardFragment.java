@@ -44,10 +44,11 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener ,
                     if (ch == 0) {
                         return;
                     }
-                    Log.d("ONTEXTCHANGE", String.valueOf(ch));
+                    Log.d("ONTEXTCHANGE", Character.toString(ch));
                     Log.d("ONTEXTCHANGE", String.valueOf((int)ch));
                     sendMessageToServer("TYPE_CHARACTER");
-                    sendMessageToServer(String.valueOf(ch));
+                    sendMessageToServer(String.valueOf((int)ch));
+                    //sendMessageToServer(Character.toString(ch));
                     //MainActivity.sendMessageToServer("TYPE_CHARACTER");
                     //MainActivity.sendMessageToServer(Character.toString(ch));
                     previousText = s.toString();
@@ -91,12 +92,13 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener ,
         tabButton.setOnClickListener(this);
         pasteButton.setOnClickListener(this);
         pgupButton.setOnClickListener(this);
-        shiftButton.setOnClickListener(this);
         upButton.setOnClickListener(this);
         pgdnButton.setOnClickListener(this);
         leftButton.setOnClickListener(this);
         downButton.setOnClickListener(this);
         righButton.setOnClickListener(this);
+
+        shiftButton.setOnTouchListener(this);
         rootView.setOnTouchListener(this);
 
 
@@ -155,11 +157,11 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener ,
             sendMessageToServer("PGUP");
             Log.d("onclick","PGUP");
         }
-        if(id == R.id.shiftButtonID){
-            sendMessageToServer("TYPE_MODIFIER");
+        /*if(id == R.id.shiftButtonID){
+            sendMessageToServer("TYPE_HOLD");
             sendMessageToServer("SHIFT");
             Log.d("onclick","SHIFT");
-        }
+        }*/
         if(id == R.id.upButtonID){
             sendMessageToServer("TYPE_MODIFIER");
             sendMessageToServer("UP");
@@ -198,8 +200,8 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener ,
         }
         int keyCode = 17;//dummy initialization
         switch (view.getId()) {
-            case R.id.homeButtonID :
-                Log.d("keyboardFragmentPress","home");
+            case R.id.shiftButtonID:
+                Log.d("keyboardFragmentPress","shift");
                 break;
             // TODO CTRL,ALT
 
