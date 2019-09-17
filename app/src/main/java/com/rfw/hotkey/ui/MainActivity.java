@@ -20,22 +20,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         replaceFragment(new ConnectionsFragment());
-        keyboardButton = (ImageButton) findViewById(R.id.keyboardButtonID);
-        connectionButton = (ImageButton) findViewById(R.id.connectionButtonID);
-        keyboardButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new KeyboardFragment());
-            }
-        });
-        connectionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
+        keyboardButton = findViewById(R.id.keyboardButtonID);
+        connectionButton = findViewById(R.id.connectionButtonID);
 
+        keyboardButton.setOnClickListener(view -> replaceFragment(new KeyboardFragment()));
+        connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment()));
     }
 
     public void replaceFragment(Fragment fragment) {

@@ -1,12 +1,6 @@
 package com.rfw.hotkey.ui;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,10 +11,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.rfw.hotkey.R;
 
 
-public class KeyboardFragment extends Fragment implements View.OnClickListener , View.OnTouchListener {
+public class KeyboardFragment extends Fragment implements View.OnClickListener, View.OnTouchListener {
+
+    // TODO: change the log statement tags
 
     private View contextView;
     private Button copyButton;
@@ -29,8 +29,8 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener ,
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @NonNull ViewGroup container,
-                             @NonNull Bundle savedInstanceState) {
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_keyboard, container, false);
         initialization(rootView);
         //Log.d("HALALA", "It works");
@@ -45,7 +45,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener ,
                         return;
                     }
                     Log.d("ONTEXTCHANGE", String.valueOf(ch));
-                    Log.d("ONTEXTCHANGE", String.valueOf((int)ch));
+                    Log.d("ONTEXTCHANGE", String.valueOf((int) ch));
                     sendMessageToServer("TYPE_CHARACTER");
                     sendMessageToServer(String.valueOf(ch));
                     //MainActivity.sendMessageToServer("TYPE_CHARACTER");
@@ -55,8 +55,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener ,
             }
 
 
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
@@ -69,11 +68,12 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener ,
         return rootView;
     }
 
-    private void initialization(View rootView){
+    private void initialization(View rootView) {
 
-        typeHere = (EditText) rootView.findViewById(R.id.keyboardInputID);
-        copyButton = (Button) rootView.findViewById(R.id.copyButtonID);
+        typeHere = rootView.findViewById(R.id.keyboardInputID);
+        copyButton = rootView.findViewById(R.id.copyButtonID);
     }
+
     private char newCharacter(CharSequence currentText, CharSequence previousText) {
         char ch = 0;
         int currentTextLength = currentText.length();
@@ -90,7 +90,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener ,
                 ch = ' ';
             }
         }
-       // Log.d("NEWCHARACTER", String.valueOf(ch));
+        // Log.d("NEWCHARACTER", String.valueOf(ch));
         return ch;
     }
 
@@ -98,8 +98,8 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener ,
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if(id == R.id.copyButtonID){
-            Log.d("onclick","copy");
+        if (id == R.id.copyButtonID) {
+            Log.d("onclick", "copy");
         }
     }
 
@@ -108,7 +108,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener ,
         String action = "KEY_PRESS";
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
             action = "KEY_PRESS";
-            Log.d("Pressed","Kaj kore"); // kaj korena
+            Log.d("Pressed", "Kaj kore"); // kaj korena
         } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
             action = "KEY_RELEASE";
         }
@@ -129,8 +129,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener ,
         return false;
     }
 
-    public void sendMessageToServer(String message)
-    {
+    public void sendMessageToServer(String message) {
         //TODO
     }
 
