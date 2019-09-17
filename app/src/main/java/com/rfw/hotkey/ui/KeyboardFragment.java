@@ -23,7 +23,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener, 
     // TODO: change the log statement tags
 
     private View contextView;
-    private Button copyButton;
+    private Button copyButton, escButton, homeButton, tabButton, pasteButton, pgupButton, shiftButton, upButton, pgdnButton, leftButton, downButton, righButton;
     private String previousText = "";
     private EditText typeHere;
 
@@ -44,10 +44,11 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener, 
                     if (ch == 0) {
                         return;
                     }
-                    Log.d("ONTEXTCHANGE", String.valueOf(ch));
+                    Log.d("ONTEXTCHANGE", Character.toString(ch));
                     Log.d("ONTEXTCHANGE", String.valueOf((int) ch));
                     sendMessageToServer("TYPE_CHARACTER");
-                    sendMessageToServer(String.valueOf(ch));
+                    sendMessageToServer(String.valueOf((int) ch));
+                    //sendMessageToServer(Character.toString(ch));
                     //MainActivity.sendMessageToServer("TYPE_CHARACTER");
                     //MainActivity.sendMessageToServer(Character.toString(ch));
                     previousText = s.toString();
@@ -72,6 +73,34 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener, 
 
         typeHere = rootView.findViewById(R.id.keyboardInputID);
         copyButton = rootView.findViewById(R.id.copyButtonID);
+        escButton = rootView.findViewById(R.id.escButtonID);
+        homeButton = rootView.findViewById(R.id.homeButtonID);
+        tabButton = rootView.findViewById(R.id.tabButtonID);
+        pasteButton = rootView.findViewById(R.id.pasteButtonID);
+        pgupButton = rootView.findViewById(R.id.pgupButtonID);
+        shiftButton = rootView.findViewById(R.id.shiftButtonID);
+        upButton = rootView.findViewById(R.id.upButtonID);
+        pgdnButton = rootView.findViewById(R.id.pgdnButtonID);
+        leftButton = rootView.findViewById(R.id.leftButtonID);
+        downButton = rootView.findViewById(R.id.downButtonID);
+        righButton = rootView.findViewById(R.id.rightButtonID);
+        copyButton.setOnClickListener(this);
+        //homeButton.setOnTouchListener(this);
+        homeButton.setOnClickListener(this);
+        escButton.setOnClickListener(this);
+        tabButton.setOnClickListener(this);
+        pasteButton.setOnClickListener(this);
+        pgupButton.setOnClickListener(this);
+        upButton.setOnClickListener(this);
+        pgdnButton.setOnClickListener(this);
+        leftButton.setOnClickListener(this);
+        downButton.setOnClickListener(this);
+        righButton.setOnClickListener(this);
+
+        shiftButton.setOnTouchListener(this);
+        rootView.setOnTouchListener(this);
+
+
     }
 
     private char newCharacter(CharSequence currentText, CharSequence previousText) {
@@ -98,8 +127,65 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        if (id == R.id.escButtonID) {
+            sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("ESC");
+            Log.d("onclick", "ESC");
+        }
         if (id == R.id.copyButtonID) {
-            Log.d("onclick", "copy");
+            sendMessageToServer("TYPE_COMMAND");
+            sendMessageToServer("COPY");
+            Log.d("onclick", "COPY");
+        }
+        if (id == R.id.homeButtonID) {
+            sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("HOME");
+            Log.d("onclick", "HOME");
+        }
+        if (id == R.id.tabButtonID) {
+            sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("TAB");
+            Log.d("onclick", "TAB");
+        }
+        if (id == R.id.pasteButtonID) {
+            sendMessageToServer("TYPE_COMMAND");
+            sendMessageToServer("PASTE");
+            Log.d("onclick", "PASTE");
+        }
+        if (id == R.id.pgupButtonID) {
+            sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("PGUP");
+            Log.d("onclick", "PGUP");
+        }
+        /*if(id == R.id.shiftButtonID){
+            sendMessageToServer("TYPE_HOLD");
+            sendMessageToServer("SHIFT");
+            Log.d("onclick","SHIFT");
+        }*/
+        if (id == R.id.upButtonID) {
+            sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("UP");
+            Log.d("onclick", "UP");
+        }
+        if (id == R.id.pgdnButtonID) {
+            sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("PGDN");
+            Log.d("onclick", "PGDN");
+        }
+        if (id == R.id.leftButtonID) {
+            sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("LEFT");
+            Log.d("onclick", "LEFT");
+        }
+        if (id == R.id.downButtonID) {
+            sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("DOWN");
+            Log.d("onclick", "DOWN");
+        }
+        if (id == R.id.rightButtonID) {
+            sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("RIGHT");
+            Log.d("onclick", "RIGHT");
         }
     }
 
@@ -108,29 +194,26 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener, 
         String action = "KEY_PRESS";
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
             action = "KEY_PRESS";
-            Log.d("Pressed", "Kaj kore"); // kaj korena
+            Log.d("Pressed", "Kaj kore");
         } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
             action = "KEY_RELEASE";
         }
         int keyCode = 17;//dummy initialization
         switch (view.getId()) {
-
-            // TODO CTRL,ALT
-            /* Example
-            case com.example.fragmenttest.R.id.CTRLButton :
-                keyCode = 17;
+            case R.id.shiftButtonID:
+                Log.d("keyboardFragmentPress", "shift");
                 break;
-            */
+            // TODO CTRL,ALT
 
         }
-        Log.d("ONTOUCH", Integer.toString(keyCode));
+        //Log.d("ONTOUCH", Integer.toString(keyCode));
         //System.out.println(keyCode);
         //sendKeyCodeToServer(action, keyCode);
         return false;
     }
 
     public void sendMessageToServer(String message) {
-        //TODO
+        //TODO: Raheeb
     }
 
 /*    public void onTextChanged(CharSequence s, int start, int before, int count) {
