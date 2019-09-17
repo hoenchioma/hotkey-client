@@ -1,9 +1,6 @@
 package com.rfw.hotkey.ui;
 
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +12,14 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
-import com.rfw.hotkey.BuildConfig;
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.databinding.FragmentConnectionsBinding;
 import com.rfw.hotkey.net.ConnectionManager;
 
-import java.io.IOException;
 import java.util.Objects;
 
 public class ConnectionsFragment extends Fragment {
-    private static final String TAG = "ConnectionsFragment";
+    private static final String TAG = ConnectionsFragment.class.getCanonicalName();
 
     private View contextView;
 
@@ -58,7 +53,7 @@ public class ConnectionsFragment extends Fragment {
             if (portText.isEmpty()) throw new RuntimeException("Port field empty");
             int port = Integer.parseInt(portText);
 
-            new ConnectionTask(ipAddress, port).execute();
+            new ConnectionManager.ConnectTask(ipAddress, port).execute();
         } catch (Exception e) {
             if (e.getMessage() == null) throw e;
             // show a snackbar if an error occurred
@@ -67,27 +62,6 @@ public class ConnectionsFragment extends Fragment {
                     Snackbar.LENGTH_SHORT);
             snackbar.setAction(R.string.retry, view -> connectButtonAction());
             snackbar.show();
-        }
-    }
-
-    private static class ConnectionTask extends AsyncTask<Void, Void, Void> {
-        String ipAddress;
-        int port;
-
-        ConnectionTask(String ipAddress, int port) {
-            this.ipAddress = ipAddress;
-            this.port = port;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                ConnectionManager.getInstance().connect(ipAddress, port);
-            } catch (IOException e) {
-                Log.e("ConnectionTask", "doInBackground: Error connecting", e);
-                e.printStackTrace();
-            }
-            return null;
         }
     }
 }

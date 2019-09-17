@@ -1,11 +1,11 @@
 package com.rfw.hotkey.net;
 
+import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.databinding.ObservableBoolean;
-
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,8 +14,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ConnectionManager {
-    private static final String TAG = "ConnectionManager";
+    private static final String TAG = ConnectionManager.class.getCanonicalName();
 
+    // singleton instance of class
     private static ConnectionManager instance;
 
     private Socket socket;
@@ -36,18 +37,19 @@ public class ConnectionManager {
         return instance;
     }
 
+    @Nullable
     public String getComputerName() {
         return computerName;
     }
 
-    synchronized public void connect(String ipAddress, int port) throws IOException {
+    synchronized private void connectUtil(String ipAddress, int port) throws IOException {
         socket = new Socket(ipAddress, port);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
         if (handshake()) connected.set(true);
     }
 
-    synchronized public void send(JSONObject message) {
+    synchronized private void sendUtil(String message) {
         out.println(message);
     }
 
@@ -84,6 +86,49 @@ public class ConnectionManager {
             return s;
         } else {
             return Character.toUpperCase(first) + s.substring(1);
+        }
+    }
+
+    public static class ConnectTask extends AsyncTask<Void, Void, Void> {
+        private static final String TAG = ConnectTask.class.getCanonicalName();
+
+        private String ipAddress;
+        private int port;
+
+        public ConnectTask(String ipAddress, int port) {
+            this.ipAddress = ipAddress;
+            this.port = port;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                ConnectionManager.getInstance().connectUtil(ipAddress, port);
+            } catch (IOException e) {
+                Log.e(TAG, "doInBackground: Error connecting", e);
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public static class SendTask extends AsyncTask<Void, Void, Void> {
+        private static final String TAG = SendTask.class.getCanonicalName();
+
+        private String message;
+
+        public SendTask(String message) {
+            this.message = message;
+        }
+
+        @Override
+        protected Void doInBackground(Void... args) {
+            try {
+                ConnectionManager.getInstance().sendUtil(message);
+            } catch (Exception e) {
+                Log.e(TAG, "doInBackground: Error sending packet", e);
+            }
+            return null;
         }
     }
 }
