@@ -7,6 +7,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.databinding.ObservableBoolean;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -119,6 +121,10 @@ public class ConnectionManager {
 
         public SendTask(String message) {
             this.message = message;
+        }
+
+        public SendTask(JSONObject packet) {
+            this(packet.toString());
         }
 
         @Override
