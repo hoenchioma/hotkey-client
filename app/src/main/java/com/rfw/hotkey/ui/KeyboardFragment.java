@@ -46,7 +46,7 @@ public class KeyboardFragment extends Fragment
                 if (!s.equals("")) {
                     char ch = newCharacter(s, previousText);
                     if (ch == 0) return;
-                    sendMessageToServer(String.valueOf(ch), "char");
+                    sendMessageToServer(String.valueOf(ch), "TYPE_CHARACTER");
                     //sendMessageToServer(Character.toString(ch));
                     //MainActivity.sendMessageToServer("TYPE_CHARACTER");
                     //MainActivity.sendMessageToServer(Character.toString(ch));
@@ -120,68 +120,68 @@ public class KeyboardFragment extends Fragment
 
     @Override
     public void onClick(View view) {
-        // TODO: (Wadith) Fix send to server method
-//        int id = view.getId();
-//        if (id == R.id.escButtonID) {
-//            sendMessageToServer("TYPE_MODIFIER");
-//            sendMessageToServer("ESC");
-//            Log.d("onclick", "ESC");
-//        }
-//        if (id == R.id.copyButtonID) {
-//            sendMessageToServer("TYPE_COMMAND");
-//            sendMessageToServer("COPY");
-//            Log.d("onclick", "COPY");
-//        }
-//        if (id == R.id.homeButtonID) {
-//            sendMessageToServer("TYPE_MODIFIER");
-//            sendMessageToServer("HOME");
-//            Log.d("onclick", "HOME");
-//        }
-//        if (id == R.id.tabButtonID) {
-//            sendMessageToServer("TYPE_MODIFIER");
-//            sendMessageToServer("TAB");
-//            Log.d("onclick", "TAB");
-//        }
-//        if (id == R.id.pasteButtonID) {
-//            sendMessageToServer("TYPE_COMMAND");
-//            sendMessageToServer("PASTE");
-//            Log.d("onclick", "PASTE");
-//        }
-//        if (id == R.id.pgupButtonID) {
-//            sendMessageToServer("TYPE_MODIFIER");
-//            sendMessageToServer("PGUP");
-//            Log.d("onclick", "PGUP");
-//        }
-//        /*if(id == R.id.shiftButtonID){
-//            sendMessageToServer("TYPE_HOLD");
-//            sendMessageToServer("SHIFT");
-//            Log.d("onclick","SHIFT");
-//        }*/
-//        if (id == R.id.upButtonID) {
-//            sendMessageToServer("TYPE_MODIFIER");
-//            sendMessageToServer("UP");
-//            Log.d("onclick", "UP");
-//        }
-//        if (id == R.id.pgdnButtonID) {
-//            sendMessageToServer("TYPE_MODIFIER");
-//            sendMessageToServer("PGDN");
-//            Log.d("onclick", "PGDN");
-//        }
-//        if (id == R.id.leftButtonID) {
-//            sendMessageToServer("TYPE_MODIFIER");
-//            sendMessageToServer("LEFT");
-//            Log.d("onclick", "LEFT");
-//        }
-//        if (id == R.id.downButtonID) {
-//            sendMessageToServer("TYPE_MODIFIER");
-//            sendMessageToServer("DOWN");
-//            Log.d("onclick", "DOWN");
-//        }
-//        if (id == R.id.rightButtonID) {
-//            sendMessageToServer("TYPE_MODIFIER");
-//            sendMessageToServer("RIGHT");
-//            Log.d("onclick", "RIGHT");
-//        }
+
+        int id = view.getId();
+        if (id == R.id.escButtonID) {
+            //sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("ESC","TYPE_MODIFIER");
+            Log.d("onclick", "ESC");
+        }
+        if (id == R.id.copyButtonID) {
+            //sendMessageToServer("TYPE_COMMAND");
+            sendMessageToServer("COPY","TYPE_COMMAND");
+            Log.d("onclick", "COPY");
+        }
+        if (id == R.id.homeButtonID) {
+           // sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("HOME","TYPE_MODIFIER");
+            Log.d("onclick", "HOME");
+        }
+        if (id == R.id.tabButtonID) {
+            //sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("TAB","TYPE_MODIFIER");
+            Log.d("onclick", "TAB");
+        }
+        if (id == R.id.pasteButtonID) {
+            //sendMessageToServer("TYPE_COMMAND");
+            sendMessageToServer("PASTE","TYPE_COMMAND");
+            Log.d("onclick", "PASTE");
+        }
+        if (id == R.id.pgupButtonID) {
+           // sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("PGUP","TYPE_MODIFIER");
+            Log.d("onclick", "PGUP");
+        }
+        /*if(id == R.id.shiftButtonID){
+            sendMessageToServer("TYPE_HOLD");
+            sendMessageToServer("SHIFT");
+            Log.d("onclick","SHIFT");
+        }*/
+        if (id == R.id.upButtonID) {
+           // sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("UP","TYPE_MODIFIER");
+            Log.d("onclick", "UP");
+        }
+        if (id == R.id.pgdnButtonID) {
+           // sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("PGDN","TYPE_MODIFIER");
+            Log.d("onclick", "PGDN");
+        }
+        if (id == R.id.leftButtonID) {
+            //sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("LEFT","TYPE_MODIFIER");
+            Log.d("onclick", "LEFT");
+        }
+        if (id == R.id.downButtonID) {
+           // sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("DOWN","TYPE_MODIFIER");
+            Log.d("onclick", "DOWN");
+        }
+        if (id == R.id.rightButtonID) {
+            //sendMessageToServer("TYPE_MODIFIER");
+            sendMessageToServer("RIGHT","TYPE_MODIFIER");
+            Log.d("onclick", "RIGHT");
+        }
     }
 
     @Override
