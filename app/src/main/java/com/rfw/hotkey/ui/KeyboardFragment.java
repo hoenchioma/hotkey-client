@@ -43,14 +43,21 @@ public class KeyboardFragment extends Fragment
 
         typeHere.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.equals(""))
+                {
+
+                }
                 if (!s.equals("")) {
                     char ch = newCharacter(s, previousText);
                     if (ch == 0) return;
-                    sendMessageToServer(String.valueOf(ch), "TYPE_CHARACTER");
+                    sendMessageToServer(String.valueOf(ch), "char");
                     //sendMessageToServer(Character.toString(ch));
                     //MainActivity.sendMessageToServer("TYPE_CHARACTER");
                     //MainActivity.sendMessageToServer(Character.toString(ch));
                     previousText = s.toString();
+                }
+                else {
+
                 }
             }
 
@@ -114,6 +121,7 @@ public class KeyboardFragment extends Fragment
                 ch = ' ';
             }
         }
+
         return ch;
     }
 
