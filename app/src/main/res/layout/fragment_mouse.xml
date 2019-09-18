@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,7 +25,9 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="false"
-                android:layout_weight="8" />
+                android:layout_weight="8"
+                android:paddingRight="25dp"
+                android:paddingBottom="25dp" />
 
             <TextView
                 android:id="@+id/scrollID"
@@ -32,7 +35,10 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:paddingLeft="25dp"
+                android:paddingBottom="25dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -45,13 +51,17 @@
                 android:id="@+id/leftClickID"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:paddingRight="25dp"
+                app:iconPadding="25dp" />
 
             <Button
                 android:id="@+id/rightClickID"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:paddingLeft="25dp"
+                app:iconPadding="25dp" />
         </LinearLayout>
     </LinearLayout>
 

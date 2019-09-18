@@ -16,6 +16,7 @@ import com.rfw.hotkey.net.ConnectionManager;
 public class MainActivity extends AppCompatActivity {
     ImageButton keyboardButton;
     ImageButton connectionButton;
+    ImageButton mouseButton;
 
     private View contextView;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         connectionButton = findViewById(R.id.connectionButtonID);
         keyboardButton = findViewById(R.id.keyboardButtonID);
+        mouseButton = findViewById(R.id.mouseButtonID);
 
         connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment()));
 //        keyboardButton.setOnClickListener(view -> {
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
         keyboardButton.setOnClickListener(view -> replaceFragment(new KeyboardFragment()));
+
+        mouseButton.setOnClickListener((view -> replaceFragment(new MouseFragment())));
     }
 
     public void replaceFragment(Fragment fragment) {
