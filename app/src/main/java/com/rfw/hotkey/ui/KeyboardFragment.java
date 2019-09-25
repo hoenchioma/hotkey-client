@@ -2,8 +2,10 @@ package com.rfw.hotkey.ui;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +22,8 @@ import com.rfw.hotkey.net.ConnectionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.logging.Logger;
 
 
 public class KeyboardFragment extends Fragment
@@ -40,13 +44,26 @@ public class KeyboardFragment extends Fragment
 
         View rootView = inflater.inflate(R.layout.fragment_keyboard, container, false);
         initialization(rootView);
+        //typeHere.setOnKeyListener((View.OnKeyListener) this);
 
+       // typeHere.setFilters(new InputFilter[] { filter });
+        rootView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if(keyCode == keyEvent.KEYCODE_DEL)
+                {
+                    Log.d("onKey","backspace");
+                    //return true;
+                }
+                return false;
+            }
+        });
         typeHere.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.equals(""))
-                {
-
-                }
+//                if(s.equals(null) && before>start )
+//                {
+//                    Log.d("onTextChanged","backspace");
+//                }
                 if (!s.equals("")) {
                     char ch = newCharacter(s, previousText);
                     if (ch == 0) return;
@@ -55,8 +72,7 @@ public class KeyboardFragment extends Fragment
                     //MainActivity.sendMessageToServer("TYPE_CHARACTER");
                     //MainActivity.sendMessageToServer(Character.toString(ch));
                     previousText = s.toString();
-                }
-                else {
+                } else {
 
                 }
             }
@@ -100,15 +116,36 @@ public class KeyboardFragment extends Fragment
         leftButton.setOnClickListener(this);
         downButton.setOnClickListener(this);
         righButton.setOnClickListener(this);
+//        int i = 0;
+//        typeHere.setVisibility(i);
+        //typeHere.setOnKeyListener((View.OnKeyListener) this);
 
         shiftButton.setOnTouchListener(this);
         rootView.setOnTouchListener(this);
     }
+//    private InputFilter filter;
+//
+//    {
+//        filter = (charSequence, start, end, dest, dStart, dEnd) -> {
+//
+//            if (end == 0 || dStart < dEnd) {
+//                // backspace was pressed! handle accordingly
+//                Log.d("inputFIlter","back");
+//            }
+//
+//            return charSequence;
+//        };
+//    }
 
     private char newCharacter(CharSequence currentText, CharSequence previousText) {
         char ch = 0;
         int currentTextLength = currentText.length();
         int previousTextLength = previousText.length();
+//        if(currentTextLength == 0 && previousTextLength == 1)
+//        {
+//            currentText = "abcd";
+//            previousText = "abcde";
+//        }
         int difference = currentTextLength - previousTextLength;
         if (currentTextLength > previousTextLength) {
             if (1 == difference) {
@@ -121,6 +158,10 @@ public class KeyboardFragment extends Fragment
                 ch = ' ';
             }
         }
+//        else if(currentTextLength == 0){
+//            ch = '\b';
+//        }
+        Log.d("newChar", String.valueOf(previousTextLength) + " " + String.valueOf(ch)+" " + String.valueOf(currentTextLength) );
 
         return ch;
     }
@@ -131,33 +172,33 @@ public class KeyboardFragment extends Fragment
 
         int id = view.getId();
         if (id == R.id.escButtonID) {
-            //sendMessageToServer("TYPE_MODIFIER");
-            sendMessageToServer("ESC","TYPE_MODIFIER");
+            //sendMessageToServer("modifier");
+            sendMessageToServer("ESC", "modifier");
             Log.d("onclick", "ESC");
         }
         if (id == R.id.copyButtonID) {
-            //sendMessageToServer("TYPE_COMMAND");
-            sendMessageToServer("COPY","TYPE_COMMAND");
+            //sendMessageToServer("command");
+            sendMessageToServer("COPY", "command");
             Log.d("onclick", "COPY");
         }
         if (id == R.id.homeButtonID) {
-           // sendMessageToServer("TYPE_MODIFIER");
-            sendMessageToServer("HOME","TYPE_MODIFIER");
+            // sendMessageToServer("modifier");
+            sendMessageToServer("HOME", "modifier");
             Log.d("onclick", "HOME");
         }
         if (id == R.id.tabButtonID) {
-            //sendMessageToServer("TYPE_MODIFIER");
-            sendMessageToServer("TAB","TYPE_MODIFIER");
+            //sendMessageToServer("modifier");
+            sendMessageToServer("TAB", "modifier");
             Log.d("onclick", "TAB");
         }
         if (id == R.id.pasteButtonID) {
-            //sendMessageToServer("TYPE_COMMAND");
-            sendMessageToServer("PASTE","TYPE_COMMAND");
+            //sendMessageToServer("command");
+            sendMessageToServer("PASTE", "command");
             Log.d("onclick", "PASTE");
         }
         if (id == R.id.pgupButtonID) {
-           // sendMessageToServer("TYPE_MODIFIER");
-            sendMessageToServer("PGUP","TYPE_MODIFIER");
+            // sendMessageToServer("modifier");
+            sendMessageToServer("PGUP", "modifier");
             Log.d("onclick", "PGUP");
         }
         /*if(id == R.id.shiftButtonID){
@@ -166,28 +207,28 @@ public class KeyboardFragment extends Fragment
             Log.d("onclick","SHIFT");
         }*/
         if (id == R.id.upButtonID) {
-           // sendMessageToServer("TYPE_MODIFIER");
-            sendMessageToServer("UP","TYPE_MODIFIER");
+            // sendMessageToServer("modifier");
+            sendMessageToServer("UP", "modifier");
             Log.d("onclick", "UP");
         }
         if (id == R.id.pgdnButtonID) {
-           // sendMessageToServer("TYPE_MODIFIER");
-            sendMessageToServer("PGDN","TYPE_MODIFIER");
+            // sendMessageToServer("modifier");
+            sendMessageToServer("PGDN", "modifier");
             Log.d("onclick", "PGDN");
         }
         if (id == R.id.leftButtonID) {
-            //sendMessageToServer("TYPE_MODIFIER");
-            sendMessageToServer("LEFT","TYPE_MODIFIER");
+            //sendMessageToServer("modifier");
+            sendMessageToServer("LEFT", "modifier");
             Log.d("onclick", "LEFT");
         }
         if (id == R.id.downButtonID) {
-           // sendMessageToServer("TYPE_MODIFIER");
-            sendMessageToServer("DOWN","TYPE_MODIFIER");
+            // sendMessageToServer("modifier");
+            sendMessageToServer("DOWN", "modifier");
             Log.d("onclick", "DOWN");
         }
         if (id == R.id.rightButtonID) {
-            //sendMessageToServer("TYPE_MODIFIER");
-            sendMessageToServer("RIGHT","TYPE_MODIFIER");
+            //sendMessageToServer("modifier");
+            sendMessageToServer("RIGHT", "modifier");
             Log.d("onclick", "RIGHT");
         }
     }
@@ -218,8 +259,9 @@ public class KeyboardFragment extends Fragment
 
     /**
      * sends the message of specified action to Connection Manager
+     *
      * @param message message (key press type)
-     * @param action type of the message
+     * @param action  type of the message
      */
     private void sendMessageToServer(String message, String action) {
         JSONObject packet = new JSONObject();
