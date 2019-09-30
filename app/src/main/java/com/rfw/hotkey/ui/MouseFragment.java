@@ -22,11 +22,6 @@ import com.rfw.hotkey.net.ConnectionManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
-
-import static java.lang.System.out;
 
 
 public class MouseFragment extends Fragment {
@@ -34,8 +29,7 @@ public class MouseFragment extends Fragment {
     private static final String TAG = "MouseFragment";
 
     private boolean mouseMoved = false;
-    private boolean leftClickAction = false;
-    private boolean rightClickAction = false;
+    private boolean scrollMoved = false;
     private float initX = 0;
     private float initY = 0;
     private float disX;
@@ -51,6 +45,17 @@ public class MouseFragment extends Fragment {
         Button leftClick = (Button) v.findViewById(R.id.leftClickID);
         Button rightClick = (Button) v.findViewById(R.id.rightClickID);
 
+        touchpad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    sendMessageToServer("LeftClick",0, 0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         touchpad.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -61,26 +66,32 @@ public class MouseFragment extends Fragment {
                         initX = event.getX();
                         initY = event.getY();
                         mouseMoved = false;
+                        disX = 0;
+                        disY = 0;
                         break;
                     case MotionEvent.ACTION_MOVE:
                         disX = event.getX() - initX;
                         disY = event.getY() - initY;
-
-
                         initX = event.getX();
                         initY = event.getY();
-                        if (disX != 0 || disY != 0) {
-                            out.println(disX + "," + disY);
+                        try {
+                            sendMessageToServer("TouchpadMove",(int)disX, (int)disY);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                         mouseMoved = true;
                         break;
                     case MotionEvent.ACTION_UP:
 
-                        if (!mouseMoved) {
-                            out.println("left click");
+                        if (disX == 0 && disY == 0) {
+                            try {
+                                sendMessageToServer("LeftClick",0, 0);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
+                        break;
                 }
-                out.println(initX +","+ initY);
                 return true;
             }
         });
@@ -90,74 +101,71 @@ public class MouseFragment extends Fragment {
             public boolean onTouch(View view, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-
-                        initX = event.getX();
                         initY = event.getY();
-                        mouseMoved = true;
+                        scrollMoved = false;
+                        disY = 0;
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        disX = event.getX() - initX;
                         disY = event.getY() - initY;
-
-
-                        initX = event.getX();
                         initY = event.getY();
-                        if (disX != 0 || disY != 0) {
-                            out.println(disX + "," + disY);
+                        if (disY != 0) {
+                            try {
+                                sendMessageToServer("ScrollMove",0, (int)disY);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                        mouseMoved = true;
+                        scrollMoved = true;
                         break;
                     case MotionEvent.ACTION_UP:
 
-                        if (!mouseMoved) {
-                            out.println("scroll click");
+                        if (!scrollMoved) {
+                            try {
+                                sendMessageToServer("ScrollClick",0, 0);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
+                        break;
                 }
                 return true;
             }
         });
 
-        leftClick.setOnTouchListener(new View.OnTouchListener() {
+        leftClick.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                Log.d(TAG, "onTouch: left click");
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        initX = event.getX();
-                        initY = event.getY();
-                        leftClickAction = true;
-                        Log.d(TAG, "onTouch: left click");
-                        break;
-                    case MotionEvent.ACTION_UP:
-
-                        if (leftClickAction) {
-                            Log.d(TAG, "onTouch: left click");
-                            leftClickAction = false;
-                        }
-                        break;
+            public void  onClick(View view){
+                try {
+                    sendMessageToServer("LeftClick",0, 0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                while(event.getAction() == MotionEvent.ACTION_BUTTON_PRESS) out.println("left click");
+            }
+        });
+
+        leftClick.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View view){
+
                 return true;
             }
         });
 
-        rightClick.setOnTouchListener(new View.OnTouchListener() {
+        rightClick.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        initX = event.getX();
-                        initY = event.getY();
-                        rightClickAction = true;
-                        break;
-                    case MotionEvent.ACTION_UP:
-
-                        if (rightClickAction) {
-                            out.println("right click");
-                            rightClickAction = false;
-                        }
+            public void  onClick(View view){
+                try {
+                    sendMessageToServer("RightClick",0, 0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                while(event.getAction() == MotionEvent.ACTION_BUTTON_PRESS) out.println("right click");
+            }
+        });
+
+        rightClick.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View view){
+
                 return true;
             }
         });
@@ -170,9 +178,9 @@ public class MouseFragment extends Fragment {
         JSONObject packet = new JSONObject();
         packet.put("type", "mouse");
         switch (action){
-            case "Touchpad":
+            case "TouchpadMove":
                 try{
-                    packet.put("type", action);
+                    packet.put("action", action);
                     packet.put("deltaX", moveX);
                     packet.put("deltaY", moveY);
                 } catch (JSONException e) {
@@ -181,21 +189,21 @@ public class MouseFragment extends Fragment {
                 break;
             case "RightClick":
                 try{
-                    packet.put("type", action);
+                    packet.put("action", action);
                 }catch (JSONException e){
                     Log.e("MouseFragment", "sendMessageToServer: error sending right click", e);
                 }
                 break;
-        case "LeftClick":
+            case "LeftClick":
                 try{
-                    packet.put("type", action);
+                    packet.put("action", action);
                 }catch (JSONException e){
                     Log.e("MouseFragment", "sendMessageToServer: error sending left click", e);
                 }
                 break;
             case "ScrollMove":
                 try{
-                    packet.put("type", action);
+                    packet.put("action", action);
                     packet.put("deltaY", moveY);
                 }catch (JSONException e){
                     Log.e("MouseFragment", "sendMessageToServer: error sending scroll movement", e);
@@ -203,12 +211,14 @@ public class MouseFragment extends Fragment {
                 break;
             case "ScrollClick":
                 try{
-                    packet.put("type", action);
+                    packet.put("action", action);
                 }catch (JSONException e){
                     Log.e("MouseFragment", "sendMessageToServer: error sending scroll click", e);
                 }
+                break;
 
         }
+        new ConnectionManager.SendTask(packet).execute();
 
     }
 }

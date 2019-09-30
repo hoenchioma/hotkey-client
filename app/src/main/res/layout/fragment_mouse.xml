@@ -26,6 +26,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="false"
                 android:layout_weight="8"
+                android:clickable="true"
                 android:paddingRight="25dp"
                 android:paddingBottom="25dp" />
 
@@ -37,6 +38,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"
+                android:clickable="true"
                 android:paddingLeft="25dp"
                 android:paddingBottom="25dp" />
         </LinearLayout>
