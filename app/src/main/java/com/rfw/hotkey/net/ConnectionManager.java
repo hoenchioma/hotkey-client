@@ -91,6 +91,9 @@ public class ConnectionManager {
         }
     }
 
+    /**
+     * Async task to connect to server in the background
+     */
     public static class ConnectTask extends AsyncTask<Void, Void, Void> {
         private static final String TAG = ConnectTask.class.getCanonicalName();
 
@@ -114,6 +117,9 @@ public class ConnectionManager {
         }
     }
 
+    /**
+     * Async task to send packet (in the background)
+     */
     public static class SendTask extends AsyncTask<Void, Void, Void> {
         private static final String TAG = SendTask.class.getCanonicalName();
 
