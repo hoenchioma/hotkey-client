@@ -5,11 +5,14 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.rfw.hotkey.R;
 
@@ -17,7 +20,8 @@ import com.rfw.hotkey.R;
 public class ExtraFragment extends Fragment implements View.OnClickListener{
 
 
-    private Button pptButton, macrosButton, multimediaButton;
+    private Button  macrosButton ;
+    private ImageButton pptButton,multimediaButton;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -30,7 +34,8 @@ public class ExtraFragment extends Fragment implements View.OnClickListener{
         pptButton = rootView.findViewById(R.id.pptButtonID);
         macrosButton = rootView.findViewById(R.id.macrosButtonID);
         multimediaButton = rootView.findViewById(R.id.multimediaButtonID);
-        multimediaButton.setOnClickListener(this);
+
+        pptButton.setOnClickListener(this);
         macrosButton.setOnClickListener(this);
         multimediaButton.setOnClickListener(this);
 
@@ -41,13 +46,20 @@ public class ExtraFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.pptButtonID) {
-
+            replaceFragment(new PowerPointFragment());
         }
         if (id == R.id.macrosButtonID) {
-
+            replaceFragment(new MacrosFragment());
         }
         if (id == R.id.multimediaButtonID) {
-
+            replaceFragment(new MultimediaFragment());
         }
+    }
+
+    public void replaceFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frameContainer,fragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.commit();
     }
 }
