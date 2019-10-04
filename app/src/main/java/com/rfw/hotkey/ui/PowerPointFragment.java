@@ -12,6 +12,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
@@ -22,7 +24,9 @@ import org.json.JSONObject;
 
 public class PowerPointFragment extends Fragment implements View.OnClickListener,View.OnTouchListener{
 
-    private Button fullScreenButton,ESCButton, upButton, pgdnButton, leftButton, downButton, righButton;
+    private ImageButton fullScreenButton, upButton,  leftButton, downButton, righButton;
+    private Button fromThisSlideButton,fromTheBeginningButton;
+    private Boolean isFullScreen;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,58 +38,94 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
     }
 
     private void initialization(View rootView) {
+        isFullScreen = false;
         fullScreenButton = rootView.findViewById(R.id.fullScreenButtonID);
-        ESCButton = rootView.findViewById(R.id.ESCButtonID);
         upButton = rootView.findViewById(R.id.upButtonID);
-        pgdnButton = rootView.findViewById(R.id.pgdnButtonID);
+        fromTheBeginningButton = rootView.findViewById(R.id.fromTheBeginningButtonID);
+        fromThisSlideButton = rootView.findViewById(R.id.fromThisSlideButtonID);
         leftButton = rootView.findViewById(R.id.leftButtonID);
         downButton = rootView.findViewById(R.id.downButtonID);
         righButton = rootView.findViewById(R.id.rightButtonID);
         fullScreenButton.setOnClickListener(this);
-        ESCButton.setOnClickListener(this);
         upButton.setOnClickListener(this);
-        pgdnButton.setOnClickListener(this);
         leftButton.setOnClickListener(this);
         downButton.setOnClickListener(this);
         righButton.setOnClickListener(this);
+        fromThisSlideButton.setOnClickListener(this);
+        fromTheBeginningButton.setOnClickListener(this);
     }
-
+    // TODO Create a POPUP menu for Slide full screen
     @Override
     public void onClick(View view) {
 
         int id = view.getId();
-        if(id == R.id.fullScreenButtonID){
-            sendMessageToServer("F5", "modifier");
-            Log.d("onclick", "F5");
-        }
-        if(id == R.id.ESCButtonID){
-            sendMessageToServer("ESC","modifier");
-            Log.d("onclick","ESC");
-        }
-        if (id == R.id.upButtonID) {
-            // sendMessageToServer("modifier");
-            sendMessageToServer("UP", "modifier");
-            Log.d("onclick", "UP");
-        }
-        if (id == R.id.pgdnButtonID) {
-            // sendMessageToServer("modifier");
-            sendMessageToServer("PGDN", "modifier");
-            Log.d("onclick", "PGDN");
-        }
-        if (id == R.id.leftButtonID) {
-            //sendMessageToServer("modifier");
-            sendMessageToServer("LEFT", "modifier");
-            Log.d("onclick", "LEFT");
-        }
-        if (id == R.id.downButtonID) {
-            // sendMessageToServer("modifier");
-            sendMessageToServer("DOWN", "modifier");
-            Log.d("onclick", "DOWN");
-        }
-        if (id == R.id.rightButtonID) {
-            //sendMessageToServer("modifier");
-            sendMessageToServer("RIGHT", "modifier");
-            Log.d("onclick", "RIGHT");
+
+        switch (id) {
+            case R.id.fullScreenButtonID:
+
+                if (!isFullScreen) {
+                    //sendMessageToServer("F5", "modifier");
+                    //Log.d("onclick", "F5");
+                    //fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_black_24dp);
+                    Toast.makeText(getActivity(), "Select Presentation Mode", Toast.LENGTH_SHORT).show();
+                    if(fromThisSlideButton.getVisibility() == View.VISIBLE){
+                        fromTheBeginningButton.setVisibility(View.INVISIBLE);
+                        fromThisSlideButton.setVisibility(View.INVISIBLE);
+                    }
+                    fromTheBeginningButton.setVisibility(View.VISIBLE);
+                    fromThisSlideButton.setVisibility(View.VISIBLE);
+
+                    //isFullScreen = true;
+                } else {
+                    sendMessageToServer("ESC", "modifier");
+                    Log.d("onclick", "ESC");
+                    fullScreenButton.setImageResource(R.drawable.ic_presentation_color);
+                    Toast.makeText(getActivity(), "Normal Mode", Toast.LENGTH_SHORT).show();
+                    isFullScreen = false;
+                }
+
+                break;
+            case R.id.fromThisSlideButtonID:
+                sendMessageToServer("current", "modifier");
+                Log.d("onclick", "current");
+                isFullScreen = true;
+                fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_black_24dp);
+                fromTheBeginningButton.setVisibility(View.INVISIBLE);
+                fromThisSlideButton.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.fromTheBeginningButtonID:
+                sendMessageToServer("beginning", "modifier");
+                Log.d("onclick", "beginning");
+                isFullScreen = true;
+                fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_black_24dp);
+                fromTheBeginningButton.setVisibility(View.INVISIBLE);
+                fromThisSlideButton.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.upButtonID:
+                // sendMessageToServer("modifier");
+                sendMessageToServer("UP", "modifier");
+                Log.d("onclick", "UP");
+                break;
+            case R.id.leftButtonID:
+                //sendMessageToServer("modifier");
+                sendMessageToServer("LEFT", "modifier");
+                Log.d("onclick", "LEFT");
+                break;
+            case R.id.downButtonID:
+                // sendMessageToServer("modifier");
+                sendMessageToServer("DOWN", "modifier");
+                Log.d("onclick", "DOWN");
+                break;
+            case R.id.rightButtonID:
+                //sendMessageToServer("modifier");
+                sendMessageToServer("RIGHT", "modifier");
+                Log.d("onclick", "RIGHT");
+                break;
+            default:
+                fromTheBeginningButton.setVisibility(View.INVISIBLE);
+                fromThisSlideButton.setVisibility(View.INVISIBLE);
+
+
         }
     }
 
