@@ -22,16 +22,19 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/pptButtonID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="PPT" />
+            style="@style/MenuIconStyle"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:src="@drawable/ic_ppt_white_24dp"/>
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"/>
+
+
 
         <Button
             android:id="@+id/macrosButtonID"
@@ -46,12 +49,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="5"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/multimediaButtonID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Multimedia" />
+            style="@style/MenuIconStyle"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:src="@drawable/ic_music_video_white_24dp">
+
+        </ImageButton>
+
 
     </LinearLayout>
 

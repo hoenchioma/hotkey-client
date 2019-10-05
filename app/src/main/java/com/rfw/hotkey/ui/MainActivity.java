@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton keyboardButton;
     ImageButton connectionButton;
     ImageButton mouseButton;
-
+    ImageButton extraButton;
     private View contextView;
 
     @Override
@@ -27,10 +27,12 @@ public class MainActivity extends AppCompatActivity {
 
         replaceFragment(new ConnectionsFragment());
 
+        extraButton = findViewById(R.id.extraButtonID);
         connectionButton = findViewById(R.id.connectionButtonID);
         keyboardButton = findViewById(R.id.keyboardButtonID);
         mouseButton = findViewById(R.id.mouseButtonID);
 
+        extraButton.setOnClickListener(view -> replaceFragment(new ExtraFragment()));
         connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment()));
         keyboardButton.setOnClickListener(view -> replaceFragment(new KeyboardFragment()));
         mouseButton.setOnClickListener(view -> replaceFragment(new MouseFragment()));
