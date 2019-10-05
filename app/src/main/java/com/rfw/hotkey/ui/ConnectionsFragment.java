@@ -1,9 +1,11 @@
 package com.rfw.hotkey.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,9 +16,13 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.databinding.FragmentConnectionsBinding;
+import com.rfw.hotkey.net.Connection;
 import com.rfw.hotkey.net.ConnectionManager;
+import com.rfw.hotkey.net.WiFiConnection;
 
 import java.util.Objects;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class ConnectionsFragment extends Fragment {
     private static final String TAG = ConnectionsFragment.class.getCanonicalName();
@@ -36,6 +42,10 @@ public class ConnectionsFragment extends Fragment {
         FragmentConnectionsBinding binding = FragmentConnectionsBinding.inflate(inflater, container, false);
         contextView = binding.getRoot();
 
+        // setup databinding for cm (connectionManager)
+        ConnectionManager connectionManager = ConnectionManager.getInstance();
+        binding.setCm(connectionManager);
+
         connectButton = contextView.findViewById(R.id.connect_button);
         ipAddressTextField = contextView.findViewById(R.id.ip_address_textfield);
         portTextField = contextView.findViewById(R.id.port_textfield);
@@ -53,15 +63,25 @@ public class ConnectionsFragment extends Fragment {
             if (portText.isEmpty()) throw new RuntimeException("Port field empty");
             int port = Integer.parseInt(portText);
 
-            new ConnectionManager.ConnectTask(ipAddress, port).execute();
+            Connection connection = new WiFiConnection(ipAddress, port,
+                    () -> ((MainActivity) Objects.requireNonNull(getActivity())).getVisibleFragment().getView());
+            ConnectionManager.getInstance().makeConnection(connection);
         } catch (Exception e) {
             if (e.getMessage() == null) throw e;
             // show a snackbar if an error occurred
             Snackbar snackbar = Snackbar.make(contextView,
-                    e.getMessage() != null ? e.getMessage(): getString(R.string.connection_error),
+                    e.getMessage() != null ? e.getMessage() : getString(R.string.connection_error),
                     Snackbar.LENGTH_SHORT);
             snackbar.setAction(R.string.retry, view -> connectButtonAction());
             snackbar.show();
+        }
+
+        // hide the soft keyboard on button press
+        try {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+            Log.e(TAG, "connectButtonAction: error closing soft keyboard", e);
         }
     }
 }

@@ -252,7 +252,7 @@ public class KeyboardFragment extends Fragment
 //
 //        }
 //        //Log.d("ONTOUCH", Integer.toString(keyCode));
-//        //System.out.println(keyCode);
+//        //Utility.out.println(keyCode);
 //        //sendKeyCodeToServer(action, keyCode);
         return false;
     }
@@ -271,7 +271,7 @@ public class KeyboardFragment extends Fragment
             packet.put("action", action);
             packet.put("key", message);
 
-            new ConnectionManager.SendTask(packet).execute();
+            ConnectionManager.getInstance().sendPacket(packet);
 
         } catch (JSONException e) {
             Log.e("KeyboardFragment", "sendMessageToServer: error sending key-press", e);

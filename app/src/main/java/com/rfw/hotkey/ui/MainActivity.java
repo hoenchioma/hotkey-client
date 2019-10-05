@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.rfw.hotkey.R;
-import com.rfw.hotkey.net.ConnectionManager;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     ImageButton keyboardButton;
@@ -32,16 +32,8 @@ public class MainActivity extends AppCompatActivity {
         mouseButton = findViewById(R.id.mouseButtonID);
 
         connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment()));
-//        keyboardButton.setOnClickListener(view -> {
-//            if (ConnectionManager.getInstance().connected.get()) {
-//                replaceFragment(new KeyboardFragment());
-//            } else {
-//                Snackbar.make(view, "Please connect first", Snackbar.LENGTH_SHORT);
-//            }
-//        });
         keyboardButton.setOnClickListener(view -> replaceFragment(new KeyboardFragment()));
-
-        mouseButton.setOnClickListener((view -> replaceFragment(new MouseFragment())));
+        mouseButton.setOnClickListener(view -> replaceFragment(new MouseFragment()));
     }
 
     public void replaceFragment(Fragment fragment) {
@@ -50,5 +42,15 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frameContainer, fragment);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
+    }
+
+    public Fragment getVisibleFragment() {
+        FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        for (Fragment fragment : fragments) {
+            if (fragment != null && fragment.isVisible())
+                return fragment;
+        }
+        return null;
     }
 }
