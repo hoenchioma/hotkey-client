@@ -19,7 +19,7 @@
         android:layout_marginRight="25dp">
 
         <ImageButton
-            android:id="@+id/findPageButtonID"
+            android:id="@+id/pdf_findPageButtonID"
             style="@style/MenuIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="5"/>
         <Button
-            android:id="@+id/fitWidthButtonID"
+            android:id="@+id/pdf_fitWidthButtonID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="FIT Width"/>
@@ -58,7 +58,7 @@
             android:layout_weight="3"/>
 
         <ImageButton
-            android:id="@+id/fullScreenButtonID"
+            android:id="@+id/pdf_fullScreenButtonID"
             style="@style/MenuIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
@@ -75,7 +75,7 @@
             android:layout_weight="3"/>
 
         <Button
-            android:id="@+id/fitHeightButtonID"
+            android:id="@+id/pdf_fitHeightButtonID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="FIT Height"/>
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="6"/>
         <ImageButton
-            android:id="@+id/zoomOutButtonID"
+            android:id="@+id/pdf_zoomOutButtonID"
             style="@style/MenuIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
@@ -112,7 +112,7 @@
             android:layout_weight="2"/>
 
         <ImageButton
-            android:id="@+id/upButtonID"
+            android:id="@+id/pdf_upButtonID"
             style="@style/MenuIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
@@ -129,7 +129,7 @@
             android:layout_weight="2"/>
 
         <ImageButton
-            android:id="@+id/zoomInButtonID"
+            android:id="@+id/pdf_zoomInButtonID"
             style="@style/MenuIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
@@ -152,7 +152,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="6"/>
         <ImageButton
-            android:id="@+id/leftButtonID"
+            android:id="@+id/pdf_leftButtonID"
             style="@style/MenuIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
@@ -167,7 +167,7 @@
             android:layout_weight="2"/>
 
         <ImageButton
-            android:id="@+id/downButtonID"
+            android:id="@+id/pdf_downButtonID"
             style="@style/MenuIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
@@ -184,7 +184,7 @@
             android:layout_weight="2"/>
 
         <ImageButton
-            android:id="@+id/rightButtonID"
+            android:id="@+id/pdf_rightButtonID"
             style="@style/MenuIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"

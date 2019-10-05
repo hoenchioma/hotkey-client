@@ -48,7 +48,7 @@
         android:layout_height="wrap_content">
 
         <ImageButton
-            android:id="@+id/fullScreenButtonID"
+            android:id="@+id/ppt_presentationButtonID"
             style="@style/MenuIconStyle"
             android:scaleX="1.8"
             android:scaleY="1.8"
@@ -71,7 +71,7 @@
 
 
         <ImageButton
-            android:id="@+id/upButtonID"
+            android:id="@+id/ppt_upButtonID"
             style="@style/MenuIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="6"/>
         <ImageButton
-            android:id="@+id/leftButtonID"
+            android:id="@+id/ppt_leftButtonID"
             style="@style/MenuIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
@@ -116,7 +116,7 @@
             android:layout_weight="2"/>
 
         <ImageButton
-            android:id="@+id/downButtonID"
+            android:id="@+id/ppt_downButtonID"
             style="@style/MenuIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
@@ -133,7 +133,7 @@
             android:layout_weight="2"/>
 
         <ImageButton
-            android:id="@+id/rightButtonID"
+            android:id="@+id/ppt_rightButtonID"
             style="@style/MenuIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"

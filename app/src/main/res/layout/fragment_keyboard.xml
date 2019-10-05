@@ -125,7 +125,7 @@
             android:layout_weight="5"/>
 
         <Button
-            android:id="@+id/upButtonID"
+            android:id="@+id/ppt_upButtonID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -156,7 +156,7 @@
             android:layout_weight="4"/>
 
         <Button
-            android:id="@+id/leftButtonID"
+            android:id="@+id/ppt_leftButtonID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -167,7 +167,7 @@
             android:layout_weight="5"/>
 
         <Button
-            android:id="@+id/downButtonID"
+            android:id="@+id/ppt_downButtonID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -180,7 +180,7 @@
             android:layout_weight="5"/>
 
         <Button
-            android:id="@+id/rightButtonID"
+            android:id="@+id/ppt_rightButtonID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

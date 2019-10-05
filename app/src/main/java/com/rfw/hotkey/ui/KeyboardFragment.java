@@ -2,7 +2,6 @@ package com.rfw.hotkey.ui;
 
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,8 +21,6 @@ import com.rfw.hotkey.net.ConnectionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.logging.Logger;
 
 
 public class KeyboardFragment extends Fragment
@@ -98,11 +95,11 @@ public class KeyboardFragment extends Fragment
         pasteButton = rootView.findViewById(R.id.pasteButtonID);
         pgupButton = rootView.findViewById(R.id.pgupButtonID);
         shiftButton = rootView.findViewById(R.id.shiftButtonID);
-        upButton = rootView.findViewById(R.id.upButtonID);
+        upButton = rootView.findViewById(R.id.ppt_upButtonID);
         pgdnButton = rootView.findViewById(R.id.pgdnButtonID);
-        leftButton = rootView.findViewById(R.id.leftButtonID);
-        downButton = rootView.findViewById(R.id.downButtonID);
-        righButton = rootView.findViewById(R.id.rightButtonID);
+        leftButton = rootView.findViewById(R.id.ppt_leftButtonID);
+        downButton = rootView.findViewById(R.id.ppt_downButtonID);
+        righButton = rootView.findViewById(R.id.ppt_rightButtonID);
         copyButton.setOnClickListener(this);
         //homeButton.setOnTouchListener(this);
         homeButton.setOnClickListener(this);
@@ -205,7 +202,7 @@ public class KeyboardFragment extends Fragment
             sendMessageToServer("SHIFT");
             Log.d("onclick","SHIFT");
         }*/
-        if (id == R.id.upButtonID) {
+        if (id == R.id.ppt_upButtonID) {
             // sendMessageToServer("modifier");
             sendMessageToServer("UP", "modifier");
             Log.d("onclick", "UP");
@@ -215,17 +212,17 @@ public class KeyboardFragment extends Fragment
             sendMessageToServer("PGDN", "modifier");
             Log.d("onclick", "PGDN");
         }
-        if (id == R.id.leftButtonID) {
+        if (id == R.id.ppt_leftButtonID) {
             //sendMessageToServer("modifier");
             sendMessageToServer("LEFT", "modifier");
             Log.d("onclick", "LEFT");
         }
-        if (id == R.id.downButtonID) {
+        if (id == R.id.ppt_downButtonID) {
             // sendMessageToServer("modifier");
             sendMessageToServer("DOWN", "modifier");
             Log.d("onclick", "DOWN");
         }
-        if (id == R.id.rightButtonID) {
+        if (id == R.id.ppt_rightButtonID) {
             //sendMessageToServer("modifier");
             sendMessageToServer("RIGHT", "modifier");
             Log.d("onclick", "RIGHT");

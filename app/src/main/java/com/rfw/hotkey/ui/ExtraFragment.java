@@ -21,7 +21,7 @@ public class ExtraFragment extends Fragment implements View.OnClickListener{
 
 
     private Button  macrosButton ;
-    private ImageButton pptButton,multimediaButton;
+    private ImageButton pptButton,multimediaButton,pdfButton;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,10 +34,12 @@ public class ExtraFragment extends Fragment implements View.OnClickListener{
         pptButton = rootView.findViewById(R.id.pptButtonID);
         macrosButton = rootView.findViewById(R.id.macrosButtonID);
         multimediaButton = rootView.findViewById(R.id.multimediaButtonID);
+        pdfButton = rootView.findViewById(R.id.pdfButtonID);
 
         pptButton.setOnClickListener(this);
         macrosButton.setOnClickListener(this);
         multimediaButton.setOnClickListener(this);
+        pdfButton.setOnClickListener(this);
 
     }
 
@@ -53,6 +55,9 @@ public class ExtraFragment extends Fragment implements View.OnClickListener{
         }
         if (id == R.id.multimediaButtonID) {
             replaceFragment(new MultimediaFragment());
+        }
+        if(id == R.id.pdfButtonID){
+            replaceFragment(new PDFFragment());
         }
     }
 
