@@ -60,6 +60,18 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"/>
 
+        <ImageButton
+            android:id="@+id/optionButtonID"
+            style="@style/MenuIconStyle"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/ic_more_horiz_white_24dp">
+
+        </ImageButton>
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
     </LinearLayout>
 
 </LinearLayout>
