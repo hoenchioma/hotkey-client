@@ -47,7 +47,7 @@ public class KeyboardFragment extends Fragment
         rootView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
-                if (keyCode == keyEvent.KEYCODE_DEL) {
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
                     Log.d("onKey", "backspace");
                     //return true;
                 }
@@ -157,7 +157,7 @@ public class KeyboardFragment extends Fragment
 //        else if(currentTextLength == 0){
 //            ch = '\b';
 //        }
-        Log.d("newChar", String.valueOf(previousTextLength) + " " + String.valueOf(ch) + " " + String.valueOf(currentTextLength));
+        Log.d("newChar", previousTextLength + " " + ch + " " + currentTextLength);
 
         return ch;
     }
@@ -248,7 +248,7 @@ public class KeyboardFragment extends Fragment
 //
 //        }
 //        //Log.d("ONTOUCH", Integer.toString(keyCode));
-//        //System.out.println(keyCode);
+//        //Utility.out.println(keyCode);
 //        //sendKeyCodeToServer(action, keyCode);
         return false;
     }
@@ -267,7 +267,7 @@ public class KeyboardFragment extends Fragment
             packet.put("action", action);
             packet.put("key", message);
 
-            new ConnectionManager.SendTask(packet).execute();
+            ConnectionManager.getInstance().sendPacket(packet);
 
         } catch (JSONException e) {
             Log.e("KeyboardFragment", "sendMessageToServer: error sending key-press", e);

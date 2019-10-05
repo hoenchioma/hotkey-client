@@ -7,6 +7,9 @@
     <data>
         <import type="com.rfw.hotkey.net.ConnectionManager" />
         <import type="com.rfw.hotkey.R" />
+        <variable
+            name="cm"
+            type="com.rfw.hotkey.net.ConnectionManager" />
     </data>
 
     <LinearLayout
@@ -23,8 +26,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ConnectionManager.getInstance().connected? ConnectionManager.getInstance().getComputerName(): `Not Connected`}"
-            android:textColor="@{ConnectionManager.getInstance().connected ? @color/green_400 : @color/dark_bg_light_primary_text }"
+            android:text="@{ cm.connection != null &amp;&amp; cm.connection.get().active ? cm.connection.computerName : @string/not_connected }"
+            android:textColor="@{ cm.connection != null &amp;&amp; cm.connection.get().active ? @color/green_400 : @color/dark_bg_light_primary_text }"
             android:textSize="20sp" />
 
         <Space

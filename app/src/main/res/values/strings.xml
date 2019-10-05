@@ -3,9 +3,12 @@
     <string name="connect_button">Connect</string>
     <string name="ip_address_textfield">IP Address</string>
     <string name="port_textfield">Port</string>
+    <string name="connection_success">Connection successful</string>
     <string name="connection_error">Failed to connect</string>
+    <string name="connection_closed">Connection closed</string>
     <string name="retry">Retry</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="not_connected">Not Connected</string>
 </resources>

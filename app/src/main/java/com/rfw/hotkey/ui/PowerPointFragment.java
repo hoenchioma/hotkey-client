@@ -141,7 +141,7 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
             packet.put("action", action);
             packet.put("key", message);
 
-            new ConnectionManager.SendTask(packet).execute();
+            ConnectionManager.getInstance().sendPacket(packet);
 
         } catch (JSONException e) {
             Log.e("PowerPointFragment", "sendMessageToServer: error sending key-press", e);

@@ -218,7 +218,6 @@ public class MouseFragment extends Fragment {
                 break;
 
         }
-        new ConnectionManager.SendTask(packet).execute();
-
+        ConnectionManager.getInstance().sendPacket(packet);
     }
 }

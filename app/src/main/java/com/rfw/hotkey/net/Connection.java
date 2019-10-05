@@ -1,20 +1,43 @@
 package com.rfw.hotkey.net;
 
+import android.view.View;
+
 import androidx.annotation.Nullable;
+import androidx.core.util.Supplier;
+import androidx.databinding.ObservableBoolean;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 /**
- * Connection interface (to implement for different types of connection)
+ * Connection abstract class (to store various info related to connection with server)
  */
-public interface Connection {
+public abstract class Connection {
+    private static final String TAG = "Connection";
+
+    public ObservableBoolean active = new ObservableBoolean(false);
+    public String type;
+    public String computerName;
+
+    // the view to show messages in
+    @Nullable protected Supplier<View> contextViewSupplier;
+
+    protected Connection(String type, @Nullable Supplier<View> contextViewSupplier) {
+        this.type = type;
+        this.contextViewSupplier = contextViewSupplier;
+    }
+
     /**
-     * send packet to server
-     * @param packet JSON object to send
+     * connect to server (based on connection type)
+     * and perform some sort of handshake (to get computer name)
+     * and make a snackbar to show result
+     *
+     * @param showMessage whether to make snackbar to show result
      */
-    void sendPacket(JSONObject packet);
+    public abstract void connect(boolean showMessage);
 
-    @Nullable String getComputerName();
+    public abstract void sendPacket(JSONObject packet);
 
-    boolean isActive();
+    public abstract void close() throws IOException;
 }

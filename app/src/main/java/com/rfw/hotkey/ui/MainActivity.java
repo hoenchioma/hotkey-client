@@ -11,6 +11,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.rfw.hotkey.R;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     ImageButton keyboardButton;
     ImageButton connectionButton;
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         extraButton.setOnClickListener(view -> replaceFragment(new ExtraFragment()));
         connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment()));
         keyboardButton.setOnClickListener(view -> replaceFragment(new KeyboardFragment()));
-        mouseButton.setOnClickListener((view -> replaceFragment(new MouseFragment())));
+        mouseButton.setOnClickListener(view -> replaceFragment(new MouseFragment()));
     }
 
     public void replaceFragment(Fragment fragment) {
@@ -42,5 +44,15 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frameContainer, fragment);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
+    }
+
+    public Fragment getVisibleFragment() {
+        FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        for (Fragment fragment : fragments) {
+            if (fragment != null && fragment.isVisible())
+                return fragment;
+        }
+        return null;
     }
 }
