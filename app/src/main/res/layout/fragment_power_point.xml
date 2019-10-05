@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/powerPointLayoutID"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,16 +11,80 @@
     <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="3"/>
+        android:layout_weight="7.5" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10">
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.1"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fromTheBeginningButtonID"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:text="Beginning"/>
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fromThisSlideButtonID"
+            style="@style/Widget.MaterialComponents.Button"
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current"/>
+    </LinearLayout>
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-       <Button
-           android:id="@+id/fullScreenButtonID"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="FullScreen"
-           android:layout_centerHorizontal="true"/>
+
+        <ImageButton
+            android:id="@+id/fullScreenButtonID"
+            style="@style/MenuIconStyle"
+            android:scaleX="1.8"
+            android:scaleY="1.8"
+            android:rotation="180"
+            android:src="@drawable/ic_presentation_color"
+            android:layout_centerHorizontal="true">
+
+        </ImageButton>
+
+    </RelativeLayout>
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="20">
+
+
+        <ImageButton
+            android:id="@+id/upButtonID"
+            style="@style/MenuIconStyle"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:rotation="-90"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_forward_white_24dp">
+
+        </ImageButton>
+
+
+
+
+
 
     </RelativeLayout>
     <Space
@@ -30,89 +95,54 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="20">
+        android:weightSum="16">
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="4"/>
-
-        <Button
-            android:id="@+id/ESCButtonID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="ESC" />
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"/>
-
-        <Button
-            android:id="@+id/upButtonID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Up" />
-
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"/>
-
-        <Button
-            android:id="@+id/pgdnButtonID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="PgDn" />
-
-    </LinearLayout>
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="20">
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"/>
-
-        <Button
+            android:layout_weight="6"/>
+        <ImageButton
             android:id="@+id/leftButtonID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Left" />
+            style="@style/MenuIconStyle"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:rotation="180"
+            android:src="@drawable/ic_forward_white_24dp">
+
+        </ImageButton>
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="5"/>
+            android:layout_weight="2"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/downButtonID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Down" />
+            style="@style/MenuIconStyle"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:rotation="90"
+            android:src="@drawable/ic_forward_white_24dp">
+
+        </ImageButton>
+
 
 
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="5"/>
+            android:layout_weight="2"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/rightButtonID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Right" />
+            style="@style/MenuIconStyle"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:src="@drawable/ic_forward_white_24dp">
+
+        </ImageButton>
+
         </LinearLayout>
+
 
 
 </LinearLayout>
