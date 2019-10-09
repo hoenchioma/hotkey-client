@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <import type="com.rfw.hotkey.net.ConnectionManager" />
         <import type="com.rfw.hotkey.R" />
+        <import type="android.view.View" />
         <variable
             name="cm"
             type="com.rfw.hotkey.net.ConnectionManager" />
@@ -45,9 +44,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:hint="@string/ip_address_textfield"
+                android:hint="@string/ip_address_textfield_text"
                 android:paddingStart="30dp"
-                android:paddingEnd="30dp">
+                android:paddingEnd="30dp"
+                android:visibility="@{ cm.connection != null &amp;&amp; cm.connection.get().active ? View.GONE : View.VISIBLE }">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -62,9 +62,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:hint="@string/port_textfield"
+                android:hint="@string/port_textfield_text"
                 android:paddingStart="30dp"
-                android:paddingEnd="30dp">
+                android:paddingEnd="30dp"
+                android:visibility="@{ cm.connection != null &amp;&amp; cm.connection.get().active ? View.GONE : View.VISIBLE }">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -84,7 +85,7 @@
             android:id="@+id/connect_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/connect_button" />
+            android:text="@{ cm.connection != null &amp;&amp; cm.connection.get().active ? @string/disconnect_button_text : @string/connect_button_text }" />
 
         <Space
             android:layout_width="wrap_content"

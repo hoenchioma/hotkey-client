@@ -1,14 +1,17 @@
 <resources>
     <string name="app_name">Hotkey</string>
-    <string name="connect_button">Connect</string>
-    <string name="ip_address_textfield">IP Address</string>
-    <string name="port_textfield">Port</string>
+
+    <string name="connect_button_text">Connect</string>
+    <string name="disconnect_button_text">Disconnect</string>
+    <string name="ip_address_textfield_text">IP Address</string>
+    <string name="port_textfield_text">Port</string>
+
     <string name="connection_success">Connection successful</string>
     <string name="connection_error">Failed to connect</string>
     <string name="connection_closed">Connection closed</string>
+    <string name="not_connected">Not Connected</string>
     <string name="retry">Retry</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="not_connected">Not Connected</string>
+    <string name="need_to_connect_first">You need to connect first</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.rfw.hotkey.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,21 +58,37 @@ public class ConnectionsFragment extends Fragment {
 
     private void connectButtonAction() {
         try {
-            String ipAddress = Objects.requireNonNull(ipAddressTextField.getEditText()).getText().toString();
-            if (ipAddress.isEmpty()) throw new RuntimeException("IP Address field empty");
-            String portText = Objects.requireNonNull(portTextField.getEditText()).getText().toString();
-            if (portText.isEmpty()) throw new RuntimeException("Port field empty");
-            int port = Integer.parseInt(portText);
+            if (!ConnectionManager.getInstance().isConnectionActive()) {
+                String ipAddress = Objects.requireNonNull(ipAddressTextField.getEditText()).getText().toString();
+                if (ipAddress.isEmpty()) throw new RuntimeException("IP Address field empty");
+                String portText = Objects.requireNonNull(portTextField.getEditText()).getText().toString();
+                if (portText.isEmpty()) throw new RuntimeException("Port field empty");
+                int port = Integer.parseInt(portText);
 
-            Connection connection = new WiFiConnection(ipAddress, port,
-                    () -> ((MainActivity) Objects.requireNonNull(getActivity())).getVisibleFragment().getView());
-            ConnectionManager.getInstance().makeConnection(connection);
-        } catch (Exception e) {
-            if (e.getMessage() == null) throw e;
+                Connection connection = new WiFiConnection(ipAddress, port) {
+                    Activity activity = getActivity();
+
+                    @Override
+                    protected void onConnect(boolean success) {
+                        Snackbar.make(activity.getWindow().getDecorView().getRootView(),
+                                success ? R.string.connection_success : R.string.connection_error,
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    protected void onDisconnect() {
+                        Snackbar.make(activity.getWindow().getDecorView().getRootView(),
+                                R.string.connection_closed,
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+                };
+                ConnectionManager.getInstance().makeConnection(connection);
+            } else { // if already connected disconnect on click
+                ConnectionManager.getInstance().closeConnection();
+            }
+        } catch (RuntimeException e) {
             // show a snackbar if an error occurred
-            Snackbar snackbar = Snackbar.make(contextView,
-                    e.getMessage() != null ? e.getMessage() : getString(R.string.connection_error),
-                    Snackbar.LENGTH_SHORT);
+            Snackbar snackbar = Snackbar.make(contextView, Objects.requireNonNull(e.getMessage()), Snackbar.LENGTH_SHORT);
             snackbar.setAction(R.string.retry, view -> connectButtonAction());
             snackbar.show();
         }
@@ -80,6 +97,8 @@ public class ConnectionsFragment extends Fragment {
         try {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        } catch (NullPointerException e) {
+            Log.i(TAG, "connectButtonAction: soft keyboard cannot be hidden because it is not currently active");
         } catch (Exception e) {
             Log.e(TAG, "connectButtonAction: error closing soft keyboard", e);
         }

@@ -1,5 +1,6 @@
 package com.rfw.hotkey.net;
 
+import androidx.core.util.Consumer;
 import androidx.databinding.ObservableField;
 
 import org.json.JSONObject;
@@ -14,8 +15,7 @@ public class ConnectionManager {
 
     public ObservableField<Connection> connection = new ObservableField<>();
 
-    private ConnectionManager() {
-    }
+    private ConnectionManager() { }
 
     /**
      * Get singleton instance of class through lazy initialization
@@ -29,7 +29,7 @@ public class ConnectionManager {
 
     public void makeConnection(Connection connection) {
         setConnection(connection);
-        connection.connect(true);
+        connection.connect();
     }
 
     public void setConnection(Connection connection) {
@@ -42,5 +42,15 @@ public class ConnectionManager {
 
     public void sendPacket(JSONObject packet) {
         Objects.requireNonNull(connection.get()).sendPacket(packet);
+    }
+
+    public void sendAndReceivePacket(JSONObject packetToSend, Consumer<JSONObject> receivedPacketHandler) {
+        Objects.requireNonNull(connection.get()).sendAndReceivePacket(packetToSend, receivedPacketHandler);
+    }
+
+    public void closeConnection() throws IllegalArgumentException {
+        if (connection.get() == null) throw new IllegalArgumentException("connection cannot be closed, as connection does not exist");
+        connection.get().disconnect();
+        connection.set(null);
     }
 }
