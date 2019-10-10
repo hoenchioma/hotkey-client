@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +33,9 @@ public class ConnectionsFragment extends Fragment {
 
     private MaterialButton connectButton;
     private TextInputLayout ipAddressTextField;
+    private EditText ipAddressEditText;
     private TextInputLayout portTextField;
+    private EditText portEditText;
 
     @Nullable
     @Override
@@ -49,7 +52,9 @@ public class ConnectionsFragment extends Fragment {
 
         connectButton = contextView.findViewById(R.id.connect_button);
         ipAddressTextField = contextView.findViewById(R.id.ip_address_textfield);
+        ipAddressEditText = contextView.findViewById(R.id.ip_address_edittext);
         portTextField = contextView.findViewById(R.id.port_textfield);
+        portEditText = contextView.findViewById(R.id.port_edittext);
 
         connectButton.setOnClickListener(view -> connectButtonAction());
 
@@ -93,7 +98,11 @@ public class ConnectionsFragment extends Fragment {
             snackbar.show();
         }
 
-        // hide the soft keyboard on button press
+        hideSoftKeyboard();
+    }
+
+    // hide the soft keyboard on button press
+    private void hideSoftKeyboard() {
         try {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
