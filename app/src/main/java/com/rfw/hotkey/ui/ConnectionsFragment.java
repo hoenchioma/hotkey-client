@@ -31,6 +31,7 @@ public class ConnectionsFragment extends Fragment {
 
     private View contextView;
 
+    // don't remove local fields of UI components (as they are required to save the state of Fragment)
     private MaterialButton connectButton;
     private TextInputLayout ipAddressTextField;
     private EditText ipAddressEditText;
@@ -50,11 +51,11 @@ public class ConnectionsFragment extends Fragment {
         ConnectionManager connectionManager = ConnectionManager.getInstance();
         binding.setCm(connectionManager);
 
-        connectButton = contextView.findViewById(R.id.connect_button);
-        ipAddressTextField = contextView.findViewById(R.id.ip_address_textfield);
-        ipAddressEditText = contextView.findViewById(R.id.ip_address_edittext);
-        portTextField = contextView.findViewById(R.id.port_textfield);
-        portEditText = contextView.findViewById(R.id.port_edittext);
+        connectButton = contextView.findViewById(R.id.connectButton);
+        ipAddressTextField = contextView.findViewById(R.id.ipAddressTextField);
+        ipAddressEditText = contextView.findViewById(R.id.ipAddressEditText);
+        portTextField = contextView.findViewById(R.id.portTextField);
+        portEditText = contextView.findViewById(R.id.portEditText);
 
         connectButton.setOnClickListener(view -> connectButtonAction());
 

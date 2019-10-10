@@ -22,11 +22,10 @@
             android:layout_width="wrap_content"/>
 
         <ImageButton
+            android:id="@+id/keyboardButton"
             style="@style/MenuIconStyle"
-            android:id="@+id/keyboardButtonID"
-            android:src="@drawable/ic_keyboard_white_24dp">
-
-        </ImageButton>
+            android:src="@drawable/ic_keyboard_white_24dp"
+            android:contentDescription="@string/keyboard_button_desc" />
 
         <Space
             android:layout_weight="1"
@@ -34,11 +33,10 @@
             android:layout_width="wrap_content"/>
 
         <ImageButton
+            android:id="@+id/connectionButton"
             style="@style/MenuIconStyle"
             android:src="@drawable/ic_network_wifi_white_24dp"
-            android:id="@+id/connectionButtonID">
-
-        </ImageButton>
+            android:contentDescription="@string/connections_button_desc" />
 
         <Space
             android:layout_weight="1"
@@ -46,13 +44,12 @@
             android:layout_width="wrap_content"/>
 
         <ImageButton
-            android:id="@+id/mouseButtonID"
+            android:id="@+id/mouseButton"
             style="@style/MenuIconStyle"
             android:scaleX="0.9"
             android:scaleY="0.9"
-            android:src="@drawable/ic_mouse_white_24dp">
-
-        </ImageButton>
+            android:src="@drawable/ic_mouse_white_24dp"
+            android:contentDescription="@string/mouse_button_desc" />
 
         <Space
             android:layout_weight="1"
@@ -60,17 +57,18 @@
             android:layout_width="wrap_content"/>
 
         <ImageButton
-            android:id="@+id/extraButtonID"
+            android:id="@+id/extraButton"
             style="@style/MenuIconStyle"
             android:scaleX="0.9"
             android:scaleY="0.9"
-            android:src="@drawable/ic_more_horiz_white_24dp">
+            android:src="@drawable/ic_more_horiz_white_24dp"
+            android:contentDescription="@string/extra_button_desc" />
 
-        </ImageButton>
         <Space
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"/>
+
     </LinearLayout>
 
 </LinearLayout>

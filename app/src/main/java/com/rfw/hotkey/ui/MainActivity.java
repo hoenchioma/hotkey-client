@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.rfw.hotkey.R;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
         replaceFragment(new ConnectionsFragment());
 
-        extraButton = findViewById(R.id.extraButtonID);
-        connectionButton = findViewById(R.id.connectionButtonID);
-        keyboardButton = findViewById(R.id.keyboardButtonID);
-        mouseButton = findViewById(R.id.mouseButtonID);
+        extraButton = findViewById(R.id.extraButton);
+        connectionButton = findViewById(R.id.connectionButton);
+        keyboardButton = findViewById(R.id.keyboardButton);
+        mouseButton = findViewById(R.id.mouseButton);
 
         extraButton.setOnClickListener(view -> replaceFragment(new ExtraFragment()));
         connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment()));

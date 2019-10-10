@@ -14,4 +14,8 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="need_to_connect_first">You need to connect first</string>
+    <string name="keyboard_button_desc">Press to open keyboard</string>
+    <string name="connections_button_desc">Press to open connections screen</string>
+    <string name="mouse_button_desc">Press to open mouse/touchpad</string>
+    <string name="extra_button_desc">Press to show extra options</string>
 </resources>
