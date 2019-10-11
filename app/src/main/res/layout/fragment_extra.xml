@@ -60,5 +60,34 @@
 
 
     </LinearLayout>
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="20">
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.2"/>
+
+        <ImageButton
+            android:id="@+id/pdfButtonID"
+            style="@style/MenuIconStyle"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:src="@drawable/ic_picture_as_pdf_white_24dp"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"/>
+
+
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -1,7 +1,5 @@
 package com.rfw.hotkey.ui;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -39,13 +37,13 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
 
     private void initialization(View rootView) {
         isFullScreen = false;
-        fullScreenButton = rootView.findViewById(R.id.fullScreenButtonID);
-        upButton = rootView.findViewById(R.id.upButtonID);
+        fullScreenButton = rootView.findViewById(R.id.ppt_presentationButtonID);
+        upButton = rootView.findViewById(R.id.ppt_upButtonID);
         fromTheBeginningButton = rootView.findViewById(R.id.fromTheBeginningButtonID);
         fromThisSlideButton = rootView.findViewById(R.id.fromThisSlideButtonID);
-        leftButton = rootView.findViewById(R.id.leftButtonID);
-        downButton = rootView.findViewById(R.id.downButtonID);
-        righButton = rootView.findViewById(R.id.rightButtonID);
+        leftButton = rootView.findViewById(R.id.ppt_leftButtonID);
+        downButton = rootView.findViewById(R.id.ppt_downButtonID);
+        righButton = rootView.findViewById(R.id.ppt_rightButtonID);
         fullScreenButton.setOnClickListener(this);
         upButton.setOnClickListener(this);
         leftButton.setOnClickListener(this);
@@ -61,12 +59,12 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
         int id = view.getId();
 
         switch (id) {
-            case R.id.fullScreenButtonID:
+            case R.id.ppt_presentationButtonID:
 
                 if (!isFullScreen) {
                     //sendMessageToServer("F5", "modifier");
                     //Log.d("onclick", "F5");
-                    //fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_black_24dp);
+                    //fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                     Toast.makeText(getActivity(), "Select Presentation Mode", Toast.LENGTH_SHORT).show();
                     if(fromThisSlideButton.getVisibility() == View.VISIBLE){
                         fromTheBeginningButton.setVisibility(View.INVISIBLE);
@@ -89,7 +87,7 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
                 sendMessageToServer("current", "modifier");
                 Log.d("onclick", "current");
                 isFullScreen = true;
-                fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_black_24dp);
+                fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                 fromTheBeginningButton.setVisibility(View.INVISIBLE);
                 fromThisSlideButton.setVisibility(View.INVISIBLE);
                 break;
@@ -97,26 +95,26 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
                 sendMessageToServer("beginning", "modifier");
                 Log.d("onclick", "beginning");
                 isFullScreen = true;
-                fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_black_24dp);
+                fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                 fromTheBeginningButton.setVisibility(View.INVISIBLE);
                 fromThisSlideButton.setVisibility(View.INVISIBLE);
                 break;
-            case R.id.upButtonID:
+            case R.id.ppt_upButtonID:
                 // sendMessageToServer("modifier");
                 sendMessageToServer("UP", "modifier");
                 Log.d("onclick", "UP");
                 break;
-            case R.id.leftButtonID:
+            case R.id.ppt_leftButtonID:
                 //sendMessageToServer("modifier");
                 sendMessageToServer("LEFT", "modifier");
                 Log.d("onclick", "LEFT");
                 break;
-            case R.id.downButtonID:
+            case R.id.ppt_downButtonID:
                 // sendMessageToServer("modifier");
                 sendMessageToServer("DOWN", "modifier");
                 Log.d("onclick", "DOWN");
                 break;
-            case R.id.rightButtonID:
+            case R.id.ppt_rightButtonID:
                 //sendMessageToServer("modifier");
                 sendMessageToServer("RIGHT", "modifier");
                 Log.d("onclick", "RIGHT");
