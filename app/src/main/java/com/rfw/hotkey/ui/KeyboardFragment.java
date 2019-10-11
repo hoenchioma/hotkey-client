@@ -1,17 +1,13 @@
 package com.rfw.hotkey.ui;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputFilter;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,19 +19,27 @@ import com.rfw.hotkey.net.ConnectionManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.logging.Logger;
 
-
-public class KeyboardFragment extends Fragment
-        implements View.OnClickListener, View.OnTouchListener {
+public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = KeyboardFragment.class.getCanonicalName();
 
-    private View contextView;
-    private Button copyButton, escButton, homeButton, tabButton, pasteButton,
-            pgupButton, shiftButton, upButton, pgdnButton, leftButton, downButton, righButton;
-    private String previousText = "";
-    private EditText typeHere;
+    private KeyboardView keyboardView;
+
+    private Button copyButton;
+    private Button escButton;
+    private Button homeButton;
+    private Button tabButton;
+    private Button pasteButton;
+    private Button pgupButton;
+    private Button shiftButton;
+    private Button upButton;
+    private Button pgdnButton;
+    private Button leftButton;
+    private Button downButton;
+    private Button righButton;
+
+    private LinearLayout emptySpace;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -43,54 +47,43 @@ public class KeyboardFragment extends Fragment
                              @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_keyboard, container, false);
-        initialization(rootView);
-        //typeHere.setOnKeyListener((View.OnKeyListener) this);
+        init(rootView);
 
-        // typeHere.setFilters(new InputFilter[] { filter });
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
-                if (keyCode == KeyEvent.KEYCODE_DEL) {
-                    Log.d("onKey", "backspace");
-                    //return true;
-                }
-                return false;
-            }
-        });
-        typeHere.addTextChangedListener(new TextWatcher() {
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if(s.equals(null) && before>start )
-//                {
-//                    Log.d("onTextChanged","backspace");
-//                }
-                if (!s.equals("")) {
-                    char ch = newCharacter(s, previousText);
-                    if (ch == 0) return;
-                    sendMessageToServer(String.valueOf(ch), "char");
-                    //sendMessageToServer(Character.toString(ch));
-                    //MainActivity.sendMessageToServer("TYPE_CHARACTER");
-                    //MainActivity.sendMessageToServer(Character.toString(ch));
-                    previousText = s.toString();
-                } else {
-
+        // handle key presses
+        keyboardView.setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                if (event.getUnicodeChar() == 0) { // control character
+                    if (keyCode == KeyEvent.KEYCODE_DEL) { // backspace
+                        sendKeyToServer("char", String.valueOf('\b'));
+                        return true;
+                    } else if (keyCode == KeyEvent.KEYCODE_ENTER) { // enter
+                        sendKeyToServer("char", String.valueOf('\n'));
+                        return true;
+                    }
+                } else { // text character
+                    sendKeyToServer("char", String.valueOf((char) event.getUnicodeChar()));
+                    return true;
                 }
             }
-
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            public void afterTextChanged(Editable s) {
-
-            }
+            return false;
         });
+
+        emptySpace.setOnClickListener(v -> keyboardView.performClick());
 
         return rootView;
     }
 
-    private void initialization(View rootView) {
-        typeHere = rootView.findViewById(R.id.keyboardInputID);
+    @Override
+    public void onResume() {
+        super.onResume();
+        keyboardView.performClick();
+    }
+
+    private void init(View rootView) {
+        keyboardView = rootView.findViewById(R.id.keyboardView);
+
+        emptySpace = rootView.findViewById(R.id.emptySpace);
+
         copyButton = rootView.findViewById(R.id.copyButtonID);
         escButton = rootView.findViewById(R.id.escButtonID);
         homeButton = rootView.findViewById(R.id.homeButtonID);
@@ -104,7 +97,7 @@ public class KeyboardFragment extends Fragment
         downButton = rootView.findViewById(R.id.downButtonID);
         righButton = rootView.findViewById(R.id.rightButtonID);
         copyButton.setOnClickListener(this);
-        //homeButton.setOnTouchListener(this);
+//        homeButton.setOnTouchListener(this);
         homeButton.setOnClickListener(this);
         escButton.setOnClickListener(this);
         tabButton.setOnClickListener(this);
@@ -115,126 +108,97 @@ public class KeyboardFragment extends Fragment
         leftButton.setOnClickListener(this);
         downButton.setOnClickListener(this);
         righButton.setOnClickListener(this);
-//        int i = 0;
-//        typeHere.setVisibility(i);
-        //typeHere.setOnKeyListener((View.OnKeyListener) this);
-
-        shiftButton.setOnTouchListener(this);
-        rootView.setOnTouchListener(this);
+//        shiftButton.setOnTouchListener(this);
+//        rootView.setOnTouchListener(this);
     }
-//    private InputFilter filter;
-//
-//    {
-//        filter = (charSequence, start, end, dest, dStart, dEnd) -> {
-//
-//            if (end == 0 || dStart < dEnd) {
-//                // backspace was pressed! handle accordingly
-//                Log.d("inputFIlter","back");
+
+//    private char newCharacter(CharSequence currentText, CharSequence previousText) {
+//        char ch = 0;
+//        int currentTextLength = currentText.length();
+//        int previousTextLength = previousText.length();
+////        if(currentTextLength == 0 && previousTextLength == 1)
+////        {
+////            currentText = "abcd";
+////            previousText = "abcde";
+////        }
+//        int difference = currentTextLength - previousTextLength;
+//        if (currentTextLength > previousTextLength) {
+//            if (1 == difference) {
+//                ch = currentText.charAt(previousTextLength);
 //            }
+//        } else if (currentTextLength < previousTextLength) {
+//            if (-1 == difference) {
+//                ch = '\b';
+//            } else {
+//                ch = ' ';
+//            }
+//        }
+////        else if(currentTextLength == 0){
+////            ch = '\b';
+////        }
+//        Log.d("newChar", previousTextLength + " " + ch + " " + currentTextLength);
 //
-//            return charSequence;
-//        };
+//        return ch;
 //    }
-
-    private char newCharacter(CharSequence currentText, CharSequence previousText) {
-        char ch = 0;
-        int currentTextLength = currentText.length();
-        int previousTextLength = previousText.length();
-//        if(currentTextLength == 0 && previousTextLength == 1)
-//        {
-//            currentText = "abcd";
-//            previousText = "abcde";
-//        }
-        int difference = currentTextLength - previousTextLength;
-        if (currentTextLength > previousTextLength) {
-            if (1 == difference) {
-                ch = currentText.charAt(previousTextLength);
-            }
-        } else if (currentTextLength < previousTextLength) {
-            if (-1 == difference) {
-                ch = '\b';
-            } else {
-                ch = ' ';
-            }
-        }
-//        else if(currentTextLength == 0){
-//            ch = '\b';
-//        }
-        Log.d("newChar", previousTextLength + " " + ch + " " + currentTextLength);
-
-        return ch;
-    }
 
 
     @Override
     public void onClick(View view) {
-
-        int id = view.getId();
-        if (id == R.id.escButtonID) {
-            //sendMessageToServer("modifier");
-            sendMessageToServer("ESC", "modifier");
-            Log.d("onclick", "ESC");
-        }
-        if (id == R.id.copyButtonID) {
-            //sendMessageToServer("command");
-            sendMessageToServer("COPY", "command");
-            Log.d("onclick", "COPY");
-        }
-        if (id == R.id.homeButtonID) {
-            // sendMessageToServer("modifier");
-            sendMessageToServer("HOME", "modifier");
-            Log.d("onclick", "HOME");
-        }
-        if (id == R.id.tabButtonID) {
-            //sendMessageToServer("modifier");
-            sendMessageToServer("TAB", "modifier");
-            Log.d("onclick", "TAB");
-        }
-        if (id == R.id.pasteButtonID) {
-            //sendMessageToServer("command");
-            sendMessageToServer("PASTE", "command");
-            Log.d("onclick", "PASTE");
-        }
-        if (id == R.id.pgupButtonID) {
-            // sendMessageToServer("modifier");
-            sendMessageToServer("PGUP", "modifier");
-            Log.d("onclick", "PGUP");
-        }
-        /*if(id == R.id.shiftButtonID){
-            sendMessageToServer("TYPE_HOLD");
-            sendMessageToServer("SHIFT");
-            Log.d("onclick","SHIFT");
-        }*/
-        if (id == R.id.upButtonID) {
-            // sendMessageToServer("modifier");
-            sendMessageToServer("UP", "modifier");
-            Log.d("onclick", "UP");
-        }
-        if (id == R.id.pgdnButtonID) {
-            // sendMessageToServer("modifier");
-            sendMessageToServer("PGDN", "modifier");
-            Log.d("onclick", "PGDN");
-        }
-        if (id == R.id.leftButtonID) {
-            //sendMessageToServer("modifier");
-            sendMessageToServer("LEFT", "modifier");
-            Log.d("onclick", "LEFT");
-        }
-        if (id == R.id.downButtonID) {
-            // sendMessageToServer("modifier");
-            sendMessageToServer("DOWN", "modifier");
-            Log.d("onclick", "DOWN");
-        }
-        if (id == R.id.rightButtonID) {
-            //sendMessageToServer("modifier");
-            sendMessageToServer("RIGHT", "modifier");
-            Log.d("onclick", "RIGHT");
+        switch (view.getId()) {
+            case R.id.escButtonID:
+                sendKeyToServer("modifier", "ESC");
+                Log.d("onclick", "ESC");
+                break;
+            case R.id.copyButtonID:
+                sendKeyToServer("command", "COPY");
+                Log.d("onclick", "COPY");
+                break;
+            case R.id.homeButtonID:
+                sendKeyToServer("modifier", "HOME");
+                Log.d("onclick", "HOME");
+                break;
+            case R.id.tabButtonID:
+                sendKeyToServer("modifier", "TAB");
+                Log.d("onclick", "TAB");
+                break;
+            case R.id.pasteButtonID:
+                sendKeyToServer("command", "PASTE");
+                Log.d("onclick", "PASTE");
+                break;
+            case R.id.pgupButtonID:
+                sendKeyToServer("modifier", "PGUP");
+                Log.d("onclick", "PGUP");
+                break;
+//            case R.id.shiftButtonID:
+//                sendKeyToServer("TYPE_HOLD");
+//                sendKeyToServer("SHIFT");
+//                Log.d("onclick", "SHIFT");
+//                break;
+            case R.id.upButtonID:
+                sendKeyToServer("modifier", "UP");
+                Log.d("onclick", "UP");
+                break;
+            case R.id.pgdnButtonID:
+                sendKeyToServer("modifier", "PGDN");
+                Log.d("onclick", "PGDN");
+                break;
+            case R.id.leftButtonID:
+                sendKeyToServer("modifier", "LEFT");
+                Log.d("onclick", "LEFT");
+                break;
+            case R.id.downButtonID:
+                sendKeyToServer("modifier", "DOWN");
+                Log.d("onclick", "DOWN");
+                break;
+            case R.id.rightButtonID:
+                sendKeyToServer("modifier", "RIGHT");
+                Log.d("onclick", "RIGHT");
+                break;
         }
     }
 
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        // TODO: (Wadith) fix send to server method
+//    @Override
+//    public boolean onTouch(View view, MotionEvent motionEvent) {
 //        String action = "KEY_PRESS";
 //        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 //            action = "KEY_PRESS";
@@ -242,7 +206,7 @@ public class KeyboardFragment extends Fragment
 //        } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
 //            action = "KEY_RELEASE";
 //        }
-//        int keyCode = 17; //dummy initialization
+//        int keyCode = 17; //dummy init
 //        switch (view.getId()) {
 //            case R.id.shiftButtonID:
 //                Log.d("keyboardFragmentPress", "shift");
@@ -253,28 +217,27 @@ public class KeyboardFragment extends Fragment
 //        //Log.d("ONTOUCH", Integer.toString(keyCode));
 //        //Utility.out.println(keyCode);
 //        //sendKeyCodeToServer(action, keyCode);
-        return false;
-    }
+//        return false;
+//    }
 
     /**
      * sends the message of specified action to Connection Manager
      *
-     * @param message message (key press type)
-     * @param action  type of the message
+     * @param action type of the key being sent (char, modifier, etc.)
+     * @param key    key being sent
      */
-    private void sendMessageToServer(String message, String action) {
+    private void sendKeyToServer(String action, String key) {
         JSONObject packet = new JSONObject();
 
         try {
             packet.put("type", "keyboard");
             packet.put("action", action);
-            packet.put("key", message);
-
-            ConnectionManager.getInstance().sendPacket(packet);
-
+            packet.put("key", key);
         } catch (JSONException e) {
-            Log.e("KeyboardFragment", "sendMessageToServer: error sending key-press", e);
+            e.printStackTrace();
         }
+
+        ConnectionManager.getInstance().sendPacket(packet);
     }
 
 /*    public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -284,8 +247,8 @@ public class KeyboardFragment extends Fragment
         }
         Log.d("ONTEXTCHANGE", String.valueOf(ch));
 
-        //MainActivity.sendMessageToServer("TYPE_CHARACTER");
-        //MainActivity.sendMessageToServer(Character.toString(ch));
+        //MainActivity.sendKeyToServer("TYPE_CHARACTER");
+        //MainActivity.sendKeyToServer(Character.toString(ch));
         previousText = s.toString();
     }*/
 }
