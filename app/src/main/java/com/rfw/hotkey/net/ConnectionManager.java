@@ -1,6 +1,9 @@
 package com.rfw.hotkey.net;
 
+import android.util.Log;
+
 import androidx.core.util.Consumer;
+import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 
 import org.json.JSONObject;
@@ -8,12 +11,12 @@ import org.json.JSONObject;
 import java.util.Objects;
 
 public class ConnectionManager {
-    private static final String TAG = ConnectionManager.class.getCanonicalName();
+    private static final String TAG = "ConnectionManager";
 
     // singleton instance of class
     private static ConnectionManager instance;
 
-    public ObservableField<PacketTransferConnection> connection = new ObservableField<>();
+    public ObservableField<Connection> connection = new ObservableField<>();
 
     private ConnectionManager() { }
 
@@ -27,30 +30,51 @@ public class ConnectionManager {
         return instance;
     }
 
-    public void makeConnection(PacketTransferConnection connection) {
+    public void makeConnection(Connection connection) {
         setConnection(connection);
         connection.connect();
     }
 
-    public void setConnection(PacketTransferConnection connection) {
+    public void setConnection(Connection connection) {
         this.connection.set(connection);
     }
 
+    @SuppressWarnings("ConstantConditions")
     public boolean isConnectionActive() {
-        return connection.get() != null && Objects.requireNonNull(connection.get()).getActive().get();
+        return connection.get() != null && connection.get().getActive().get();
     }
 
+    @SuppressWarnings("ConstantConditions")
+    public ObservableBoolean getConnectionActive() {
+        return connection.get() != null ? connection.get().getActive() : null;
+    }
+
+    @SuppressWarnings("ConstantConditions")
     public void sendPacket(JSONObject packet) {
-        Objects.requireNonNull(connection.get()).sendPacket(packet);
+        if (!isConnectionActive()) Log.e(TAG, "sendPacket: attempt to send package using inactive connection");
+        else connection.get().sendJSONPacket(packet);
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void sendAndReceivePacket(JSONObject packetToSend, Consumer<JSONObject> receivedPacketHandler) {
-        Objects.requireNonNull(connection.get()).sendAndReceivePacket(packetToSend, receivedPacketHandler);
+        if (!isConnectionActive()) Log.e(TAG, "sendAndReceivePacket: attempt to send package using inactive connection");
+        else connection.get().sendAndReceiveJSONPacket(packetToSend, receivedPacketHandler);
     }
 
-    public void closeConnection() throws IllegalArgumentException {
-        if (connection.get() == null) throw new IllegalArgumentException("connection cannot be closed, as connection does not exist");
+    @SuppressWarnings("ConstantConditions")
+    public void closeConnection() {
+        if (connection.get() == null) Log.e(TAG, "connection cannot be closed, as connection does not exist");
         connection.get().disconnect();
         connection.set(null);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public Connection.Type getConnectionType() {
+        return connection.get() == null ? Connection.Type.NONE : connection.get().getType();
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public String getComputerName() {
+        return connection.get() == null ? null : connection.get().getComputerName();
     }
 }

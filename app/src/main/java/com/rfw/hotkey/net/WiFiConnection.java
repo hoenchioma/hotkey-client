@@ -17,11 +17,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import static com.rfw.hotkey.util.Utility.getDeviceName;
+import static com.rfw.hotkey.util.Utils.getDeviceName;
 
-public class TCPConnection implements PacketTransferConnection {
-
-    private static final String TAG = "TCPConnection";
+public class WiFiConnection implements Connection {
+    private static final String TAG = "WiFiConnection";
 
     private ObservableBoolean active = new ObservableBoolean(false);
     private String computerName;
@@ -33,7 +32,7 @@ public class TCPConnection implements PacketTransferConnection {
     private BufferedReader in;
     private PrintWriter out;
 
-    public TCPConnection(String ipAddress, int port) {
+    public WiFiConnection(String ipAddress, int port) {
         this.ipAddress = ipAddress;
         this.port = port;
     }
@@ -44,8 +43,8 @@ public class TCPConnection implements PacketTransferConnection {
     }
 
     @Override
-    public ConnectionType getType() {
-        return ConnectionType.LAN;
+    public Type getType() {
+        return Type.WIFI;
     }
 
     @Override
@@ -158,7 +157,7 @@ public class TCPConnection implements PacketTransferConnection {
      */
     @SuppressLint("StaticFieldLeak")
     @Override
-    public void sendPacket(JSONObject packet) {
+    public void sendJSONPacket(JSONObject packet) {
         new AsyncTask<Void, Void, Void>() {
             boolean disconnect = false;
 
@@ -167,8 +166,8 @@ public class TCPConnection implements PacketTransferConnection {
                 sendPacketUtil(packet);
                 try {
                     if (out.checkError()) { // error while sending indicated broken connection
-                        Log.e(TAG, "sendPacket.doInBackground: broken connection", new RuntimeException("broken connection"));
-                        Log.i(TAG, "sendPacket.doInBackground: closing connection ...");
+                        Log.e(TAG, "sendJSONPacket.doInBackground: broken connection", new RuntimeException("broken connection"));
+                        Log.i(TAG, "sendJSONPacket.doInBackground: closing connection ...");
                         disconnectUtil(); // close connection (broken pipe)
                         disconnect = true;
                     }
@@ -190,7 +189,7 @@ public class TCPConnection implements PacketTransferConnection {
 
     @SuppressLint("StaticFieldLeak")
     @Override
-    public void sendAndReceivePacket(JSONObject packetToSend, Consumer<JSONObject> receivedPacketHandler) {
+    public void sendAndReceiveJSONPacket(JSONObject packetToSend, Consumer<JSONObject> receivedPacketHandler) {
         new AsyncTask<Void, Void, Void>() {
             JSONObject receivedPacket = null;
             boolean disconnect = false;
@@ -200,8 +199,8 @@ public class TCPConnection implements PacketTransferConnection {
                 sendPacketUtil(packetToSend);
                 try {
                     if (out.checkError()) { // error while sending indicated broken connection
-                        Log.e(TAG, "sendAndReceivePacket.doInBackground: broken connection", new RuntimeException("broken connection"));
-                        Log.i(TAG, "sendAndReceivePacket.doInBackground: closing connection ...");
+                        Log.e(TAG, "sendAndReceiveJSONPacket.doInBackground: broken connection", new RuntimeException("broken connection"));
+                        Log.i(TAG, "sendAndReceiveJSONPacket.doInBackground: closing connection ...");
                         disconnectUtil(); // close connection (broken pipe)
                         disconnect = true;
                     }
@@ -213,8 +212,8 @@ public class TCPConnection implements PacketTransferConnection {
                     String response = in.readLine();
                     receivedPacket = new JSONObject(new JSONTokener(response));
                 } catch (IOException e) { // error while reading from stream indicated broken connection
-                    Log.e(TAG, "sendAndReceivePacket.doInBackground: broken connection", e);
-                    Log.i(TAG, "sendAndReceivePacket.doInBackground: closing connection ...");
+                    Log.e(TAG, "sendAndReceiveJSONPacket.doInBackground: broken connection", e);
+                    Log.i(TAG, "sendAndReceiveJSONPacket.doInBackground: closing connection ...");
                     try {
                         disconnectUtil();
                         disconnect = true;

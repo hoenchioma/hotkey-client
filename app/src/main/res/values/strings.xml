@@ -18,4 +18,8 @@
     <string name="connections_button_desc">Press to open connections screen</string>
     <string name="mouse_button_desc">Press to open mouse/touchpad</string>
     <string name="extra_button_desc">Press to show extra options</string>
+
+    <string name="title_activity_screen">ScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

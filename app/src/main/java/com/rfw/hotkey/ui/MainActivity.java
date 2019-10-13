@@ -1,5 +1,6 @@
 package com.rfw.hotkey.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -39,7 +40,11 @@ public class MainActivity extends AppCompatActivity {
         extraButton.setOnClickListener(view -> replaceFragment(new ExtraFragment()));
         connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment()));
         keyboardButton.setOnClickListener(view -> replaceFragment(new KeyboardFragment()));
-        mouseButton.setOnClickListener(view -> replaceFragment(new MouseFragment()));
+//        mouseButton.setOnClickListener(view -> replaceFragment(new MouseFragment()));
+        mouseButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, LiveScreenActivity.class);
+            startActivity(intent);
+        });
     }
 
     public void replaceFragment(Fragment newFragment) {

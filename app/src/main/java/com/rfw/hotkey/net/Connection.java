@@ -1,11 +1,10 @@
 package com.rfw.hotkey.net;
 
+import androidx.core.util.Consumer;
 import androidx.databinding.ObservableBoolean;
 
-/**
- * interface to represent a Connection
- * (for handling connections in ConnectionManager)
- */
+import org.json.JSONObject;
+
 public interface Connection {
     /**
      * getter for the Observable boolean
@@ -16,7 +15,7 @@ public interface Connection {
     /**
      * getter for the type of the connection
      */
-    ConnectionType getType();
+    Type getType();
 
     /**
      * getter for the computer name (server device)
@@ -48,22 +47,32 @@ public interface Connection {
      * @param success whether the connection was successful
      */
     default void onConnect(boolean success) {}
-
     /**
      * called after disconnecting
      * (meant to be overridden)
      */
     default void onDisconnect() {}
 
-    // enums for defining various attributes
+    /**
+     * send a JSON packet asynchronously
+     * @param packet JSON object representing the packet to be sent
+     */
+    void sendJSONPacket(JSONObject packet);
+
+    /**
+     * send a JSON packet and receive a response immediately
+     * @param receivedPacketHandler function to handle received packet
+     */
+    void sendAndReceiveJSONPacket(JSONObject packetToSend, Consumer<JSONObject> receivedPacketHandler);
 
     /**
      * Defines the network type of the connection
      * (the type of network that will be used to do the transfer)
      */
-    enum ConnectionType {
-        LAN,
+    enum Type {
+        WIFI,
         BLUETOOTH,
-        REMOTE_SERVER
+        INTERNET,
+        NONE
     }
 }
