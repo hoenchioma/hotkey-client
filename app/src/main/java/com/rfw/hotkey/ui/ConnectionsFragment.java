@@ -18,9 +18,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.databinding.FragmentConnectionsBinding;
-import com.rfw.hotkey.net.Connection;
+import com.rfw.hotkey.net.PacketTransferConnection;
 import com.rfw.hotkey.net.ConnectionManager;
-import com.rfw.hotkey.net.WiFiConnection;
+import com.rfw.hotkey.net.TCPConnection;
 
 import java.util.Objects;
 
@@ -71,18 +71,18 @@ public class ConnectionsFragment extends Fragment {
                 if (portText.isEmpty()) throw new RuntimeException("Port field empty");
                 int port = Integer.parseInt(portText);
 
-                Connection connection = new WiFiConnection(ipAddress, port) {
+                PacketTransferConnection connection = new TCPConnection(ipAddress, port) {
                     Activity activity = getActivity();
 
                     @Override
-                    protected void onConnect(boolean success) {
+                    public void onConnect(boolean success) {
                         Snackbar.make(activity.getWindow().getDecorView().getRootView(),
                                 success ? R.string.connection_success : R.string.connection_error,
                                 Snackbar.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    protected void onDisconnect() {
+                    public void onDisconnect() {
                         Snackbar.make(activity.getWindow().getDecorView().getRootView(),
                                 R.string.connection_closed,
                                 Snackbar.LENGTH_SHORT).show();

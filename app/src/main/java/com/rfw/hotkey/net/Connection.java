@@ -1,53 +1,44 @@
 package com.rfw.hotkey.net;
 
-import androidx.core.util.Consumer;
 import androidx.databinding.ObservableBoolean;
 
-import org.json.JSONObject;
-
 /**
- * Connection abstract class (to store various info related to the connection with server)
+ * interface to represent a Connection
+ * (for handling connections in ConnectionManager)
  */
-public abstract class Connection {
-    private static final String TAG = "Connection";
+public interface Connection {
+    /**
+     * getter for the Observable boolean
+     * representing the state of the connection (active or not)
+     */
+    ObservableBoolean getActive();
 
-    public ObservableBoolean active = new ObservableBoolean(false); // indicated whether the connection is active
-    public String type; // string indicating the type of connection
-    public String computerName; // server computer name (obtained by handshake)
+    /**
+     * getter for the type of the connection
+     */
+    ConnectionType getType();
 
-    protected Connection(String type) {
-        this.type = type;
-    }
+    /**
+     * getter for the computer name (server device)
+     */
+    String getComputerName();
 
     /**
      * connect to server (based on connection type) asynchronously
      * and perform some sort of handshake (to get computer name)
      * (when overriding call super method after implementation)
      */
-    public void connect() {
-        active.set(true);
+    default void connect() {
+        getActive().set(true);
         onConnect(true);
     }
-
-    /**
-     * send a JSON packet asynchronously
-     *
-     * @param packet JSON object representing the packet to be sent
-     */
-    public abstract void sendPacket(JSONObject packet);
-
-    /**
-     * send a JSON packet and receive a response immediately
-     * @param receivedPacketHandler function to handle received packet
-     */
-    public abstract void sendAndReceivePacket(JSONObject packetToSend, Consumer<JSONObject> receivedPacketHandler);
 
     /**
      * close the connection
      * (when overriding call super method after implementation)
      */
-    public void disconnect() {
-        active.set(false);
+    default void disconnect() {
+        getActive().set(false);
         onDisconnect();
     }
 
@@ -56,13 +47,23 @@ public abstract class Connection {
      * (meant to be overridden)
      * @param success whether the connection was successful
      */
-    protected void onConnect(boolean success) {
-    }
+    default void onConnect(boolean success) {}
 
     /**
      * called after disconnecting
      * (meant to be overridden)
      */
-    protected void onDisconnect() {
+    default void onDisconnect() {}
+
+    // enums for defining various attributes
+
+    /**
+     * Defines the network type of the connection
+     * (the type of network that will be used to do the transfer)
+     */
+    enum ConnectionType {
+        LAN,
+        BLUETOOTH,
+        REMOTE_SERVER
     }
 }

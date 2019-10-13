@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.core.util.Consumer;
+import androidx.databinding.ObservableBoolean;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,8 +19,12 @@ import java.net.Socket;
 
 import static com.rfw.hotkey.util.Utility.getDeviceName;
 
-public class WiFiConnection extends Connection {
-    private static final String TAG = "WiFiConnection";
+public class TCPConnection implements PacketTransferConnection {
+
+    private static final String TAG = "TCPConnection";
+
+    private ObservableBoolean active = new ObservableBoolean(false);
+    private String computerName;
 
     private String ipAddress;
     private int port;
@@ -28,10 +33,24 @@ public class WiFiConnection extends Connection {
     private BufferedReader in;
     private PrintWriter out;
 
-    public WiFiConnection(String ipAddress, int port) {
-        super("Wi-Fi");
+    public TCPConnection(String ipAddress, int port) {
         this.ipAddress = ipAddress;
         this.port = port;
+    }
+
+    @Override
+    public ObservableBoolean getActive() {
+        return active;
+    }
+
+    @Override
+    public ConnectionType getType() {
+        return ConnectionType.LAN;
+    }
+
+    @Override
+    public String getComputerName() {
+        return computerName;
     }
 
     synchronized private void connectUtil() throws IOException {

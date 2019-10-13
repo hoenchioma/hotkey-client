@@ -13,7 +13,7 @@ public class ConnectionManager {
     // singleton instance of class
     private static ConnectionManager instance;
 
-    public ObservableField<Connection> connection = new ObservableField<>();
+    public ObservableField<PacketTransferConnection> connection = new ObservableField<>();
 
     private ConnectionManager() { }
 
@@ -27,17 +27,17 @@ public class ConnectionManager {
         return instance;
     }
 
-    public void makeConnection(Connection connection) {
+    public void makeConnection(PacketTransferConnection connection) {
         setConnection(connection);
         connection.connect();
     }
 
-    public void setConnection(Connection connection) {
+    public void setConnection(PacketTransferConnection connection) {
         this.connection.set(connection);
     }
 
     public boolean isConnectionActive() {
-        return connection.get() != null && Objects.requireNonNull(connection.get()).active.get();
+        return connection.get() != null && Objects.requireNonNull(connection.get()).getActive().get();
     }
 
     public void sendPacket(JSONObject packet) {
