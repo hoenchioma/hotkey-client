@@ -131,7 +131,7 @@ public class LiveScreenActivity extends AppCompatActivity {
                     mContentView.updateBitMap(bitmap);
                 }
             };
-        } catch (SocketException | InterruptedException e) {
+        } catch (SocketException e) {
             Log.e(TAG, "onCreate: error starting LiveScreenReceiver", e);
         }
     }

@@ -14,28 +14,34 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
 import static com.rfw.hotkey.util.Utils.getIPAddress;
-import static com.rfw.hotkey.util.Utils.intFromByteArray;
 
 public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
     private static final String TAG = "WiFiLiveScreenReceiver";
 
-    private static final int MAX_DATA_SIZE = 65536;
+    public static final int MAX_DATA_SIZE = 65536;
+    public static final int SOCKET_TIMEOUT = 1000; // in milliseconds
+    public static final int MAX_SOCKET_TIMEOUT_COUNT = 30;
 
     private DatagramSocket socket;
     private volatile boolean running = false;
     private DatagramPacket dataBuffPacket;
 
     private String localIpAddress;
+    private final Object localIpMonitor = new Object();
 
-    public WiFiLiveScreenReceiver() throws SocketException, InterruptedException {
+    public WiFiLiveScreenReceiver() throws SocketException {
         socket = new DatagramSocket();
         byte[] dataBuff = new byte[MAX_DATA_SIZE];
         dataBuffPacket = new DatagramPacket(dataBuff, dataBuff.length);
-        // get the local IP address in separate thread
-        Thread temp = new Thread(() -> localIpAddress = getIPAddress(true));
-        temp.start(); temp.join();
+        // get the local IP address in separate thread (to avoid network on UI thread)
+        new Thread(() -> {
+            synchronized (localIpMonitor) {
+                localIpAddress = getIPAddress(true);
+            }
+        }).start();
     }
 
     /**
@@ -51,6 +57,13 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
         return running;
     }
 
+    private String getLocalIpAddress() {
+        // wait until the lock is released by the thread setting localIPAddress
+        synchronized (localIpMonitor) {
+            return localIpAddress;
+        }
+    }
+
     @Override
     public void start(int screenSizeX, int screenSizeY) {
         try {
@@ -58,7 +71,7 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
 
             packet.put("type", "liveScreen");
             packet.put("command", "start");
-            packet.put("ipAddress", localIpAddress);
+            packet.put("ipAddress", getLocalIpAddress());
             packet.put("port", socket.getLocalPort());
             packet.put("screenSizeX", screenSizeX);
             packet.put("screenSizeY", screenSizeY);
@@ -81,7 +94,8 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
             packet.put("command", "stop");
 
             ConnectionManager.getInstance().sendPacket(packet);
-            running = false;
+
+            running = false; // turn off receiver
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -90,17 +104,30 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
     private class Receiver extends Thread {
         @Override
         public void run() {
+            try {
+                socket.setSoTimeout(SOCKET_TIMEOUT);
+            } catch (SocketException e) {
+                e.printStackTrace();
+            }
+            int socketTimeoutCount = 0;
             while (running) {
                 try {
                     socket.receive(dataBuffPacket);
                     if (dataBuffPacket.getLength() == 0) break;
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(dataBuffPacket.getData(), 0, dataBuffPacket.getLength());
-                    Log.i(TAG, "run: image size: " + dataBuffPacket.getLength());
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(
+                            dataBuffPacket.getData(), 0, dataBuffPacket.getLength());
+//                    Log.i(TAG, "run: image size: " + dataBuffPacket.getLength());
                     onFrameReceive(bitmap);
+                } catch (SocketTimeoutException e) {
+                    if (++socketTimeoutCount > MAX_SOCKET_TIMEOUT_COUNT) {
+                        Log.e(TAG, "Receiver.run: socket idle for too long, exiting ...", e);
+                        running = false;
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
+            running = false;
         }
     }
 }
