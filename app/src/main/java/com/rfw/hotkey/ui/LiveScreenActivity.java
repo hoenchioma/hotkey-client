@@ -124,16 +124,12 @@ public class LiveScreenActivity extends AppCompatActivity {
         // make screen orientation landscape
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        try {
-            liveScreenReceiver = new WiFiLiveScreenReceiver() {
-                @Override
-                public void onFrameReceive(Bitmap bitmap) {
-                    mContentView.updateBitMap(bitmap);
-                }
-            };
-        } catch (SocketException e) {
-            Log.e(TAG, "onCreate: error starting LiveScreenReceiver", e);
-        }
+        liveScreenReceiver = new WiFiLiveScreenReceiver() {
+            @Override
+            public void onFrameReceive(Bitmap bitmap) {
+                mContentView.updateBitMap(bitmap);
+            }
+        };
     }
 
     @Override
