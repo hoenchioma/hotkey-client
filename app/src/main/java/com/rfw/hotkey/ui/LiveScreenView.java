@@ -45,7 +45,8 @@ public class LiveScreenView extends SurfaceView implements SurfaceHolder.Callbac
     }
 
     public void updateBitMap(Bitmap newBitmap) {
-        if (this.bitmap.get() != null) bitmap.get().recycle();
+        /* the line below causes app to crash when on LiveScreenActivity */
+//        if (this.bitmap.get() != null) bitmap.get().recycle();
         this.bitmap.set(newBitmap);
     }
 
