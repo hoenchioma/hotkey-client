@@ -126,7 +126,7 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
             e.printStackTrace();
         } catch (IOException e) {
             Log.e(TAG, "stop: error closing socket", e);
-        }
+        } catch (NullPointerException ignored) {}
     }
 
     private class Receiver extends Thread {
@@ -137,26 +137,30 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            while (running) {
-                try {
-                    int dataLength = in.readInt();
-                    if (dataLength == 0) break;
+            if (socket != null && in != null) {
+                while (running) {
+                    try {
+                        int dataLength = in.readInt();
+                        if (dataLength == 0) break;
 
-                    if (dataLength > 0) {
-                        byte[] buff = new byte[dataLength];
-                        in.readFully(buff, 0, buff.length);
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(buff, 0, buff.length);
-                        onFrameReceive(bitmap);
-                    } else {
-                        running = false; // on receiving a 0 length package close socket
+                        if (dataLength > 0) {
+                            byte[] buff = new byte[dataLength];
+                            in.readFully(buff, 0, buff.length);
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(buff, 0, buff.length);
+                            onFrameReceive(bitmap);
+                        } else {
+                            running = false; // on receiving a 0 length package close socket
+                        }
+                    } catch (SocketTimeoutException e) {
+                        Log.i(TAG, "Receiver.run: socket receiver timed out");
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (SocketTimeoutException e) {
-                    Log.i(TAG, "Receiver.run: socket receiver timed out");
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+                running = false;
+            } else {
+                Log.e(TAG, "Receiver.run: connection not established, cannot start receiver");
             }
-            running = false;
         }
     }
 }
