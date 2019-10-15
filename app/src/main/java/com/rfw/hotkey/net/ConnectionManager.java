@@ -64,8 +64,10 @@ public class ConnectionManager {
     @SuppressWarnings("ConstantConditions")
     public void closeConnection() {
         if (connection.get() == null) Log.e(TAG, "connection cannot be closed, as connection does not exist");
-        connection.get().disconnect();
-        connection.set(null);
+        else {
+            connection.get().disconnect();
+            connection.set(null);
+        }
     }
 
     @SuppressWarnings("ConstantConditions")
