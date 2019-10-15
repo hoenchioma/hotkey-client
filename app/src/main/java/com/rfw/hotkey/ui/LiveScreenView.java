@@ -45,6 +45,7 @@ public class LiveScreenView extends SurfaceView implements SurfaceHolder.Callbac
     }
 
     public void updateBitMap(Bitmap newBitmap) {
+        if (this.bitmap.get() != null) bitmap.get().recycle();
         this.bitmap.set(newBitmap);
     }
 
@@ -103,6 +104,7 @@ public class LiveScreenView extends SurfaceView implements SurfaceHolder.Callbac
                         draw(canvas);
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                 } finally {
                     if (canvas != null) {
                         try {

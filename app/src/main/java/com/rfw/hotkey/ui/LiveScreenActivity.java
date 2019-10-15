@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
@@ -126,7 +127,7 @@ public class LiveScreenActivity extends AppCompatActivity {
 
         liveScreenReceiver = new WiFiLiveScreenReceiver() {
             @Override
-            public void onFrameReceive(Bitmap bitmap) {
+            public void onFrameReceive(@NonNull Bitmap bitmap) {
                 mContentView.updateBitMap(bitmap);
             }
         };

@@ -2,6 +2,8 @@ package com.rfw.hotkey.live_screen;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.NonNull;
+
 import com.rfw.hotkey.net.Connection;
 
 public interface LiveScreenReceiver {
@@ -20,5 +22,5 @@ public interface LiveScreenReceiver {
      * method called when a frame is received
      * (meant to be overloaded)
      */
-    void onFrameReceive(Bitmap bitmap);
+    void onFrameReceive(@NonNull Bitmap bitmap);
 }
