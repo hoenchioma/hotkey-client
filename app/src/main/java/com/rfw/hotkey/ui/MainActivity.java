@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         extraButton.setOnClickListener(view -> replaceFragment(new ExtraFragment()));
         connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment()));
         keyboardButton.setOnClickListener(view -> replaceFragment(new KeyboardFragment()));
-        mouseButton.setOnClickListener(view -> replaceFragment(new MouseFragment()));
+        mouseButton.setOnClickListener(view -> replaceFragment(new MacrosFragment()));
     }
 
     public void replaceFragment(Fragment newFragment) {
