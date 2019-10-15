@@ -1,6 +1,8 @@
 package com.rfw.hotkey.ui;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,7 +61,30 @@ public class ConnectionsFragment extends Fragment {
 
         connectButton.setOnClickListener(view -> connectButtonAction());
 
+        // load ip address and port from shared pref
+        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
+        String ipAddress = sharedPref.getString("ipAddress", null);
+        String portText = sharedPref.getString("portText", null);
+        if (ipAddress != null && portText != null) {
+            ipAddressEditText.setText(ipAddress);
+            portEditText.setText(portText);
+        }
+
         return contextView;
+    }
+
+    @Override
+    public void onStop() {
+        // save ip address and port on exit
+        String ipAddress = ipAddressEditText.getText().toString();
+        String portText = portEditText.getText().toString();
+        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("ipAddress", ipAddress);
+        editor.putString("portText", portText);
+        editor.apply();
+
+        super.onStop();
     }
 
     private void connectButtonAction() {
