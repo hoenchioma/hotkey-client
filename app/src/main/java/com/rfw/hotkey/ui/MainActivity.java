@@ -40,11 +40,7 @@ public class MainActivity extends AppCompatActivity {
         extraButton.setOnClickListener(view -> replaceFragment(new ExtraFragment()));
         connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment()));
         keyboardButton.setOnClickListener(view -> replaceFragment(new KeyboardFragment()));
-//        mouseButton.setOnClickListener(view -> replaceFragment(new MouseFragment()));
-        mouseButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, LiveScreenActivity.class);
-            startActivity(intent);
-        });
+        mouseButton.setOnClickListener(view -> replaceFragment(new MouseFragment()));
     }
 
     public void replaceFragment(Fragment newFragment) {

@@ -1,70 +1,78 @@
 package com.rfw.hotkey.ui;
 
-import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import androidx.fragment.app.Fragment;
+
 import com.rfw.hotkey.R;
 
+import java.util.Objects;
 
-public class ExtraFragment extends Fragment implements View.OnClickListener{
 
+public class ExtraFragment extends Fragment implements View.OnClickListener {
+    private ImageButton liveScreenButton;
+    private ImageButton macrosButton;
+    private ImageButton pptButton;
+    private ImageButton multimediaButton;
+    private ImageButton pdfButton;
 
-    private Button  macrosButton ;
-    private ImageButton pptButton,multimediaButton,pdfButton;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_extra, container, false);
-        initialization(rootView);
+        init(rootView);
         return rootView;
     }
-    void initialization(View rootView){
+
+    private void init(View rootView) {
         pptButton = rootView.findViewById(R.id.pptButtonID);
         macrosButton = rootView.findViewById(R.id.macrosButtonID);
         multimediaButton = rootView.findViewById(R.id.multimediaButtonID);
         pdfButton = rootView.findViewById(R.id.pdfButtonID);
+        liveScreenButton = rootView.findViewById(R.id.liveScreenButtonID);
 
         pptButton.setOnClickListener(this);
         macrosButton.setOnClickListener(this);
         multimediaButton.setOnClickListener(this);
         pdfButton.setOnClickListener(this);
-
+        liveScreenButton.setOnClickListener(this);
     }
 
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.pptButtonID) {
-            replaceFragment(new PowerPointFragment());
-        }
-        if (id == R.id.macrosButtonID) {
-            replaceFragment(new MacrosFragment());
-        }
-        if (id == R.id.multimediaButtonID) {
-            replaceFragment(new MultimediaFragment());
-        }
-        if(id == R.id.pdfButtonID){
-            replaceFragment(new PDFFragment());
+        switch (id) {
+            case R.id.pptButtonID:
+                replaceFragment(new PowerPointFragment());
+                break;
+            case R.id.macrosButtonID:
+                replaceFragment(new MacrosFragment());
+                break;
+            case R.id.multimediaButtonID:
+                replaceFragment(new MultimediaFragment());
+                break;
+            case R.id.pdfButtonID:
+                replaceFragment(new PDFFragment());
+                break;
+            case R.id.liveScreenButtonID:
+                startActivity(new Intent(getActivity(), LiveScreenActivity.class));
+                break;
         }
     }
 
     public void replaceFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frameContainer,fragment);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        fragmentTransaction.commit();
+        ((MainActivity) Objects.requireNonNull(getActivity())).replaceFragment(fragment);
+//        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.frameContainer,fragment);
+//        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//        fragmentTransaction.commit();
     }
 }

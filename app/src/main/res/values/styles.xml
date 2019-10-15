@@ -19,6 +19,17 @@
         <item name="android:padding">14dp</item>
     </style>
 
+    <style name="ExtraMenuIconStyle">
+        <item name="android:layout_height">100sp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:paddingTop">30dp</item>
+        <item name="android:paddingBottom">30dp</item>
+        <item name="layout_columnWeight">1</item>
+        <item name="layout_gravity">fill_horizontal</item>
+    </style>
+
     <style name="FullscreenTheme" parent="AppTheme">
         <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="android:windowActionBarOverlay">true</item>
