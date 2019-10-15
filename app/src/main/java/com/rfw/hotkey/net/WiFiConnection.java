@@ -89,6 +89,7 @@ public class WiFiConnection implements Connection {
     public void connect() {
         new AsyncTask<Void, Void, Void>() {
             boolean success = false;
+            String errorMessage;
 
             @Override
             protected Void doInBackground(Void... args) {
@@ -99,6 +100,8 @@ public class WiFiConnection implements Connection {
                     Log.i(TAG, "connect.doInBackground: connected successfully to " + computerName);
                 } catch (IOException e) {
                     Log.e(TAG, "connect.doInBackground: error connecting", e);
+                    success = false;
+                    errorMessage = e.getMessage();
                 }
                 return null;
             }
@@ -107,7 +110,7 @@ public class WiFiConnection implements Connection {
             protected void onPostExecute(Void arg) {
                 super.onPostExecute(arg);
                 if (success) active.set(true);
-                onConnect(success);
+                onConnect(success, errorMessage);
             }
         }.execute();
     }

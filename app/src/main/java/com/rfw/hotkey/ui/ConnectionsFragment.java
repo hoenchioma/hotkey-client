@@ -75,15 +75,15 @@ public class ConnectionsFragment extends Fragment {
                     Activity activity = getActivity();
 
                     @Override
-                    public void onConnect(boolean success) {
-                        Snackbar.make(activity.getWindow().getDecorView().getRootView(),
+                    public void onConnect(boolean success, String errorMessage) {
+                        Snackbar.make(activity.findViewById(android.R.id.content),
                                 success ? R.string.connection_success : R.string.connection_error,
                                 Snackbar.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onDisconnect() {
-                        Snackbar.make(activity.getWindow().getDecorView().getRootView(),
+                        Snackbar.make(activity.findViewById(android.R.id.content),
                                 R.string.connection_closed,
                                 Snackbar.LENGTH_SHORT).show();
                     }

@@ -7,7 +7,7 @@
     <string name="port_textfield_text">Port</string>
 
     <string name="connection_success">Connection successful</string>
-    <string name="connection_error">Failed to connect</string>
+    <string name="connection_error">Failed to connect%1$s</string>
     <string name="connection_closed">Connection closed</string>
     <string name="not_connected">Not Connected</string>
     <string name="retry">Retry</string>

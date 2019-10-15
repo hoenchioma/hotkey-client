@@ -1,5 +1,6 @@
 package com.rfw.hotkey.net;
 
+import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 import androidx.databinding.ObservableBoolean;
 
@@ -29,7 +30,7 @@ public interface Connection {
      */
     default void connect() {
         getActive().set(true);
-        onConnect(true);
+        onConnect(true, null);
     }
 
     /**
@@ -45,8 +46,9 @@ public interface Connection {
      * called after connecting
      * (meant to be overridden)
      * @param success whether the connection was successful
+     * @param errorMessage error message if connection was unsuccessful (null otherwise)
      */
-    default void onConnect(boolean success) {}
+    default void onConnect(boolean success, @Nullable String errorMessage) {}
     /**
      * called after disconnecting
      * (meant to be overridden)
