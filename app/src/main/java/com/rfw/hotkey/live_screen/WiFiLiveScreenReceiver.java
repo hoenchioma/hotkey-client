@@ -14,7 +14,6 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
 import static com.rfw.hotkey.util.Utils.getIPAddress;
@@ -22,10 +21,11 @@ import static com.rfw.hotkey.util.Utils.getIPAddress;
 public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
     private static final String TAG = "WiFiLiveScreenReceiver";
 
-    //    public static final int MAX_DATA_SIZE = 65536;
-    public static final int SOCKET_TIMEOUT = 5000; // in milliseconds
-    public static final int MAX_SOCKET_TIMEOUT_COUNT = 30;
-    public static final float SENDER_FPS = 500;
+    //    private static final int MAX_DATA_SIZE = 65536;
+    private static final int SOCKET_TIMEOUT = 1000; // in milliseconds
+
+    private static final float FPS = 60.0f;
+    private static final float COMPRESS_RATIO = 0.25f;
 
     private Socket socket;
     private DataInputStream in;
@@ -72,6 +72,8 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
             ServerSocket serverSocket = new ServerSocket(0); // bind to any available port
             Log.i(TAG, "start: server port: " + serverSocket.getLocalPort());
 
+            serverSocket.setSoTimeout(SOCKET_TIMEOUT);
+
             JSONObject packet = new JSONObject();
 
             packet.put("type", "liveScreen");
@@ -80,15 +82,16 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
             packet.put("port", serverSocket.getLocalPort());
             packet.put("screenSizeX", screenSizeX);
             packet.put("screenSizeY", screenSizeY);
-            packet.put("fps", SENDER_FPS);
+            packet.put("fps", FPS);
+            packet.put("compressRatio", COMPRESS_RATIO);
 
             connectionThread = new Thread(() -> {
                 try {
-                    serverSocket.setSoTimeout(SOCKET_TIMEOUT);
                     socket = serverSocket.accept();
+                    socket.setSoTimeout(SOCKET_TIMEOUT);
                     in = new DataInputStream(socket.getInputStream());
                 } catch (SocketTimeoutException e) {
-                    Log.e(TAG, "start: ServerSocket timed out", e);
+                    Log.e(TAG, "start: serverSocket.accept() timed out", e);
                 } catch (IOException e) {
                     Log.e(TAG, "start: error connecting to live screen sender", e);
                 }
@@ -131,13 +134,9 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
         public void run() {
             try {
                 connectionThread.join();
-                socket.setSoTimeout(SOCKET_TIMEOUT);
-            } catch (SocketException e) {
-                e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            int socketTimeoutCount = 0;
             while (running) {
                 try {
                     int dataLength = in.readInt();
@@ -146,17 +145,13 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
                     if (dataLength > 0) {
                         byte[] buff = new byte[dataLength];
                         in.readFully(buff, 0, buff.length);
-
                         Bitmap bitmap = BitmapFactory.decodeByteArray(buff, 0, buff.length);
                         onFrameReceive(bitmap);
                     } else {
                         running = false; // on receiving a 0 length package close socket
                     }
                 } catch (SocketTimeoutException e) {
-                    if (++socketTimeoutCount > MAX_SOCKET_TIMEOUT_COUNT) {
-                        Log.e(TAG, "Receiver.run: socket idle for too long, exiting ...", e);
-                        running = false;
-                    }
+                    Log.i(TAG, "Receiver.run: socket receiver timed out");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
