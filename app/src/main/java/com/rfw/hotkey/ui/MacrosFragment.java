@@ -1,6 +1,7 @@
 package com.rfw.hotkey.ui;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -16,6 +17,12 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.rfw.hotkey.R;
+import com.rfw.hotkey.net.ConnectionManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Objects;
 
 
 public class MacrosFragment extends Fragment implements View.OnClickListener {
@@ -58,12 +65,31 @@ public class MacrosFragment extends Fragment implements View.OnClickListener {
         macroButtons[28] = (Button) v.findViewById(R.id.macroid28);
         macroButtons[29] = (Button) v.findViewById(R.id.macroid29);
 
+        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
+        String macroFile = sharedPref.getString("macroObject", null);
+        if (macroFile != null) {
+            try {
+                JSONObject jsonMacro = new JSONObject(macroFile);
 
-        macroState = (Switch) v.findViewById(R.id.macroSwitchid);
 
-        for (int i = 0; i < 30; i++) {
-            macroButtons[i].setOnClickListener(this);
+                for (int i = 0; i < 30; i++) {
+                    if (!jsonMacro.isNull(Integer.toString(i))) {
+                        JSONObject macroKey;
+                        macroKey = jsonMacro.getJSONObject(Integer.toString(i));
+                        macroButtons[i].setText(macroKey.getString("name"));
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
+
+            macroState = (Switch) v.findViewById(R.id.macroSwitchid);
+
+        for (int i = 0; i < 30; i++)
+            macroButtons[i].setOnClickListener(this);
+
 
         return v;
     }
@@ -81,8 +107,120 @@ public class MacrosFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (!macroState.isChecked())
+        if (!macroState.isChecked()) {
             Toast.makeText(getActivity(), "Macro pressed", Toast.LENGTH_SHORT).show();
+
+            SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
+            String macroFile = sharedPref.getString("macroObject", null);
+            if (macroFile != null) {
+                try {
+                    JSONObject jsonMacro = new JSONObject(macroFile);
+                    int index = -1;
+                    switch (v.getId()) {
+                        case R.id.macroid0:
+                            index = 0;
+                            break;
+                        case R.id.macroid1:
+                            index = 1;
+                            break;
+                        case R.id.macroid2:
+                            index = 2;
+                            break;
+                        case R.id.macroid3:
+                            index = 3;
+                            break;
+                        case R.id.macroid4:
+                            index = 4;
+                            break;
+                        case R.id.macroid5:
+                            index = 5;
+                            break;
+                        case R.id.macroid6:
+                            index = 6;
+                            break;
+                        case R.id.macroid7:
+                            index = 7;
+                            break;
+                        case R.id.macroid8:
+                            index = 8;
+                            break;
+                        case R.id.macroid9:
+                            index = 9;
+                            break;
+                        case R.id.macroid10:
+                            index = 10;
+                            break;
+                        case R.id.macroid11:
+                            index = 11;
+                            break;
+                        case R.id.macroid12:
+                            index = 12;
+                            break;
+                        case R.id.macroid13:
+                            index = 13;
+                            break;
+                        case R.id.macroid14:
+                            index = 14;
+                            break;
+                        case R.id.macroid15:
+                            index = 15;
+                            break;
+                        case R.id.macroid16:
+                            index = 16;
+                            break;
+                        case R.id.macroid17:
+                            index = 17;
+                            break;
+                        case R.id.macroid18:
+                            index = 18;
+                            break;
+                        case R.id.macroid19:
+                            index = 19;
+                            break;
+                        case R.id.macroid20:
+                            index = 20;
+                            break;
+                        case R.id.macroid21:
+                            index = 21;
+                            break;
+                        case R.id.macroid22:
+                            index = 22;
+                            break;
+                        case R.id.macroid23:
+                            index = 23;
+                            break;
+                        case R.id.macroid24:
+                            index = 24;
+                            break;
+                        case R.id.macroid25:
+                            index = 25;
+                            break;
+                        case R.id.macroid26:
+                            index = 26;
+                            break;
+                        case R.id.macroid27:
+                            index = 27;
+                            break;
+                        case R.id.macroid28:
+                            index = 28;
+                            break;
+                        case R.id.macroid29:
+                            index = 29;
+                            break;
+                    }
+
+                    if (!jsonMacro.isNull(Integer.toString(index))) {
+                        JSONObject packet;
+                        packet = jsonMacro.getJSONObject(Integer.toString(index));
+
+                        ConnectionManager.getInstance().sendPacket(packet);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         else{
             switch (v.getId()) {
                 case R.id.macroid0:

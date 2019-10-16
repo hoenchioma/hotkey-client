@@ -13,6 +13,7 @@
         android:id="@+id/macroNameFieldeid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="false"
         android:hint="Enter Macro Name"
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
@@ -43,10 +44,32 @@
 
     </LinearLayout>
 
-    <GridView
-        android:id="@+id/macroGridid"
-        android:numColumns="auto_fit"
+    <LinearLayout
+        android:id="@+id/layout1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <GridView
+            android:id="@+id/macroGridCharid"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <GridView
+            android:id="@+id/macroGridNumid"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <GridView
+            android:id="@+id/macroGridSPid"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
 </LinearLayout>

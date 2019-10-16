@@ -44,7 +44,7 @@ class MacroGridViewAdapter extends BaseAdapter {
         Button button;
         if(convertView == null){
             button = new Button(macroContext);
-            button.setLayoutParams(new GridView.LayoutParams(85, 85));
+            button.setLayoutParams(new GridView.LayoutParams(150, 150));
             button.setPadding(8,8,8,8);
             button.setText(listSource.get(position));
             button.setOnClickListener(new View.OnClickListener() {
@@ -56,13 +56,14 @@ class MacroGridViewAdapter extends BaseAdapter {
                         macroButtons.add(buttonName);
                     }
                     else{
-                        Iterator itr = macroButtons.iterator();
+                        /*Iterator itr = macroButtons.iterator();
                         while (itr.hasNext())
                         {
                             int x = (Integer)itr.next();
                             if (buttonName.equals(x))
                                 itr.remove();
-                        }
+                        }*/
+                        macroButtons.remove(buttonName);
                         button.getBackground().clearColorFilter();
                     }
 
