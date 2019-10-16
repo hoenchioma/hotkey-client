@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
         keyboardButton = findViewById(R.id.keyboardButton);
         mouseButton = findViewById(R.id.mouseButton);
 
-        extraButton.setOnClickListener(view -> replaceFragment(new ExtraFragment()));
+//        extraButton.setOnClickListener(view -> replaceFragment(new ExtraFragment()));
+        extraButton.setOnClickListener(view -> startActivity(new Intent(this, SettingsActivity.class)));
         connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment()));
         keyboardButton.setOnClickListener(view -> replaceFragment(new KeyboardFragment()));
         mouseButton.setOnClickListener(view -> replaceFragment(new MouseFragment()));

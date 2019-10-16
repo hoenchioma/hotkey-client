@@ -10,6 +10,15 @@
         <item name="android:textColor">@color/dark_bg_light_primary_text</item>
     </style>
 
+    <style name="SettingsTheme" parent="Theme.MaterialComponents">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:textColor">@color/dark_bg_light_primary_text</item>
+    </style>
+
     <!-- Bottom Menu Icon Style -->
     <style name="MenuIconStyle">
         <item name="android:layout_height">65sp</item>
