@@ -23,11 +23,19 @@
             android:layout_weight="2" />
 
         <TextView
+            android:id="@+id/statusTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? cm.getComputerName() : @string/not_connected }"
             android:textColor="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? @color/green_400 : @color/dark_bg_light_primary_text }"
             android:textSize="20sp" />
+
+        <ProgressBar
+            android:id="@+id/connectingSpinner"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
         <Space
             android:layout_width="wrap_content"

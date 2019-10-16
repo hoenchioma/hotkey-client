@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +27,7 @@ import com.rfw.hotkey.net.ConnectionManager;
 import com.rfw.hotkey.net.WiFiConnection;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -39,6 +42,8 @@ public class ConnectionsFragment extends Fragment {
     private EditText ipAddressEditText;
     private TextInputLayout portTextField;
     private EditText portEditText;
+    private ProgressBar connectingSpinner;
+    private TextView statusTextView;
 
     @Nullable
     @Override
@@ -58,6 +63,8 @@ public class ConnectionsFragment extends Fragment {
         ipAddressEditText = contextView.findViewById(R.id.ipAddressEditText);
         portTextField = contextView.findViewById(R.id.portTextField);
         portEditText = contextView.findViewById(R.id.portEditText);
+        connectingSpinner = contextView.findViewById(R.id.connectingSpinner);
+        statusTextView = contextView.findViewById(R.id.statusTextView);
 
         connectButton.setOnClickListener(view -> connectButtonAction());
 
@@ -96,11 +103,26 @@ public class ConnectionsFragment extends Fragment {
                 if (portText.isEmpty()) throw new RuntimeException("Port field empty");
                 int port = Integer.parseInt(portText);
 
+                statusTextView.setVisibility(View.GONE); // hide text view
+                connectingSpinner.setVisibility(View.VISIBLE); // show loading spinner
+                long startTime = System.nanoTime();
+
                 Connection connection = new WiFiConnection(ipAddress, port) {
                     Activity activity = getActivity();
 
                     @Override
                     public void onConnect(boolean success, String errorMessage) {
+                        try {
+                            // make sure the spinner is visible for at least 500 ms
+                            long currentTime = (System.nanoTime() - startTime);
+                            Thread.sleep(Math.max(500 - currentTime / 1000000, 0));
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        connectingSpinner.setVisibility(View.GONE); // hide loading spinner
+                        statusTextView.setVisibility(View.VISIBLE); // show status text view
+
                         Snackbar.make(activity.findViewById(android.R.id.content),
                                 success ? R.string.connection_success : R.string.connection_error,
                                 Snackbar.LENGTH_SHORT).show();
