@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.core.util.Consumer;
+import androidx.databinding.ObservableBoolean;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,10 +17,13 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import static com.rfw.hotkey.util.Utility.getDeviceName;
+import static com.rfw.hotkey.util.Utils.getDeviceName;
 
-public class WiFiConnection extends Connection {
+public class WiFiConnection implements Connection {
     private static final String TAG = "WiFiConnection";
+
+    private ObservableBoolean active = new ObservableBoolean(false);
+    private String computerName;
 
     private String ipAddress;
     private int port;
@@ -29,9 +33,23 @@ public class WiFiConnection extends Connection {
     private PrintWriter out;
 
     public WiFiConnection(String ipAddress, int port) {
-        super("Wi-Fi");
         this.ipAddress = ipAddress;
         this.port = port;
+    }
+
+    @Override
+    public ObservableBoolean getActive() {
+        return active;
+    }
+
+    @Override
+    public Type getType() {
+        return Type.WIFI;
+    }
+
+    @Override
+    public String getComputerName() {
+        return computerName;
     }
 
     synchronized private void connectUtil() throws IOException {
@@ -71,6 +89,7 @@ public class WiFiConnection extends Connection {
     public void connect() {
         new AsyncTask<Void, Void, Void>() {
             boolean success = false;
+            String errorMessage;
 
             @Override
             protected Void doInBackground(Void... args) {
@@ -81,6 +100,8 @@ public class WiFiConnection extends Connection {
                     Log.i(TAG, "connect.doInBackground: connected successfully to " + computerName);
                 } catch (IOException e) {
                     Log.e(TAG, "connect.doInBackground: error connecting", e);
+                    success = false;
+                    errorMessage = e.getMessage();
                 }
                 return null;
             }
@@ -89,7 +110,7 @@ public class WiFiConnection extends Connection {
             protected void onPostExecute(Void arg) {
                 super.onPostExecute(arg);
                 if (success) active.set(true);
-                onConnect(success);
+                onConnect(success, errorMessage);
             }
         }.execute();
     }
@@ -139,7 +160,7 @@ public class WiFiConnection extends Connection {
      */
     @SuppressLint("StaticFieldLeak")
     @Override
-    public void sendPacket(JSONObject packet) {
+    public void sendJSONPacket(JSONObject packet) {
         new AsyncTask<Void, Void, Void>() {
             boolean disconnect = false;
 
@@ -148,8 +169,8 @@ public class WiFiConnection extends Connection {
                 sendPacketUtil(packet);
                 try {
                     if (out.checkError()) { // error while sending indicated broken connection
-                        Log.e(TAG, "sendPacket.doInBackground: broken connection", new RuntimeException("broken connection"));
-                        Log.i(TAG, "sendPacket.doInBackground: closing connection ...");
+                        Log.e(TAG, "sendJSONPacket.doInBackground: broken connection", new RuntimeException("broken connection"));
+                        Log.i(TAG, "sendJSONPacket.doInBackground: closing connection ...");
                         disconnectUtil(); // close connection (broken pipe)
                         disconnect = true;
                     }
@@ -171,7 +192,7 @@ public class WiFiConnection extends Connection {
 
     @SuppressLint("StaticFieldLeak")
     @Override
-    public void sendAndReceivePacket(JSONObject packetToSend, Consumer<JSONObject> receivedPacketHandler) {
+    public void sendAndReceiveJSONPacket(JSONObject packetToSend, Consumer<JSONObject> receivedPacketHandler) {
         new AsyncTask<Void, Void, Void>() {
             JSONObject receivedPacket = null;
             boolean disconnect = false;
@@ -181,8 +202,8 @@ public class WiFiConnection extends Connection {
                 sendPacketUtil(packetToSend);
                 try {
                     if (out.checkError()) { // error while sending indicated broken connection
-                        Log.e(TAG, "sendAndReceivePacket.doInBackground: broken connection", new RuntimeException("broken connection"));
-                        Log.i(TAG, "sendAndReceivePacket.doInBackground: closing connection ...");
+                        Log.e(TAG, "sendAndReceiveJSONPacket.doInBackground: broken connection", new RuntimeException("broken connection"));
+                        Log.i(TAG, "sendAndReceiveJSONPacket.doInBackground: closing connection ...");
                         disconnectUtil(); // close connection (broken pipe)
                         disconnect = true;
                     }
@@ -194,8 +215,8 @@ public class WiFiConnection extends Connection {
                     String response = in.readLine();
                     receivedPacket = new JSONObject(new JSONTokener(response));
                 } catch (IOException e) { // error while reading from stream indicated broken connection
-                    Log.e(TAG, "sendAndReceivePacket.doInBackground: broken connection", e);
-                    Log.i(TAG, "sendAndReceivePacket.doInBackground: closing connection ...");
+                    Log.e(TAG, "sendAndReceiveJSONPacket.doInBackground: broken connection", e);
+                    Log.i(TAG, "sendAndReceiveJSONPacket.doInBackground: closing connection ...");
                     try {
                         disconnectUtil();
                         disconnect = true;

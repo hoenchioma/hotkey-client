@@ -25,8 +25,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ cm.connection != null &amp;&amp; cm.connection.get().active ? cm.connection.computerName : @string/not_connected }"
-            android:textColor="@{ cm.connection != null &amp;&amp; cm.connection.get().active ? @color/green_400 : @color/dark_bg_light_primary_text }"
+            android:text="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? cm.getComputerName() : @string/not_connected }"
+            android:textColor="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? @color/green_400 : @color/dark_bg_light_primary_text }"
             android:textSize="20sp" />
 
         <Space
@@ -48,7 +48,7 @@
                 android:hint="@string/ip_address_textfield_text"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
-                android:visibility="@{ cm.connection != null &amp;&amp; cm.connection.get().active ? View.GONE : View.VISIBLE }">
+                android:visibility="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? View.GONE : View.VISIBLE }">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ipAddressEditText"
@@ -67,7 +67,7 @@
                 android:hint="@string/port_textfield_text"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
-                android:visibility="@{ cm.connection != null &amp;&amp; cm.connection.get().active ? View.GONE : View.VISIBLE }">
+                android:visibility="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? View.GONE : View.VISIBLE }">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/portEditText"
@@ -88,7 +88,7 @@
             android:id="@+id/connectButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ cm.connection != null &amp;&amp; cm.connection.get().active ? @string/disconnect_button_text : @string/connect_button_text }" />
+            android:text="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? @string/disconnect_button_text : @string/connect_button_text }" />
 
         <Space
             android:layout_width="wrap_content"
