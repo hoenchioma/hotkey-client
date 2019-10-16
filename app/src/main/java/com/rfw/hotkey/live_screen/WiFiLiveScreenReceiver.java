@@ -22,7 +22,7 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
     private static final String TAG = "WiFiLiveScreenReceiver";
 
     //    private static final int MAX_DATA_SIZE = 65536;
-    private static final int SOCKET_TIMEOUT = 1000; // in milliseconds
+    private static final int SOCKET_TIMEOUT = 5000; // in milliseconds
 
     private static final float FPS = 60.0f;
     private static final float COMPRESS_RATIO = 0.25f;

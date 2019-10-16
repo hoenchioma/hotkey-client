@@ -15,12 +15,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 import static com.rfw.hotkey.util.Utils.getDeviceName;
 
 public class WiFiConnection implements Connection {
     private static final String TAG = "WiFiConnection";
+
+    private static final int CONNECTION_TIMEOUT = 5000;
+    private static final int DEFAULT_RECEIVE_TIMEOUT = 1000;
 
     private ObservableBoolean active = new ObservableBoolean(false);
     private String computerName;
@@ -53,7 +58,8 @@ public class WiFiConnection implements Connection {
     }
 
     synchronized private void connectUtil() throws IOException {
-        socket = new Socket(ipAddress, port);
+        socket = new Socket();
+        socket.connect(new InetSocketAddress(ipAddress, port), CONNECTION_TIMEOUT);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
     }
@@ -214,6 +220,8 @@ public class WiFiConnection implements Connection {
                 try {
                     String response = in.readLine();
                     receivedPacket = new JSONObject(new JSONTokener(response));
+                } catch (SocketTimeoutException e) {
+                    Log.e(TAG, "sendAndReceiveJSONPacket.doInBackground: receive timed out", e);
                 } catch (IOException e) { // error while reading from stream indicated broken connection
                     Log.e(TAG, "sendAndReceiveJSONPacket.doInBackground: broken connection", e);
                     Log.i(TAG, "sendAndReceiveJSONPacket.doInBackground: closing connection ...");
