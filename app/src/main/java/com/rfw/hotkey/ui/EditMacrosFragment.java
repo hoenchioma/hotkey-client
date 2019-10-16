@@ -37,11 +37,11 @@ public class EditMacrosFragment extends Fragment {
             "0","1", "2", "3", "4", "5","6", "7","8", "9"
     };
     private String[] array_keys_char = {
-            "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
+            "a", "b", "c", "d", "e", "f", "g", "h", "i", "j"//, "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
     };
 
     private String[] array_keys_sp = {
-            "Esc", "Alt", "Ctrl", "Shift", "Del", "Ins", "Home", "End", "PgUp", "PgDn"
+            "ESC", "ALT", "CTRL", "SHIFT", "DEL", "INS", "HOME", "END", "PGUP", "PGDN"
     };
 
     private List<String> listSourceNum = new ArrayList<>();
@@ -85,6 +85,8 @@ public class EditMacrosFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Cancelled Pressed", Toast.LENGTH_SHORT).show();
+                macroButtons.clear();
+                buttonName.setText("");
             }
         });
 

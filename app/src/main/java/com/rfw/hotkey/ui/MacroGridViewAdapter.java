@@ -56,13 +56,6 @@ class MacroGridViewAdapter extends BaseAdapter {
                         macroButtons.add(buttonName);
                     }
                     else{
-                        /*Iterator itr = macroButtons.iterator();
-                        while (itr.hasNext())
-                        {
-                            int x = (Integer)itr.next();
-                            if (buttonName.equals(x))
-                                itr.remove();
-                        }*/
                         macroButtons.remove(buttonName);
                         button.getBackground().clearColorFilter();
                     }
