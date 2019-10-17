@@ -9,8 +9,8 @@
     android:paddingRight="16dp"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/macroNameFieldeid"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/macroNameFieldID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="false"
@@ -18,7 +18,15 @@
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
         android:paddingRight="16dp"
-        android:paddingBottom="16dp" />
+        android:paddingBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/macroNameEditTextID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/layout0"
@@ -29,7 +37,7 @@
         android:paddingRight="16dp">
 
         <Button
-            android:id="@+id/saveMacroButtonid"
+            android:id="@+id/saveMacroButtonID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -53,19 +61,19 @@
         android:paddingRight="16dp">
 
         <GridView
-            android:id="@+id/macroGridCharid"
+            android:id="@+id/macroGridCharID"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
         <GridView
-            android:id="@+id/macroGridNumid"
+            android:id="@+id/macroGridNumID"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
         <GridView
-            android:id="@+id/macroGridSPid"
+            android:id="@+id/macroGridSPID"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
