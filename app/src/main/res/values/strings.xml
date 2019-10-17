@@ -1,41 +1,28 @@
 <resources>
     <string name="app_name">Hotkey</string>
 
-    <string name="connect_button_text">Connect</string>
-    <string name="disconnect_button_text">Disconnect</string>
-    <string name="ip_address_textfield_text">IP Address</string>
-    <string name="port_textfield_text">Port</string>
+    <string name="title_activity_live_screen">ScreenActivity</string>
+    <string name="title_activity_settings">Settings</string>
 
-    <string name="connection_success">Connection successful</string>
-    <string name="connection_error">Failed to connect</string>
-    <string name="connection_closed">Connection closed</string>
-    <string name="not_connected">Not Connected</string>
-    <string name="retry">Retry</string>
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="need_to_connect_first">You need to connect first</string>
+    <!-- Main Activity -->
     <string name="keyboard_button_desc">Press to open keyboard</string>
     <string name="connections_button_desc">Press to open connections screen</string>
     <string name="mouse_button_desc">Press to open mouse/touchpad</string>
+
+    <!-- Connections Fragment -->
     <string name="extra_button_desc">Press to show extra options</string>
+    <string name="connect_button_text">Connect</string>
+    <string name="disconnect_button_text">Disconnect</string>
+    <string name="ip_address_text_field_label">IP Address</string>
+    <string name="port_text_field_label">Port</string>
 
-    <string name="title_activity_screen">ScreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="title_activity_settings">Settings</string>
+    <string name="connection_success_msg">Connection successful</string>
+    <string name="connection_error_msg">Failed to connect</string>
+    <string name="connection_closed_msg">Connection closed</string>
+    <string name="not_connected_msg">Not Connected</string>
+    <string name="need_to_connect_first_msg">You need to connect first</string>
+    <string name="retry_msg">Retry</string>
 
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
+    <!-- Settings Activity -->
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 </resources>

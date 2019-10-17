@@ -27,7 +27,6 @@ import com.rfw.hotkey.net.ConnectionManager;
 import com.rfw.hotkey.net.WiFiConnection;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -124,14 +123,14 @@ public class ConnectionsFragment extends Fragment {
                         statusTextView.setVisibility(View.VISIBLE); // show status text view
 
                         Snackbar.make(activity.findViewById(android.R.id.content),
-                                success ? R.string.connection_success : R.string.connection_error,
+                                success ? R.string.connection_success_msg : R.string.connection_error_msg,
                                 Snackbar.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onDisconnect() {
                         Snackbar.make(activity.findViewById(android.R.id.content),
-                                R.string.connection_closed,
+                                R.string.connection_closed_msg,
                                 Snackbar.LENGTH_SHORT).show();
                     }
                 };
@@ -142,7 +141,7 @@ public class ConnectionsFragment extends Fragment {
         } catch (RuntimeException e) {
             // show a snackbar if an error occurred
             Snackbar snackbar = Snackbar.make(contextView, Objects.requireNonNull(e.getMessage()), Snackbar.LENGTH_SHORT);
-            snackbar.setAction(R.string.retry, view -> connectButtonAction());
+            snackbar.setAction(R.string.retry_msg, view -> connectButtonAction());
             snackbar.show();
         }
 

@@ -14,37 +14,35 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory app:title="@string/messages_header">
+    <PreferenceCategory app:title="Connect">
 
         <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
+            app:key="connectTimeOut"
+            app:title="Connect timeout"
+            app:defaultValue="1"
+            android:inputType="number"
+            app:summary="Maximum time to connect" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory app:title="Live Screen">
 
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
+        <EditTextPreference
+            app:key="liveScreenFPS"
+            app:title="FPS"
+            app:summary="Frames rendered per second" />
 
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+        <androidx.preference.SeekBarPreference
+            app:key="liveScreenCompressRatio"
+            app:title="Image quality"
+            app:summary="Quality of image sent from server\n(Very high quality might cause lag)"
+            app:defaultValue="25"
+            android:max="100"
+            app:showSeekBarValue="true"
+            app:min="10" />
 
     </PreferenceCategory>
 
