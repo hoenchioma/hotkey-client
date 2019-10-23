@@ -1,31 +1,34 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory app:title="Connect">
 
-        <EditTextPreference
+        <com.rfw.hotkey.util.ui.MyEditTextPref
             app:key="connectTimeOut"
             app:title="Connect timeout"
-            app:defaultValue="1"
-            android:inputType="number"
-            app:summary="Maximum time to connect" />
+            app:summaryBuilder="Timeout after %ss"
+            app:onlyNum="true"
+            app:defaultValue="1" />
 
     </PreferenceCategory>
 
     <PreferenceCategory app:title="Live Screen">
 
-        <EditTextPreference
+        <com.rfw.hotkey.util.ui.MyEditTextPref
             app:key="liveScreenFPS"
             app:title="FPS"
-            app:summary="Frames rendered per second" />
+            app:summaryBuilder="%s Hz"
+            app:onlyNum="true"
+            app:defaultValue="60" />
 
         <SeekBarPreference
             app:key="liveScreenCompressRatio"
             app:title="Image quality"
             app:summary="Quality of image sent from server\n(Very high quality might cause lag)"
             app:defaultValue="25"
-            android:max="100"
             app:showSeekBarValue="true"
+            android:max="100"
             app:min="10" />
 
     </PreferenceCategory>

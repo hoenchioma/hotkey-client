@@ -9,4 +9,9 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="MyEditTextPref">
+        <attr name="summaryBuilder" format="string" default="%s" />
+        <attr name="onlyNum" format="boolean" default="false" />
+    </declare-styleable>
+
 </resources>
