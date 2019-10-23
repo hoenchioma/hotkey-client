@@ -2,9 +2,7 @@ package com.rfw.hotkey.ui;
 
 import android.os.Bundle;
 import android.text.InputType;
-import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             makeNumericOnly(findPreference("connectTimeOut"));
-            makeNumericOnly(findPreference(""));
+            makeNumericOnly(findPreference("liveScreenFPS"));
         }
 
         private void makeNumericOnly(@Nullable EditTextPreference editTextPreference) {
