@@ -31,6 +31,14 @@
     <string name="extras_multimedia_btn_desc">Play, pause, skip tracks, etc. on multimedia content</string>
     <string name="extras_settings_btn_desc">Settings and preferences</string>
 
+    <!-- Settings -->
+    <string name="settings_connect_timeout_title">Connect timeout</string>
+    <string name="settings_connect_timeout_summary_builder">Timeout after %ss</string>
+    <string name="settings_fps_title">FPS</string>
+    <string name="settings_fps_summary_builder">%s Hz</string>
+    <string name="settings_img_quality_title">Image quality</string>
+    <string name="settings_img_quality_summary_builder">Quality of image sent from server (Very high quality might cause lag)</string>
+
     <!-- Settings Activity -->
 
 </resources>

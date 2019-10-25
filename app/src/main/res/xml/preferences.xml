@@ -6,8 +6,8 @@
 
         <com.rfw.hotkey.util.ui.MyEditTextPref
             app:key="connectTimeOut"
-            app:title="Connect timeout"
-            app:summaryBuilder="Timeout after %ss"
+            app:title="@string/settings_connect_timeout_title"
+            app:summaryBuilder="@string/settings_connect_timeout_summary_builder"
             app:onlyNum="true"
             app:defaultValue="1" />
 
@@ -17,15 +17,15 @@
 
         <com.rfw.hotkey.util.ui.MyEditTextPref
             app:key="liveScreenFPS"
-            app:title="FPS"
-            app:summaryBuilder="%s Hz"
+            app:title="@string/settings_fps_title"
+            app:summaryBuilder="@string/settings_fps_summary_builder"
             app:onlyNum="true"
             app:defaultValue="60" />
 
         <SeekBarPreference
             app:key="liveScreenCompressRatio"
-            app:title="Image quality"
-            app:summary="Quality of image sent from server\n(Very high quality might cause lag)"
+            app:title="@string/settings_img_quality_title"
+            app:summary="@string/settings_img_quality_summary_builder"
             app:defaultValue="25"
             app:showSeekBarValue="true"
             app:min="10"
