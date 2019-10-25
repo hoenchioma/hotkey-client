@@ -1,4 +1,4 @@
-package com.rfw.hotkey.ui;
+package com.rfw.hotkey.ui.macros;
 
 import android.content.Context;
 import android.graphics.LightingColorFilter;

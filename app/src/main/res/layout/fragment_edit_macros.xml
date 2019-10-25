@@ -4,7 +4,7 @@
     android:id="@+id/fragmentContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.EditMacrosFragment"
+    tools:context=".ui.macros.EditMacrosFragment"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:orientation="vertical" >
