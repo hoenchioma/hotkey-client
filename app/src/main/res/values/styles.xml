@@ -11,7 +11,6 @@
     </style>
 
     <style name="SettingsTheme" parent="Theme.MaterialComponents">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -28,6 +27,7 @@
         <item name="android:padding">14dp</item>
     </style>
 
+    <!-- Extras Menu Icon Style (inherits from MaterialButton style)-->
     <style name="ExtrasMenuIconStyle" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon">
         <item name="android:layout_height">100sp</item>
         <item name="android:layout_width">0dp</item>
@@ -43,6 +43,7 @@
         <item name="backgroundTint">@android:color/transparent</item>
     </style>
 
+    <!-- Fullscreen theme (for LiveScreenActivity) -->
     <style name="FullscreenTheme" parent="AppTheme">
         <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="android:windowActionBarOverlay">true</item>
