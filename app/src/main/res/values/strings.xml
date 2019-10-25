@@ -5,16 +5,16 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Main Activity -->
-    <string name="keyboard_button_desc">Press to open keyboard</string>
-    <string name="connections_button_desc">Press to open connections screen</string>
-    <string name="mouse_button_desc">Press to open mouse/touchpad</string>
+    <string name="btm_bar_keyboard_btn_desc">Press to open keyboard</string>
+    <string name="btm_bar_connections_btn_desc">Press to open connections screen</string>
+    <string name="btm_bar_mouse_btn_desc">Press to open mouse/touchpad</string>
+    <string name="btm_bar_extras_btn_desc">Press to show extra options</string>
 
     <!-- Connections Fragment -->
-    <string name="extras_button_desc">Press to show extra options</string>
-    <string name="connect_button_text">Connect</string>
-    <string name="disconnect_button_text">Disconnect</string>
-    <string name="ip_address_text_field_label">IP Address</string>
-    <string name="port_text_field_label">Port</string>
+    <string name="connections_connect_btn_text">Connect</string>
+    <string name="connections_disconnect_btn_text">Disconnect</string>
+    <string name="connections_ip_address_text_field_label">IP Address</string>
+    <string name="connections_port_text_field_label">Port</string>
 
     <string name="connection_success_msg">Connection successful</string>
     <string name="connection_error_msg">Failed to connect</string>

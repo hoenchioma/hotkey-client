@@ -53,7 +53,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:hint="@string/ip_address_text_field_label"
+                android:hint="@string/connections_ip_address_text_field_label"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
                 android:visibility="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? View.GONE : View.VISIBLE }">
@@ -72,7 +72,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:hint="@string/port_text_field_label"
+                android:hint="@string/connections_port_text_field_label"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
                 android:visibility="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? View.GONE : View.VISIBLE }">
@@ -96,7 +96,7 @@
             android:id="@+id/connectButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? @string/disconnect_button_text : @string/connect_button_text }" />
+            android:text="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? @string/connections_disconnect_btn_text : @string/connections_connect_btn_text }" />
 
         <Space
             android:layout_width="wrap_content"

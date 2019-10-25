@@ -28,7 +28,7 @@
             android:id="@+id/keyboardButton"
             style="@style/MenuIconStyle"
             android:src="@drawable/ic_keyboard_white_24dp"
-            android:contentDescription="@string/keyboard_button_desc" />
+            android:contentDescription="@string/btm_bar_keyboard_btn_desc" />
 
         <Space
             android:layout_weight="1"
@@ -39,7 +39,7 @@
             android:id="@+id/connectionButton"
             style="@style/MenuIconStyle"
             android:src="@drawable/ic_network_wifi_white_24dp"
-            android:contentDescription="@string/connections_button_desc" />
+            android:contentDescription="@string/btm_bar_connections_btn_desc" />
 
         <Space
             android:layout_weight="1"
@@ -52,7 +52,7 @@
             android:scaleX="0.9"
             android:scaleY="0.9"
             android:src="@drawable/ic_mouse_white_24dp"
-            android:contentDescription="@string/mouse_button_desc" />
+            android:contentDescription="@string/btm_bar_mouse_btn_desc" />
 
         <Space
             android:layout_weight="1"
@@ -65,7 +65,7 @@
             android:scaleX="0.9"
             android:scaleY="0.9"
             android:src="@drawable/ic_more_horiz_white_24dp"
-            android:contentDescription="@string/extras_button_desc" />
+            android:contentDescription="@string/btm_bar_extras_btn_desc" />
 
         <Space
             android:layout_weight="1"
