@@ -26,7 +26,7 @@ public class PDFFindPageDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.pdf_find_page_dialog,null);
+        View view = inflater.inflate(R.layout.dialog_pdf_find_page,null);
         builder.setView(view)
                 .setTitle("PDF")
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
