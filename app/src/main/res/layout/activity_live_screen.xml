@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
-    tools:context=".ui.LiveScreenActivity">
+    tools:context=".ui.live_screen.LiveScreenActivity">
 
     <!-- The primary full-live_screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -22,7 +22,7 @@
 <!--        android:textSize="50sp"-->
 <!--        android:textStyle="bold" />-->
 
-    <com.rfw.hotkey.ui.LiveScreenView
+    <com.rfw.hotkey.ui.live_screen.LiveScreenView
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

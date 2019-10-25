@@ -10,6 +10,10 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.rfw.hotkey.R;
+import com.rfw.hotkey.ui.live_screen.LiveScreenActivity;
+import com.rfw.hotkey.ui.multimedia.MultimediaFragment;
+import com.rfw.hotkey.ui.pdf.PDFFragment;
+import com.rfw.hotkey.ui.ppt.PowerPointFragment;
 
 import java.util.Objects;
 

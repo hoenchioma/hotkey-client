@@ -1,11 +1,10 @@
-package com.rfw.hotkey.ui;
+package com.rfw.hotkey.ui.live_screen;
 
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,8 +17,6 @@ import androidx.core.app.NavUtils;
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.live_screen.LiveScreenReceiver;
 import com.rfw.hotkey.live_screen.WiFiLiveScreenReceiver;
-
-import java.net.SocketException;
 
 /**
  * An example full-live_screen activity that shows and hides the system UI (i.e.

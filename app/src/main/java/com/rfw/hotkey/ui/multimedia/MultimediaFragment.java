@@ -1,4 +1,4 @@
-package com.rfw.hotkey.ui;
+package com.rfw.hotkey.ui.multimedia;
 
 import android.content.Context;
 import android.net.Uri;

@@ -1,4 +1,4 @@
-package com.rfw.hotkey.ui;
+package com.rfw.hotkey.ui.pdf;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

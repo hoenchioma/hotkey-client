@@ -1,4 +1,4 @@
-package com.rfw.hotkey.ui;
+package com.rfw.hotkey.ui.keyboard;
 
 import android.content.Context;
 import android.text.InputType;

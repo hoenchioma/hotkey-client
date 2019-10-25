@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.PowerPointFragment"
+    tools:context=".ui.ppt.PowerPointFragment"
     android:weightSum="10">
     <Space
         android:layout_width="wrap_content"

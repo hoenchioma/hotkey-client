@@ -25,7 +25,7 @@
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/SettingsTheme"></activity>
         <activity
-            android:name=".ui.LiveScreenActivity"
+            android:name=".ui.live_screen.LiveScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_live_screen"
             android:parentActivityName=".ui.MainActivity"

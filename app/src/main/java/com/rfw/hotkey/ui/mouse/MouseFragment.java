@@ -1,4 +1,4 @@
-package com.rfw.hotkey.ui;
+package com.rfw.hotkey.ui.mouse;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

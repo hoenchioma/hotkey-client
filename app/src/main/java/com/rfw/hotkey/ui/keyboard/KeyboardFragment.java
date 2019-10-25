@@ -1,4 +1,4 @@
-package com.rfw.hotkey.ui;
+package com.rfw.hotkey.ui.keyboard;
 
 import android.os.Bundle;
 import android.util.Log;

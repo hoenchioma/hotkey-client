@@ -1,4 +1,4 @@
-package com.rfw.hotkey.ui;
+package com.rfw.hotkey.ui.live_screen;
 
 import android.content.Context;
 import android.graphics.Bitmap;

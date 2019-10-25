@@ -10,6 +10,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.rfw.hotkey.R;
+import com.rfw.hotkey.ui.connections.ConnectionsFragment;
+import com.rfw.hotkey.ui.keyboard.KeyboardFragment;
+import com.rfw.hotkey.ui.mouse.MouseFragment;
 
 import java.util.HashMap;
 import java.util.Map;

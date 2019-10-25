@@ -1,4 +1,4 @@
-package com.rfw.hotkey.ui;
+package com.rfw.hotkey.ui.connections;
 
 import android.app.Activity;
 import android.content.Context;
