@@ -1,6 +1,5 @@
 package com.rfw.hotkey.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -19,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton keyboardButton;
     ImageButton connectionButton;
     ImageButton mouseButton;
-    ImageButton extraButton;
+    ImageButton extrasButton;
     private View contextView;
 
     private Map<Class, Fragment.SavedState> fragmentSavedStates = new HashMap<>();
@@ -32,13 +31,12 @@ public class MainActivity extends AppCompatActivity {
 
         replaceFragment(new ConnectionsFragment());
 
-        extraButton = findViewById(R.id.extraButton);
+        extrasButton = findViewById(R.id.extrasButton);
         connectionButton = findViewById(R.id.connectionButton);
         keyboardButton = findViewById(R.id.keyboardButton);
         mouseButton = findViewById(R.id.mouseButton);
 
-//        extraButton.setOnClickListener(view -> replaceFragment(new ExtraFragment()));
-        extraButton.setOnClickListener(view -> startActivity(new Intent(this, SettingsActivity.class)));
+        extrasButton.setOnClickListener(view -> replaceFragment(new ExtrasFragment()));
         connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment()));
         keyboardButton.setOnClickListener(view -> replaceFragment(new KeyboardFragment()));
         mouseButton.setOnClickListener(view -> replaceFragment(new MouseFragment()));

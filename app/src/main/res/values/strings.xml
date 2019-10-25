@@ -10,7 +10,7 @@
     <string name="mouse_button_desc">Press to open mouse/touchpad</string>
 
     <!-- Connections Fragment -->
-    <string name="extra_button_desc">Press to show extra options</string>
+    <string name="extras_button_desc">Press to show extra options</string>
     <string name="connect_button_text">Connect</string>
     <string name="disconnect_button_text">Disconnect</string>
     <string name="ip_address_text_field_label">IP Address</string>
@@ -22,6 +22,14 @@
     <string name="not_connected_msg">Not Connected</string>
     <string name="need_to_connect_first_msg">You need to connect first</string>
     <string name="retry_msg">Retry</string>
+
+    <!-- Extras Fragment -->
+    <string name="extras_live_screen_btn_desc">Live streams the PC screen</string>
+    <string name="extras_ppt_btn_desc">Presentation assistant</string>
+    <string name="extras_pdf_btn_desc">PDF document reading/presentation assistant</string>
+    <string name="extras_macros_btn_desc">Make and execute custom key combinations</string>
+    <string name="extras_multimedia_btn_desc">Play, pause, skip tracks, etc. on multimedia content</string>
+    <string name="extras_settings_btn_desc">Settings and preferences</string>
 
     <!-- Settings Activity -->
 

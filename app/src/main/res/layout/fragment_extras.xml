@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_gravity="top"
+        app:columnCount="3"
+        tools:context=".ui.ExtrasFragment">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/liveScreenButton"
+            style="@style/ExtrasMenuIconStyle"
+            app:icon="@drawable/ic_desktop_windows_white_24dp"
+            android:contentDescription="@string/extras_live_screen_btn_desc" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pptButton"
+            style="@style/ExtrasMenuIconStyle"
+            app:icon="@drawable/ic_ppt_white_24dp"
+            android:contentDescription="@string/extras_ppt_btn_desc" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pdfButton"
+            style="@style/ExtrasMenuIconStyle"
+            app:icon="@drawable/ic_picture_as_pdf_white_24dp"
+            android:contentDescription="@string/extras_pdf_btn_desc" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/macrosButton"
+            style="@style/ExtrasMenuIconStyle"
+            app:icon="@drawable/ic_macro_grid_white_24dp"
+            android:contentDescription="@string/extras_macros_btn_desc" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/multimediaButton"
+            style="@style/ExtrasMenuIconStyle"
+            app:icon="@drawable/ic_music_video_white_24dp"
+            android:contentDescription="@string/extras_multimedia_btn_desc" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settingsButton"
+            style="@style/ExtrasMenuIconStyle"
+            app:icon="@drawable/ic_settings_white_24dp"
+            android:contentDescription="@string/extras_settings_btn_desc" />
+
+    </androidx.gridlayout.widget.GridLayout>
+
+</ScrollView>

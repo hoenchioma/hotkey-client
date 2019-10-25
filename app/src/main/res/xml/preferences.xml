@@ -28,8 +28,8 @@
             app:summary="Quality of image sent from server\n(Very high quality might cause lag)"
             app:defaultValue="25"
             app:showSeekBarValue="true"
-            android:max="100"
-            app:min="10" />
+            app:min="10"
+            android:max="100" />
 
     </PreferenceCategory>
 
