@@ -25,7 +25,7 @@ import com.rfw.hotkey.R;
 import com.rfw.hotkey.databinding.FragmentConnectionsBinding;
 import com.rfw.hotkey.net.Connection;
 import com.rfw.hotkey.net.ConnectionManager;
-import com.rfw.hotkey.net.WiFiConnection;
+import com.rfw.hotkey.net.wifi.WiFiConnection;
 import com.rfw.hotkey.util.Constants;
 
 import java.util.Objects;

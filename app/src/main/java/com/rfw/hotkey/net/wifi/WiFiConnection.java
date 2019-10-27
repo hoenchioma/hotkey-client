@@ -1,4 +1,4 @@
-package com.rfw.hotkey.net;
+package com.rfw.hotkey.net.wifi;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.core.util.Consumer;
 import androidx.databinding.ObservableBoolean;
 
+import com.rfw.hotkey.net.Connection;
 import com.rfw.hotkey.util.Constants;
 
 import org.json.JSONException;

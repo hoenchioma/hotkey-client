@@ -8,8 +8,6 @@ import androidx.databinding.ObservableField;
 
 import org.json.JSONObject;
 
-import java.util.Objects;
-
 public class ConnectionManager {
     private static final String TAG = "ConnectionManager";
 
