@@ -59,10 +59,18 @@ public class MouseFragment extends Fragment {
         touchpad.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getPointerCount() > 1){
+                if(event.getPointerCount() == 2){
                     //Toast.makeText(getContext(),"RightClick", Toast.LENGTH_SHORT).show();
                     try {
                         sendMessageToServer("RightClick",0, 0);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if(event.getPointerCount() == 3){
+                    //Toast.makeText(getContext(),"RightClick", Toast.LENGTH_SHORT).show();
+                    try {
+                        sendMessageToServer("ScrollClick",0, 0);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
