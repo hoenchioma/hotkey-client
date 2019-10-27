@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -25,10 +26,12 @@ import com.rfw.hotkey.databinding.FragmentConnectionsBinding;
 import com.rfw.hotkey.net.Connection;
 import com.rfw.hotkey.net.ConnectionManager;
 import com.rfw.hotkey.net.WiFiConnection;
+import com.rfw.hotkey.util.Constants;
 
 import java.util.Objects;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
+import static com.rfw.hotkey.util.Utils.getIntPref;
 
 public class ConnectionsFragment extends Fragment {
     private static final String TAG = ConnectionsFragment.class.getCanonicalName();
@@ -106,7 +109,10 @@ public class ConnectionsFragment extends Fragment {
                 connectingSpinner.setVisibility(View.VISIBLE); // show loading spinner
                 long startTime = System.nanoTime();
 
-                Connection connection = new WiFiConnection(ipAddress, port) {
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getActivity()));
+                int connectTimeOut = getIntPref(sharedPref, getString(R.string.settings_key_connect_timeout), Constants.Net.SOCKET_CONNECT_TIMEOUT);
+
+                Connection connection = new WiFiConnection(ipAddress, port, connectTimeOut) {
                     Activity activity = getActivity();
 
                     @Override

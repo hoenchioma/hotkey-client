@@ -1,49 +1,39 @@
 package com.rfw.hotkey.live_screen;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import com.rfw.hotkey.net.Connection;
 import com.rfw.hotkey.net.ConnectionManager;
+import com.rfw.hotkey.util.Constants;
+import com.rfw.hotkey.util.Device;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
-import static com.rfw.hotkey.util.Utils.getIPAddress;
-
 public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
     private static final String TAG = "WiFiLiveScreenReceiver";
-
-    //    private static final int MAX_DATA_SIZE = 65536;
-    private static final int SOCKET_TIMEOUT = 5000; // in milliseconds
-
-    private static final float FPS = 60.0f;
-    private static final float COMPRESS_RATIO = 0.25f;
 
     private Socket socket;
     private DataInputStream in;
     private volatile boolean running = false;
-//    private byte[] buff = new byte[MAX_DATA_SIZE];
-
-    private String localIpAddress;
-    private final Object localIpMonitor = new Object();
 
     private Thread connectionThread;
 
-    public WiFiLiveScreenReceiver() {
-        // get the local IP address in separate thread (to avoid network on UI thread)
-        new Thread(() -> {
-            synchronized (localIpMonitor) {
-                localIpAddress = getIPAddress(true);
-            }
-        }).start();
+    private WeakReference<Context> context;
+
+    public WiFiLiveScreenReceiver(Context context) {
+        this.context = new WeakReference<>(context);
     }
 
     /**
@@ -59,20 +49,21 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
         return running;
     }
 
-    private String getLocalIpAddress() {
-        // wait until the lock is released by the thread setting localIPAddress
-        synchronized (localIpMonitor) {
-            return localIpAddress;
-        }
+    private String getLocalIpAddress() throws IllegalStateException {
+        if (context.get() == null)
+            throw new IllegalStateException("Cannot find application context");
+        WifiManager wifiManager = (WifiManager) context.get().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wifiManager == null) throw new IllegalStateException("Error getting WiFi manager");
+        return Device.getWiFiIPAddress(wifiManager);
     }
 
     @Override
-    public void start(int screenSizeX, int screenSizeY) {
+    public void start(int screenSizeX, int screenSizeY, float fps, float compressRatio) {
         try {
             ServerSocket serverSocket = new ServerSocket(0); // bind to any available port
             Log.i(TAG, "start: server port: " + serverSocket.getLocalPort());
 
-            serverSocket.setSoTimeout(SOCKET_TIMEOUT);
+            serverSocket.setSoTimeout(Constants.SERVER_SOCKET_TIMEOUT);
 
             JSONObject packet = new JSONObject();
 
@@ -82,13 +73,13 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
             packet.put("port", serverSocket.getLocalPort());
             packet.put("screenSizeX", screenSizeX);
             packet.put("screenSizeY", screenSizeY);
-            packet.put("fps", FPS);
-            packet.put("compressRatio", COMPRESS_RATIO);
+            packet.put("fps", fps);
+            packet.put("compressRatio", compressRatio);
 
             connectionThread = new Thread(() -> {
                 try {
                     socket = serverSocket.accept();
-                    socket.setSoTimeout(SOCKET_TIMEOUT);
+                    socket.setSoTimeout(Constants.LiveScreen.SOCKET_RECEIVE_TIMEOUT);
                     in = new DataInputStream(socket.getInputStream());
                 } catch (SocketTimeoutException e) {
                     Log.e(TAG, "start: serverSocket.accept() timed out", e);
@@ -103,8 +94,9 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
             new Receiver().start();
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Log.e(TAG, "start: error occurred while staring receiver", e);
+            onError(e, true);
         }
     }
 
@@ -122,11 +114,14 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
 
             in.close();
             socket.close();
+        } catch (NullPointerException ignored) {
+            // eat null pointer exceptions
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
             Log.e(TAG, "stop: error closing socket", e);
-        } catch (NullPointerException ignored) {}
+            onError(e, false);
+        }
     }
 
     private class Receiver extends Thread {
@@ -160,6 +155,7 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
                 running = false;
             } else {
                 Log.e(TAG, "Receiver.run: connection not established, cannot start receiver");
+                onError(new Exception("connection not established, cannot start receiver"), false);
             }
         }
     }

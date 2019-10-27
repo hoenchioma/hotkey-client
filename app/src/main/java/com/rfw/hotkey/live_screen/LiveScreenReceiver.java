@@ -3,8 +3,12 @@ package com.rfw.hotkey.live_screen;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.rfw.hotkey.net.Connection;
+
+import static com.rfw.hotkey.util.Constants.LiveScreen.COMPRESS_RATIO;
+import static com.rfw.hotkey.util.Constants.LiveScreen.FPS;
 
 public interface LiveScreenReceiver {
     /**
@@ -12,7 +16,11 @@ public interface LiveScreenReceiver {
      */
     Connection.Type getConnectionType();
 
-    void start(int screenSizeX, int screenSizeY);
+    default void start(int screenSizeX, int screenSizeY) {
+        start(screenSizeX, screenSizeY, FPS, COMPRESS_RATIO);
+    }
+
+    void start(int screenSizeX, int screenSizeY, float fps, float compressRatio);
 
     void stop();
 
@@ -23,4 +31,12 @@ public interface LiveScreenReceiver {
      * (meant to be overloaded)
      */
     void onFrameReceive(@NonNull Bitmap bitmap);
+
+    /**
+     * method to be called when error occurs
+     * (meant to be overridden)
+     * @param e exception that occurred
+     * @param isFatal whether the concerned activity should be closed
+     */
+    void onError(@Nullable Exception e, boolean isFatal);
 }

@@ -1,36 +1,37 @@
 <PreferenceScreen
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="Connect">
+    <PreferenceCategory app:title="@string/settings_title_connect">
 
         <com.rfw.hotkey.util.ui.MyEditTextPref
-            app:key="connectTimeOut"
-            app:title="@string/settings_connect_timeout_title"
-            app:summaryBuilder="@string/settings_connect_timeout_summary_builder"
+            app:key="@string/settings_key_connect_timeout"
+            app:title="@string/settings_title_connect_timeout"
+            app:summaryBuilder="@string/settings_summary_builder_connect_timeout"
             app:onlyNum="true"
-            app:defaultValue="1" />
+            app:defaultValue="2000" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Live Screen">
+    <PreferenceCategory app:title="@string/settings_title_live_screen">
 
         <com.rfw.hotkey.util.ui.MyEditTextPref
-            app:key="liveScreenFPS"
-            app:title="@string/settings_fps_title"
-            app:summaryBuilder="@string/settings_fps_summary_builder"
+            app:key="@string/settings_key_live_screen_fps"
+            app:title="@string/settings_title_live_screen_fps"
+            app:summaryBuilder="@string/settings_summary_builder_live_screen_fps"
             app:onlyNum="true"
-            app:defaultValue="60" />
+            app:defaultValue="60"/>
 
         <SeekBarPreference
-            app:key="liveScreenCompressRatio"
-            app:title="@string/settings_img_quality_title"
-            app:summary="@string/settings_img_quality_summary_builder"
-            app:defaultValue="25"
-            app:showSeekBarValue="true"
+            app:key="@string/settings_key_live_screen_img_quality"
+            app:title="@string/settings_title_live_screen_img_quality"
+            app:summary="@string/settings_summary_live_screen_img_quality"
             app:min="10"
-            android:max="100" />
+            android:max="100"
+            app:showSeekBarValue="true"
+            app:defaultValue="25" />
 
     </PreferenceCategory>
 
 </PreferenceScreen>
+

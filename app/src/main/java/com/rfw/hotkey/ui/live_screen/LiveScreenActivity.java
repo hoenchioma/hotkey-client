@@ -1,22 +1,31 @@
 package com.rfw.hotkey.ui.live_screen;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
+import androidx.preference.PreferenceManager;
 
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.live_screen.LiveScreenReceiver;
 import com.rfw.hotkey.live_screen.WiFiLiveScreenReceiver;
+import com.rfw.hotkey.util.Constants;
+
+import static com.rfw.hotkey.util.Utils.getFloatPref;
+import static com.rfw.hotkey.util.Utils.getIntPref;
 
 /**
  * An example full-live_screen activity that shows and hides the system UI (i.e.
@@ -122,10 +131,17 @@ public class LiveScreenActivity extends AppCompatActivity {
         // make screen orientation landscape
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        liveScreenReceiver = new WiFiLiveScreenReceiver() {
+        liveScreenReceiver = new WiFiLiveScreenReceiver(this) {
             @Override
             public void onFrameReceive(@NonNull Bitmap bitmap) {
                 mContentView.updateBitMap(bitmap);
+            }
+
+            @Override
+            public void onError(@Nullable Exception e, boolean isFatal) {
+                if (e != null)
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                if (isFatal) finish();
             }
         };
     }
@@ -133,9 +149,19 @@ public class LiveScreenActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // start when activity is visible
-        mContentView.post(() -> liveScreenReceiver
-                .start(mContentView.getWidth(), mContentView.getHeight()));
+        try {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+            float fps = getFloatPref(sharedPref, getString(R.string.settings_key_live_screen_fps), Constants.LiveScreen.FPS);
+            float compressRatio = getIntPref(sharedPref, getString(R.string.settings_key_live_screen_img_quality),
+                    Constants.LiveScreen.IMAGE_QUALITY) / 100.0f; // compress ratio = image quality / 100.0
+
+            // start when activity is visible
+            mContentView.post(() -> liveScreenReceiver.start(mContentView.getWidth(), mContentView.getHeight(), fps, compressRatio));
+        } catch (Exception e) {
+            Log.e(TAG, "onResume: error getting fps and compress ratio from shared pref", e);
+            mContentView.post(() -> liveScreenReceiver.start(mContentView.getWidth(), mContentView.getHeight()));
+        }
     }
 
     @Override

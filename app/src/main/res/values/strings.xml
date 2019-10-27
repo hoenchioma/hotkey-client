@@ -32,13 +32,22 @@
     <string name="extras_settings_btn_desc">Settings and preferences</string>
 
     <!-- Settings -->
-    <string name="settings_connect_timeout_title">Connect timeout</string>
-    <string name="settings_connect_timeout_summary_builder">Timeout after %ss</string>
-    <string name="settings_fps_title">FPS</string>
-    <string name="settings_fps_summary_builder">%s Hz</string>
-    <string name="settings_img_quality_title">Image quality</string>
-    <string name="settings_img_quality_summary_builder">Quality of image sent from server (Very high quality might cause lag)</string>
+    <string name="settings_title_connect">Connect</string>
+    <string name="settings_title_live_screen">Live Screen</string>
 
-    <!-- Settings Activity -->
+    <string name="settings_key_connect_timeout">connectTimeOut</string>
+    <string name="settings_title_connect_timeout">Connect timeout</string>
+    <string name="settings_summary_builder_connect_timeout">Attempt to connect times out after %s ms</string>
+
+    <string name="settings_key_live_screen_fps">liveScreenFPS</string>
+    <string name="settings_title_live_screen_fps">FPS</string>
+    <string name="settings_summary_builder_live_screen_fps">%s Hz</string>
+
+    <string name="settings_key_live_screen_img_quality">liveScreenImageQuality</string>
+    <string name="settings_title_live_screen_img_quality">Image quality</string>
+    <string name="settings_summary_live_screen_img_quality">Quality of image sent from server (Very high quality might cause lag)</string>
+
+    <!-- Live Screen -->
+    <string name="live_screen_only_wifi">Only available on Wifi</string>
 
 </resources>

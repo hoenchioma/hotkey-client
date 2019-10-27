@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.ui.connections.ConnectionsFragment;
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment()));
         keyboardButton.setOnClickListener(view -> replaceFragment(new KeyboardFragment()));
         mouseButton.setOnClickListener(view -> replaceFragment(new MouseFragment()));
+
+        // set default values for settings (in case preference activity hasn't been invoked yet)
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 
     public void replaceFragment(Fragment newFragment) {
