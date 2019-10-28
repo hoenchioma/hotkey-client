@@ -49,6 +49,13 @@
             android:scaleY="1.35"
             android:src="@drawable/ic_music_video_white_24dp" />
 
+        <ImageButton
+            android:id="@+id/gamepadButtonID"
+            style="@style/ExtraMenuIconStyle"
+            android:scaleX="1.35"
+            android:scaleY="1.35"
+            android:src="@drawable/ic_gamepad_white" />
+
     </androidx.gridlayout.widget.GridLayout>
 
 </ScrollView>

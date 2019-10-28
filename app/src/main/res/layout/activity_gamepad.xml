@@ -24,8 +24,8 @@ tools:context=".ui.GamepadActivity">
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="332dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginLeft="305dp"
+        android:layout_marginTop="0dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_edit_key_default" />
 
@@ -249,6 +249,17 @@ tools:context=".ui.GamepadActivity">
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_gamepad_buttons_default" />
 
+    <ImageView
+        android:id="@+id/saveButtonID"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="365dp"
+        android:layout_marginTop="-2dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_save_default" />
+
     <SeekBar
         android:id="@+id/seekBarID"
         android:layout_width="135dp"
@@ -263,6 +274,16 @@ tools:context=".ui.GamepadActivity">
     <GridView
         android:id="@+id/keyGridID"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:columnWidth="150dp"
+        android:gravity="center"
+        android:numColumns="6"
+        android:stretchMode="columnWidth"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp">
+
+    </GridView>
 
 </RelativeLayout>

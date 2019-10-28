@@ -21,6 +21,7 @@ public class ExtraFragment extends Fragment implements View.OnClickListener {
     private ImageButton pptButton;
     private ImageButton multimediaButton;
     private ImageButton pdfButton;
+    private ImageButton gamepadButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,12 +38,14 @@ public class ExtraFragment extends Fragment implements View.OnClickListener {
         multimediaButton = rootView.findViewById(R.id.multimediaButtonID);
         pdfButton = rootView.findViewById(R.id.pdfButtonID);
         liveScreenButton = rootView.findViewById(R.id.liveScreenButtonID);
+        gamepadButton = rootView.findViewById(R.id.gamepadButtonID);
 
         pptButton.setOnClickListener(this);
         macrosButton.setOnClickListener(this);
         multimediaButton.setOnClickListener(this);
         pdfButton.setOnClickListener(this);
         liveScreenButton.setOnClickListener(this);
+        gamepadButton.setOnClickListener(this);
     }
 
 
@@ -64,6 +67,9 @@ public class ExtraFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.liveScreenButtonID:
                 startActivity(new Intent(getActivity(), LiveScreenActivity.class));
+                break;
+            case R.id.gamepadButtonID:
+                startActivity(new Intent(getActivity(), GamepadActivity.class));
                 break;
         }
     }

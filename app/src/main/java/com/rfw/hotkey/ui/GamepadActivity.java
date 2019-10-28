@@ -5,14 +5,22 @@ import com.rfw.hotkey.net.ConnectionManager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.widget.AdapterView;
+import android.widget.RelativeLayout.LayoutParams;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,16 +29,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class GamepadActivity extends AppCompatActivity {
 
     private ArrayList<ImageView> buttons;
+    private ArrayList<String> actions;
     private boolean editLayout;
-    ImageView rightStick;
-    ImageView editButton;
-    GridView keyBoard;
-    SeekBar seekBar;
+    private ImageView rightStick;
+    private ImageView editButton;
+    private ImageView saveButton;
+    private GridView keyBoardGrid;
+    private SeekBar seekBar;
 
     private int xDelta;
     private int yDelta;
@@ -40,7 +52,25 @@ public class GamepadActivity extends AppCompatActivity {
     private float RSY;
     private float disRSX;
     private float disRSY;
+    private int curIndex;
 
+    static final String[] keyboardKeys = new String[]{
+            "0","1", "2", "3", "4",
+            "5","6", "7", "8", "9",
+
+            "ESC", "ALT", "CTRL", "SHIFT", "DEL",
+            "INS", "HOME", "END", "PGUP", "PGDN",
+
+            "a", "b", "c", "d", "e",
+            "f", "g", "h", "i", "j",
+            "k", "l", "m", "n", "o",
+            "p", "q", "r", "s", "t",
+            "u", "v", "w", "x", "y",
+            "z"
+
+    };
+
+    final List<String> gridKeys = new ArrayList<String>(Arrays.asList(keyboardKeys));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +80,7 @@ public class GamepadActivity extends AppCompatActivity {
 
 
         buttons = new ArrayList<ImageView>();
+        actions = new ArrayList<>();
 
         buttons.add(findViewById(R.id.leftLeftID));
         buttons.add(findViewById(R.id.leftBotID));
@@ -72,10 +103,98 @@ public class GamepadActivity extends AppCompatActivity {
         buttons.add(findViewById(R.id.leftStickBotID));
         buttons.add(findViewById(R.id.leftStickRightID));
         rightStick = findViewById(R.id.rightStickID);
+        seekBar = findViewById(R.id.seekBarID);
+        keyBoardGrid = findViewById(R.id.keyGridID);
+        editButton = findViewById(R.id.editButtonID);
+        saveButton = findViewById(R.id.saveButtonID);
 
         init();
 
         for(int i = 0; i < buttons.size(); i++) buttons.get(i).setOnTouchListener(onTouchListener());
+
+
+        ///////////handle settings button activity
+
+        Intent intent = getIntent();
+        if(intent!= null) editLayout = true;
+
+
+        //////////////////
+
+        if(editLayout){
+            editButton.setVisibility(View.VISIBLE);
+            saveButton.setVisibility(View.VISIBLE);
+            seekBar.setVisibility(View.VISIBLE);
+
+            saveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        saveData();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            editButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(curIndex != -1) {
+                        keyBoardGrid.setVisibility(View.VISIBLE);
+
+                        keyBoardGrid.setAdapter(new ArrayAdapter<String>(
+                                getApplicationContext(), android.R.layout.simple_list_item_1, gridKeys) {
+                            public View getView(int position, View convertView, ViewGroup parent) {
+
+                                View view = super.getView(position, convertView, parent);
+
+                                TextView tv = (TextView) view;
+
+
+                                tv.setTextColor(Color.WHITE);
+
+                                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                                        LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT
+                                );
+                                tv.setLayoutParams(lp);
+
+                                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tv.getLayoutParams();
+
+                                tv.setLayoutParams(params);
+
+                                tv.setGravity(Gravity.CENTER);
+
+                                tv.setText(gridKeys.get(position));
+
+                                if (tv.getText().toString().equals(actions.get(curIndex)))
+                                    tv.setBackgroundColor(Color.parseColor("#7289da"));
+                                else tv.setBackgroundColor(Color.parseColor("#23272a"));
+
+                                return tv;
+                            }
+                        });
+
+                        keyBoardGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                String buttonName = parent.getItemAtPosition(position).toString();
+                                actions.set(curIndex, buttonName);
+                                Toast.makeText(getApplicationContext(),
+                                        "Altered with " + buttonName, Toast.LENGTH_SHORT).show();
+                                keyBoardGrid.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                    }
+                    else Toast.makeText(getApplicationContext(),
+                            "Invalid key selected", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+
+
+
 
         rightStick.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -134,7 +253,7 @@ public class GamepadActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
+                }////////////////////////implement thread
                 return false;
             }
         });
@@ -147,6 +266,7 @@ public class GamepadActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 if(editLayout) {
+                    curIndex = Integer.parseInt((String) view.getTag());
                     final int x = (int) event.getRawX();
                     final int y = (int) event.getRawY();
 
@@ -175,7 +295,13 @@ public class GamepadActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    while(event.getAction() != MotionEvent.ACTION_UP) sendKeyToServer("char",(String)view.getTag());
+                    //////implement thread
+                    if(event.getAction() != MotionEvent.ACTION_UP) {
+                       // sendKeyToServer("char",actions.get(Integer.parseInt((String)view.getTag())));
+                        Toast.makeText(getApplicationContext(),
+                                (String)view.getTag(), Toast.LENGTH_SHORT).show();
+                        keyBoardGrid.setVisibility(View.INVISIBLE);
+                    }
                 }
                 return true;
             }
@@ -183,21 +309,27 @@ public class GamepadActivity extends AppCompatActivity {
     }
 
     void init(){
-        SharedPreferences sharedPref = getSharedPreferences("Hotkey/GamepadData", MODE_PRIVATE);
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("HotkeyGamepadData", MODE_PRIVATE);
+        keyBoardGrid.setVisibility(View.INVISIBLE);
+        editButton.setVisibility(View.INVISIBLE);
+        saveButton.setVisibility(View.INVISIBLE);
+        seekBar.setVisibility(View.INVISIBLE);
+        curIndex = -1;
         String data;
         try {
             JSONObject buttonData;
             for(int i = 0; i < buttons.size(); i++){
+                actions.add("");
                 data = sharedPref.getString("buttonData" + Integer.toString(i), null);
                 if(data != null){
                     buttonData = new JSONObject(data);
-                    buttons.get(i).setTag(buttonData.getString("action"));
-                    buttons.get(i).setTag(0,"i");
+                    actions.set( i, buttonData.getString("action"));
                     buttons.get(i).setLeft(buttonData.getInt("left"));
                     buttons.get(i).setRight(buttonData.getInt("right"));
                     buttons.get(i).setTop(buttonData.getInt("top"));
                     buttons.get(i).setBottom(buttonData.getInt("bottom"));
                 }
+                buttons.get(i).setTag(Integer.toString(i));
             }
             data = sharedPref.getString("buttonDataRightStick", null);
             if(data != null) {
@@ -223,5 +355,30 @@ public class GamepadActivity extends AppCompatActivity {
         }
 
         ConnectionManager.getInstance().sendPacket(packet);
+    }
+
+    void saveData() throws JSONException {
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("HotkeyGamepadData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        JSONObject buttonData;
+        for(int i = 0; i < buttons.size(); i++){
+            buttonData = new JSONObject();
+            buttonData.put("action",actions.get(i));
+            buttonData.put("left",(Integer)buttons.get(i).getLeft());
+            buttonData.put("right",(Integer)buttons.get(i).getRight());
+            buttonData.put("top",(Integer)buttons.get(i).getTop());
+            buttonData.put("bottom",(Integer)buttons.get(i).getBottom());
+
+            editor.putString("buttonData" + Integer.toString(i), buttonData.toString());
+        }
+        buttonData = new JSONObject();
+        buttonData.put("left",(Integer)rightStick.getLeft());
+        buttonData.put("right",(Integer)rightStick.getRight());
+        buttonData.put("top",(Integer)rightStick.getTop());
+        buttonData.put("bottom",(Integer)rightStick.getBottom());
+        editor.putString("buttonDataRightStick", buttonData.toString());
+        editor.apply();
+        Toast.makeText(getApplicationContext(),
+                "Data Saved", Toast.LENGTH_SHORT).show();
     }
 }
