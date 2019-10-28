@@ -49,5 +49,8 @@
 
     <!-- Live Screen -->
     <string name="live_screen_only_wifi">Only available on Wifi</string>
+    <string name="connections_scan_qr_code_btn_text">Scan QR code</string>
+    <string name="connections_enter_ip_btn_text">Enter IP Address</string>
+    <string name="title_qr_code_scanner">QR Code Scanner</string>
 
 </resources>
