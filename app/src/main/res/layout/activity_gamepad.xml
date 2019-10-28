@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:id="@+id/gamepad"
+tools:context=".ui.GamepadActivity">
+
+    <ImageView
+        android:id="@+id/leftStickBotID"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="92dp"
+        android:layout_marginTop="338dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/editButtonID"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="332dp"
+        android:layout_marginTop="2dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_edit_key_default" />
+
+    <ImageView
+        android:id="@+id/leftStickLeftID"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="283dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/leftStickTopID"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="92dp"
+        android:layout_marginTop="231dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/leftStickRightID"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="283dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/rightStickID"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="493dp"
+        android:layout_marginTop="207dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_sticks_default" />
+
+    <ImageView
+        android:id="@+id/leftLeftID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="94dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/leftBotID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="85dp"
+        android:layout_marginTop="143dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/leftRightID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="129dp"
+        android:layout_marginTop="95dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/leftTopID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="85dp"
+        android:layout_marginTop="50dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/rightLeftID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="534dp"
+        android:layout_marginTop="94dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/rightBotID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="578dp"
+        android:layout_marginTop="143dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/rightRightID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="622dp"
+        android:layout_marginTop="95dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/rightTopID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="578dp"
+        android:layout_marginTop="50dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/LBID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="131dp"
+        android:layout_marginTop="1dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/LTID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="2dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/LSID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="252dp"
+        android:layout_marginTop="127dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/RTID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="625dp"
+        android:layout_marginTop="-2dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/RBID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="532dp"
+        android:layout_marginTop="-1dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/RSID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="430dp"
+        android:layout_marginTop="128dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/menuID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="343dp"
+        android:layout_marginTop="238dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <ImageView
+        android:id="@+id/startID"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="343dp"
+        android:layout_marginTop="313dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default" />
+
+    <SeekBar
+        android:id="@+id/seekBarID"
+        android:layout_width="135dp"
+        android:layout_height="48dp"
+        android:layout_alignTop="@+id/editButtonID"
+        android:layout_marginStart="124dp"
+        android:layout_marginLeft="124dp"
+        android:layout_marginTop="60dp"
+        android:layout_toEndOf="@+id/leftRightID"
+        android:layout_toRightOf="@+id/leftRightID" />
+
+    <GridView
+        android:id="@+id/keyGridID"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

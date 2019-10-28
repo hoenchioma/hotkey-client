@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.GamepadActivity" android:screenOrientation="landscape"></activity>
         <activity
             android:name=".ui.LiveScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
