@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.rfw.hotkey.net.ConnectionManager" />
         <import type="com.rfw.hotkey.R" />
         <import type="android.view.View" />
+        <import type="com.rfw.hotkey.ui.connections.ConnectionsViewModel.State" />
         <variable
-            name="cm"
-            type="com.rfw.hotkey.net.ConnectionManager" />
+            name="viewModel"
+            type="com.rfw.hotkey.ui.connections.ConnectionsViewModel" />
     </data>
 
     <LinearLayout
@@ -26,16 +27,17 @@
             android:id="@+id/statusTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? cm.getComputerName() : @string/not_connected_msg }"
-            android:textColor="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? @color/green_400 : @color/dark_bg_light_primary_text }"
-            android:textSize="20sp" />
+            android:text="@{ viewModel.state == State.CONNECTED ? viewModel.computerName : @string/not_connected_msg }"
+            android:textColor="@{ viewModel.state == State.CONNECTED ? @color/green_400 : @color/dark_bg_light_primary_text }"
+            android:textSize="20sp"
+            android:visibility="@{ viewModel.state != State.CONNECTING ? View.VISIBLE : View.GONE }"/>
 
         <ProgressBar
             android:id="@+id/connectingSpinner"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:visibility="@{ viewModel.state == State.CONNECTING ? View.VISIBLE : View.GONE }" />
 
         <Space
             android:layout_width="wrap_content"
@@ -43,10 +45,41 @@
             android:layout_weight="1" />
 
         <LinearLayout
+            android:id="@+id/mainButtonStack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="@{ viewModel.state == State.NOT_CONNECTED ? View.VISIBLE : View.GONE }">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/scanQRCodeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/connections_scan_qr_code_btn_text" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                tools:ignore="NestedWeights" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/enterIPButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/connections_enter_ip_btn_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ipInputRack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:visibility="@{ viewModel.state == State.IP_INPUT ? View.VISIBLE : View.GONE }">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ipAddressTextField"
@@ -55,15 +88,15 @@
                 android:layout_weight="3"
                 android:hint="@string/connections_ip_address_text_field_label"
                 android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:visibility="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? View.GONE : View.VISIBLE }">
+                android:paddingEnd="30dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ipAddressEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789."
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:text="@={ viewModel.ipAddress }" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,14 +107,14 @@
                 android:layout_weight="2"
                 android:hint="@string/connections_port_text_field_label"
                 android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:visibility="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? View.GONE : View.VISIBLE }">
+                android:paddingEnd="30dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/portEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:text="@={ viewModel.portStr }" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,13 +123,16 @@
         <Space
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:visibility="@{ viewModel.state == State.CONNECTED || viewModel.state == State.IP_INPUT ? View.VISIBLE : View.GONE }"
+            tools:ignore="NestedWeights" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/connectButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ cm.connection != null &amp;&amp; cm.connection.getActive() ? @string/connections_disconnect_btn_text : @string/connections_connect_btn_text }" />
+            android:text="@{ viewModel.state == State.CONNECTED ? @string/connections_disconnect_btn_text : @string/connections_connect_btn_text }"
+            android:visibility="@{ viewModel.state == State.CONNECTED || viewModel.state == State.IP_INPUT ? View.VISIBLE : View.GONE }"/>
 
         <Space
             android:layout_width="wrap_content"
