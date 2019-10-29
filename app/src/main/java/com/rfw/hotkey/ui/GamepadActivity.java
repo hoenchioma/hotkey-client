@@ -1,13 +1,7 @@
 package com.rfw.hotkey.ui;
 
-import com.rfw.hotkey.R;
-import com.rfw.hotkey.net.ConnectionManager;
-
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.widget.AdapterView;
-import android.widget.RelativeLayout.LayoutParams;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,15 +9,21 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.rfw.hotkey.R;
+import com.rfw.hotkey.net.ConnectionManager;
+import com.rfw.hotkey.util.LoopedExecutor;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +31,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class GamepadActivity extends AppCompatActivity {
 
@@ -71,6 +70,10 @@ public class GamepadActivity extends AppCompatActivity {
     };
 
     final List<String> gridKeys = new ArrayList<String>(Arrays.asList(keyboardKeys));
+
+    private static final long BUTTON_PRESS_DELAY = 100; // milliseconds
+
+    private LoopedExecutor buttonPresser = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -294,13 +297,26 @@ public class GamepadActivity extends AppCompatActivity {
                             break;
                     }
                 }
-                else{
-                    //////implement thread
+                else {
                     if(event.getAction() != MotionEvent.ACTION_UP) {
-                       // sendKeyToServer("char",actions.get(Integer.parseInt((String)view.getTag())));
-                        Toast.makeText(getApplicationContext(),
-                                (String)view.getTag(), Toast.LENGTH_SHORT).show();
+                        if (buttonPresser == null) {
+                            buttonPresser = new LoopedExecutor(BUTTON_PRESS_DELAY) {
+                                @Override
+                                public void task() {
+                                    sendKeyToServer("char",
+                                            actions.get(Integer.parseInt((String) view.getTag())));
+                                }
+                            };
+                            buttonPresser.start();
+                        }
+//                        Toast.makeText(getApplicationContext(),
+//                                (String)view.getTag(), Toast.LENGTH_SHORT).show();
                         keyBoardGrid.setVisibility(View.INVISIBLE);
+                    } else {
+                        if (buttonPresser != null) {
+                            buttonPresser.end();
+                            buttonPresser = null;
+                        }
                     }
                 }
                 return true;
