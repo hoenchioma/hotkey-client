@@ -164,6 +164,7 @@ public class ConnectionsFragment extends Fragment {
     }
 
     private void makeConnection(String ipAddress, int port) {
+        State prevState = viewModel.state.get();
         viewModel.state.set(State.CONNECTING);
         long startTime = System.nanoTime();
 
@@ -183,8 +184,15 @@ public class ConnectionsFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-                viewModel.computerName = getComputerName();
-                viewModel.state.set(State.CONNECTED);
+                if (success) {
+                    viewModel.computerName = getComputerName();
+                    viewModel.state.set(State.CONNECTED);
+                } else {
+                    viewModel.state.set(prevState);
+
+                    Snackbar.make(activity.findViewById(android.R.id.content),
+                            R.string.connection_error_msg, Snackbar.LENGTH_SHORT).show();
+                }
 
 //                        Snackbar.make(activity.findViewById(android.R.id.content),
 //                                success ? R.string.connection_success_msg : R.string.connection_error_msg,
