@@ -1,5 +1,6 @@
 package com.rfw.hotkey.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rfw.hotkey.R;
@@ -22,21 +24,66 @@ import org.json.JSONObject;
 
 public class PowerPointFragment extends Fragment implements View.OnClickListener,View.OnTouchListener{
 
+    private boolean mouseMoved = false;
+    private boolean scrollMoved = false;
+    private float initX = 0;
+    private float initY = 0;
+    private float disX;
+    private float disY;
+
+    private TextView touchpad;
     private ImageButton fullScreenButton, upButton,  leftButton, downButton, righButton;
     private Button fromThisSlideButton,fromTheBeginningButton;
     private Boolean isFullScreen;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_power_point, container, false);
         initialization(rootView);
+
+        touchpad.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("LongLogTag")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+
+                        initX = event.getX();
+                        initY = event.getY();
+                        mouseMoved = false;
+                        disX = 0;
+                        disY = 0;
+                        Log.d("powerPoint Fragment pointer",String.valueOf(disX)+" "+String.valueOf(disY));
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        disX = event.getX() - initX;
+                        disY = event.getY() - initY;
+                        initX = event.getX();
+                        initY = event.getY();
+                        try {
+                            sendMessageToServer("TouchpadMove",(int)disX, (int)disY);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        mouseMoved = true;
+                        Log.d("powerPoint Fragment pointer",String.valueOf(disX)+" "+String.valueOf(disY));
+                        break;
+
+
+                }
+                return true;
+            }
+        });
         // Inflate the layout for this fragment
         return rootView;
     }
 
     private void initialization(View rootView) {
         isFullScreen = false;
+        touchpad = rootView.findViewById(R.id.pointerCursorID);
         fullScreenButton = rootView.findViewById(R.id.ppt_presentationButtonID);
         upButton = rootView.findViewById(R.id.ppt_upButtonID);
         fromTheBeginningButton = rootView.findViewById(R.id.fromTheBeginningButtonID);
@@ -44,6 +91,7 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
         leftButton = rootView.findViewById(R.id.ppt_leftButtonID);
         downButton = rootView.findViewById(R.id.ppt_downButtonID);
         righButton = rootView.findViewById(R.id.ppt_rightButtonID);
+        //touchpad.setOnClickListener(this);
         fullScreenButton.setOnClickListener(this);
         upButton.setOnClickListener(this);
         leftButton.setOnClickListener(this);
@@ -147,9 +195,25 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
             Log.e("PowerPointFragment", "sendMessageToServer: error sending key-press", e);
         }
     }
+    private void sendMessageToServer(String action, int moveX, int moveY) throws JSONException {
+        JSONObject packet = new JSONObject();
+        packet.put("type", "mouse");
+        switch (action) {
+            case "TouchpadMove":
+                try {
+                    packet.put("action", action);
+                    packet.put("deltaX", moveX);
+                    packet.put("deltaY", moveY);
+                } catch (JSONException e) {
+                    Log.e("PowerPointFragment", "sendMessageToServer: error sending mouse movement", e);
+                }
+                break;
+        }
+    }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        return false;
+
+         return false;
     }
 }
