@@ -12,19 +12,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="25dp">
+        android:layout_height="wrap_content">
 
+        <ImageButton
+            android:id="@+id/pdfMoreButtonID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MenuIconStyle"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_more_vert_white_24dp"
+            android:scaleY="1.8"
+            android:scaleX="1.8"
+
+            />
         <ImageButton
             android:id="@+id/pdf_findPageButtonID"
             style="@style/MenuIconStyle"
+            android:layout_marginLeft="10dp"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:src="@drawable/ic_find_in_page_white_24dp"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentLeft="true">
 
         </ImageButton>
 
