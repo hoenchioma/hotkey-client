@@ -76,11 +76,11 @@ public class WiFiConnection implements Connection {
     /**
      * Exchange device names with server
      */
-    private void handshake() throws IOException {
+    private void handshake() throws IOException, AssertionError {
         // send handshake packet
         JSONObject handshakePacket = new JSONObject();
         try {
-            handshakePacket.put("type", "handshake");
+            handshakePacket.put("type", "connectionRequest");
             handshakePacket.put("deviceName", getDeviceName());
             handshakePacket.put("connectionType", "normal");
         } catch (JSONException e) {
@@ -92,7 +92,8 @@ public class WiFiConnection implements Connection {
         String response = in.readLine();
         try {
             JSONObject receivedPacket = new JSONObject(new JSONTokener(response));
-            if (!receivedPacket.getString("type").equals("handshake")) throw new AssertionError();
+            if (!receivedPacket.getString("type").equals("connectionResponse")) throw new AssertionError();
+            if (!receivedPacket.getBoolean("success")) throw new AssertionError();
             computerName = receivedPacket.getString("deviceName");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -113,7 +114,7 @@ public class WiFiConnection implements Connection {
                     handshake();
                     success = true;
                     Log.i(TAG, "connect.doInBackground: connected successfully to " + computerName);
-                } catch (IOException e) {
+                } catch (AssertionError | IOException e) {
                     Log.e(TAG, "connect.doInBackground: error connecting", e);
                     success = false;
                     errorMessage = e.getMessage();

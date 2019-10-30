@@ -134,7 +134,7 @@ public class ConnectionsFragment extends Fragment {
         Intent intent = QRCodeReaderActivity.getLaunchIntent(getContext(), true, false, barcode -> {
             try {
                 JSONObject code = new JSONObject(new JSONTokener(barcode.rawValue));
-                return code.getString("type").equals("serverInfo");
+                return code.getString("type").equals("qrCode");
             } catch (JSONException e) {
                 return false;
             }
@@ -149,7 +149,7 @@ public class ConnectionsFragment extends Fragment {
                 assert barcode != null;
                 try {
                     JSONObject code = new JSONObject(new JSONTokener(barcode.rawValue));
-                    if (!code.getString("type").equals("serverInfo")) throw new AssertionError();
+                    if (!code.getString("type").equals("qrCode")) throw new AssertionError();
                     String ipAddress = code.getString("ipAddress");
                     int port = code.getInt("port");
                     makeConnection(ipAddress, port);
