@@ -38,10 +38,10 @@ import static com.rfw.hotkey.util.Utils.getIntPref;
 public class LiveScreenActivity extends AppCompatActivity {
     private static final String TAG = "LiveScreenActivity";
 
-    private float initX = 0;
-    private float initY = 0;
-    private float disX;
-    private float disY;
+    private float mouseInitX = 0;
+    private float mouseInitY = 0;
+    private float mouseDisX;
+    private float mouseDisY;
 
     /**
      * Whether or not the system UI should be auto-hidden after
@@ -110,6 +110,7 @@ public class LiveScreenActivity extends AppCompatActivity {
 
     private LiveScreenReceiver liveScreenReceiver;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,49 +155,47 @@ public class LiveScreenActivity extends AppCompatActivity {
             }
         };
 
-        mContentView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getPointerCount() > 1){
-                    //Toast.makeText(getContext(),"RightClick", Toast.LENGTH_SHORT).show();
+        // mouse control logic
+        mContentView.setOnTouchListener((v, event) -> {
+            if (event.getPointerCount() > 1) {
+                //Toast.makeText(getContext(),"RightClick", Toast.LENGTH_SHORT).show();
+                try {
+                    sendToServer("RightClick", 0, 0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+
+                    mouseInitX = event.getX();
+                    mouseInitY = event.getY();
+                    mouseDisX = 0;
+                    mouseDisY = 0;
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    mouseDisX = event.getX() - mouseInitX;
+                    mouseDisY = event.getY() - mouseInitY;
+                    mouseInitX = event.getX();
+                    mouseInitY = event.getY();
                     try {
-                        sendMessageToServer("RightClick",0, 0);
+                        sendToServer("TouchpadMove", (int) mouseDisX, (int) mouseDisY);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
+                    break;
+                case MotionEvent.ACTION_UP:
 
-                        initX = event.getX();
-                        initY = event.getY();
-                        disX = 0;
-                        disY = 0;
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        disX = event.getX() - initX;
-                        disY = event.getY() - initY;
-                        initX = event.getX();
-                        initY = event.getY();
+                    if (mouseDisX == 0 && mouseDisY == 0) {
                         try {
-                            sendMessageToServer("TouchpadMove",(int)disX, (int)disY);
+                            sendToServer("LeftClick", 0, 0);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        break;
-                    case MotionEvent.ACTION_UP:
-
-                        if (disX == 0 && disY == 0) {
-                            try {
-                                sendMessageToServer("LeftClick",0, 0);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        break;
-                }
-                return true;
+                    }
+                    break;
             }
+            return true;
         });
     }
 
@@ -290,46 +289,46 @@ public class LiveScreenActivity extends AppCompatActivity {
     }
 
 
-    private void sendMessageToServer(String action, int moveX, int moveY) throws JSONException {
+    private void sendToServer(String action, int moveX, int moveY) throws JSONException {
         JSONObject packet = new JSONObject();
         packet.put("type", "mouse");
-        switch (action){
+        switch (action) {
             case "TouchpadMove":
-                try{
+                try {
                     packet.put("action", action);
                     packet.put("deltaX", moveX);
                     packet.put("deltaY", moveY);
                 } catch (JSONException e) {
-                    Log.e("MouseFragment", "sendMessageToServer: error sending mouse movement", e);
+                    Log.e("MouseFragment", "sendToServer: error sending mouse movement", e);
                 }
                 break;
             case "RightClick":
-                try{
+                try {
                     packet.put("action", action);
-                }catch (JSONException e){
-                    Log.e("MouseFragment", "sendMessageToServer: error sending right click", e);
+                } catch (JSONException e) {
+                    Log.e("MouseFragment", "sendToServer: error sending right click", e);
                 }
                 break;
             case "LeftClick":
-                try{
+                try {
                     packet.put("action", action);
-                }catch (JSONException e){
-                    Log.e("MouseFragment", "sendMessageToServer: error sending left click", e);
+                } catch (JSONException e) {
+                    Log.e("MouseFragment", "sendToServer: error sending left click", e);
                 }
                 break;
             case "ScrollMove":
-                try{
+                try {
                     packet.put("action", action);
                     packet.put("deltaY", moveY);
-                }catch (JSONException e){
-                    Log.e("MouseFragment", "sendMessageToServer: error sending scroll movement", e);
+                } catch (JSONException e) {
+                    Log.e("MouseFragment", "sendToServer: error sending scroll movement", e);
                 }
                 break;
             case "ScrollClick":
-                try{
+                try {
                     packet.put("action", action);
-                }catch (JSONException e){
-                    Log.e("MouseFragment", "sendMessageToServer: error sending scroll click", e);
+                } catch (JSONException e) {
+                    Log.e("MouseFragment", "sendToServer: error sending scroll click", e);
                 }
                 break;
 
