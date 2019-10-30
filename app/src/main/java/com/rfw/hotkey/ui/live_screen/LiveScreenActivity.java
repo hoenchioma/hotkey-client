@@ -22,7 +22,11 @@ import androidx.preference.PreferenceManager;
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.live_screen.LiveScreenReceiver;
 import com.rfw.hotkey.live_screen.WiFiLiveScreenReceiver;
+import com.rfw.hotkey.net.ConnectionManager;
 import com.rfw.hotkey.util.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static com.rfw.hotkey.util.Utils.getFloatPref;
 import static com.rfw.hotkey.util.Utils.getIntPref;
@@ -33,6 +37,11 @@ import static com.rfw.hotkey.util.Utils.getIntPref;
  */
 public class LiveScreenActivity extends AppCompatActivity {
     private static final String TAG = "LiveScreenActivity";
+
+    private float mouseInitX = 0;
+    private float mouseInitY = 0;
+    private float mouseDisX;
+    private float mouseDisY;
 
     /**
      * Whether or not the system UI should be auto-hidden after
@@ -101,6 +110,7 @@ public class LiveScreenActivity extends AppCompatActivity {
 
     private LiveScreenReceiver liveScreenReceiver;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,6 +154,49 @@ public class LiveScreenActivity extends AppCompatActivity {
                 if (isFatal) finish();
             }
         };
+
+        // mouse control logic
+        mContentView.setOnTouchListener((v, event) -> {
+            if (event.getPointerCount() > 1) {
+                //Toast.makeText(getContext(),"RightClick", Toast.LENGTH_SHORT).show();
+                try {
+                    sendToServer("RightClick", 0, 0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+
+                    mouseInitX = event.getX();
+                    mouseInitY = event.getY();
+                    mouseDisX = 0;
+                    mouseDisY = 0;
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    mouseDisX = event.getX() - mouseInitX;
+                    mouseDisY = event.getY() - mouseInitY;
+                    mouseInitX = event.getX();
+                    mouseInitY = event.getY();
+                    try {
+                        sendToServer("TouchpadMove", (int) mouseDisX, (int) mouseDisY);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+
+                    if (mouseDisX == 0 && mouseDisY == 0) {
+                        try {
+                            sendToServer("LeftClick", 0, 0);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    break;
+            }
+            return true;
+        });
     }
 
     @Override
@@ -233,5 +286,53 @@ public class LiveScreenActivity extends AppCompatActivity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+
+    private void sendToServer(String action, int moveX, int moveY) throws JSONException {
+        JSONObject packet = new JSONObject();
+        packet.put("type", "mouse");
+        switch (action) {
+            case "TouchpadMove":
+                try {
+                    packet.put("action", action);
+                    packet.put("deltaX", moveX);
+                    packet.put("deltaY", moveY);
+                } catch (JSONException e) {
+                    Log.e("MouseFragment", "sendToServer: error sending mouse movement", e);
+                }
+                break;
+            case "RightClick":
+                try {
+                    packet.put("action", action);
+                } catch (JSONException e) {
+                    Log.e("MouseFragment", "sendToServer: error sending right click", e);
+                }
+                break;
+            case "LeftClick":
+                try {
+                    packet.put("action", action);
+                } catch (JSONException e) {
+                    Log.e("MouseFragment", "sendToServer: error sending left click", e);
+                }
+                break;
+            case "ScrollMove":
+                try {
+                    packet.put("action", action);
+                    packet.put("deltaY", moveY);
+                } catch (JSONException e) {
+                    Log.e("MouseFragment", "sendToServer: error sending scroll movement", e);
+                }
+                break;
+            case "ScrollClick":
+                try {
+                    packet.put("action", action);
+                } catch (JSONException e) {
+                    Log.e("MouseFragment", "sendToServer: error sending scroll click", e);
+                }
+                break;
+
+        }
+        ConnectionManager.getInstance().sendPacket(packet);
     }
 }
