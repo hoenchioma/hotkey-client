@@ -19,11 +19,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+
 public class PDFFragment extends Fragment implements View.OnClickListener {
 
-    private ImageButton fullScreenButton, upButton,zoomInButton,zoomOutButton,  leftButton, downButton, righButton,findPageButton;
+    private ImageButton fullScreenButton,pdfMoreButton ,upButton,zoomInButton,zoomOutButton,  leftButton, downButton, righButton,findPageButton;
     private Button fitHeightButton,fitWidthButton;
     private Boolean isFullScreen;
+    private static int platform;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,8 +35,17 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         return rootView;
     }
+
+    public int getPlatform(){
+        return platform;
+    }
+    public void setPlatform(int platform){
+        this.platform = platform;
+    }
     private void initialization(View rootView) {
+        platform = 1;
         isFullScreen = false;
+        pdfMoreButton = rootView.findViewById(R.id.pdfMoreButtonID);
         findPageButton = rootView.findViewById(R.id.pdf_findPageButtonID);
         fitWidthButton = rootView.findViewById(R.id.pdf_fitWidthButtonID);
         fitHeightButton = rootView.findViewById(R.id.pdf_fitHeightButtonID);
@@ -45,6 +56,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         leftButton = rootView.findViewById(R.id.pdf_leftButtonID);
         downButton = rootView.findViewById(R.id.pdf_downButtonID);
         righButton = rootView.findViewById(R.id.pdf_rightButtonID);
+        pdfMoreButton.setOnClickListener(this);
         findPageButton.setOnClickListener(this);
         fitHeightButton.setOnClickListener(this);
         fitWidthButton.setOnClickListener(this);
@@ -63,6 +75,10 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         int id = view.getId();
 
         switch (id) {
+            case R.id.pdfMoreButtonID:
+                openMoreDialog();
+                break;
+
             case R.id.pdf_findPageButtonID:
                 //TODO Make a dialog
                 openDialog();
@@ -74,11 +90,11 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                     //Log.d("onclick", "F5");
                     //fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                     Toast.makeText(getActivity(), "Full Screen Mode", Toast.LENGTH_SHORT).show();
-                    sendMessageToServer("fullscreen","modifier");
+                    sendMessageToServer("fullscreen","modifier",String.valueOf(platform));
                     fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                     isFullScreen = true;
                 } else {
-                    sendMessageToServer("ESC", "modifier");
+                    sendMessageToServer("ESC", "modifier",String.valueOf(platform));
                     Log.d("onclick", "ESC");
                     fullScreenButton.setImageResource(R.drawable.ic_fullscreen_white_24dp);
                     Toast.makeText(getActivity(), "Normal Mode", Toast.LENGTH_SHORT).show();
@@ -87,42 +103,44 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.pdf_fitHeightButtonID:
-                sendMessageToServer("fit_h", "modifier");
+                sendMessageToServer("fit_h", "modifier",String.valueOf(platform));
                 Log.d("onclick", "FIT HEIGHT");
+                Log.d("pdf m",String.valueOf(platform));
                 break;
             case R.id.pdf_fitWidthButtonID:
-                sendMessageToServer("fit_w", "modifier");
+                sendMessageToServer("fit_w", "modifier",String.valueOf(platform));
                 Log.d("onclick", "FIT WIDTH");
                 break;
             case R.id.pdf_zoomInButtonID:
-                sendMessageToServer("zoom_in", "modifier");
+                sendMessageToServer("zoom_in", "modifier",String.valueOf(platform));
                 Log.d("onclick", "ZOOM IN");
                 break;
             case R.id.pdf_zoomOutButtonID:
-                sendMessageToServer("zoom_out", "modifier");
+                sendMessageToServer("zoom_out", "modifier",String.valueOf(platform));
                 Log.d("onclick", "ZOOM OUT");
                 break;
             case R.id.pdf_upButtonID:
                 // sendMessageToServer("modifier");
-                sendMessageToServer("UP", "modifier");
+                sendMessageToServer("UP", "modifier",String.valueOf(platform));
                 Log.d("onclick", "UP");
                 break;
             case R.id.pdf_leftButtonID:
                 //sendMessageToServer("modifier");
-                sendMessageToServer("LEFT", "modifier");
+                sendMessageToServer("LEFT", "modifier",String.valueOf(platform));
                 Log.d("onclick", "LEFT");
                 break;
             case R.id.pdf_downButtonID:
                 // sendMessageToServer("modifier");
-                sendMessageToServer("DOWN", "modifier");
+                sendMessageToServer("DOWN", "modifier",String.valueOf(platform));
                 Log.d("onclick", "DOWN");
                 break;
             case R.id.pdf_rightButtonID:
                 //sendMessageToServer("modifier");
-                sendMessageToServer("RIGHT", "modifier");
+                sendMessageToServer("RIGHT", "modifier",String.valueOf(platform));
                 Log.d("onclick", "RIGHT");
                 break;
         }
+        Log.d("PDF More",String.valueOf(platform));
     }
 
     /**
@@ -131,12 +149,13 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
      * @param message message (key press type)
      * @param action  type of the message
      */
-    private void sendMessageToServer(String message, String action) {
+    private void sendMessageToServer(String message, String action, String platform) {
         JSONObject packet = new JSONObject();
 
         try {
             packet.put("type", "pdf");
             packet.put("action", action);
+            packet.put("platform",platform);
             packet.put("key", message);
 
             ConnectionManager.getInstance().sendPacket(packet);
@@ -144,6 +163,10 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         } catch (JSONException e) {
             Log.e("PDFFragment", "sendMessageToServer: error sending key-press", e);
         }
+    }
+    public void openMoreDialog(){
+        PDFMoreDialog pdfMoreDialog = new PDFMoreDialog();
+        pdfMoreDialog.show(getFragmentManager(),"pdf More Dialog");
     }
     public void openDialog(){
             PDFFindPageDialog pdfFindPageDialog = new PDFFindPageDialog();
