@@ -1,9 +1,6 @@
 package com.rfw.hotkey.ui.pdf;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +9,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
 
@@ -19,13 +18,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-
 public class PDFFragment extends Fragment implements View.OnClickListener {
 
-    private ImageButton fullScreenButton,pdfMoreButton ,upButton,zoomInButton,zoomOutButton,  leftButton, downButton, righButton,findPageButton;
-    private Button fitHeightButton,fitWidthButton;
+    private ImageButton fullScreenButton, pdfMoreButton, upButton, zoomInButton, zoomOutButton, leftButton, downButton, righButton, findPageButton;
+    private Button fitHeightButton, fitWidthButton;
     private Boolean isFullScreen;
     private static int platform;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,12 +35,14 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         return rootView;
     }
 
-    public int getPlatform(){
+    int getPlatform() {
         return platform;
     }
-    public void setPlatform(int platform){
+
+    void setPlatform(int platform) {
         this.platform = platform;
     }
+
     private void initialization(View rootView) {
         platform = 1;
         isFullScreen = false;
@@ -90,11 +91,11 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                     //Log.d("onclick", "F5");
                     //fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                     Toast.makeText(getActivity(), "Full Screen Mode", Toast.LENGTH_SHORT).show();
-                    sendMessageToServer("fullscreen","modifier",String.valueOf(platform));
+                    sendMessageToServer("fullscreen", "modifier", String.valueOf(platform));
                     fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                     isFullScreen = true;
                 } else {
-                    sendMessageToServer("ESC", "modifier",String.valueOf(platform));
+                    sendMessageToServer("ESC", "modifier", String.valueOf(platform));
                     Log.d("onclick", "ESC");
                     fullScreenButton.setImageResource(R.drawable.ic_fullscreen_white_24dp);
                     Toast.makeText(getActivity(), "Normal Mode", Toast.LENGTH_SHORT).show();
@@ -103,44 +104,44 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.pdf_fitHeightButtonID:
-                sendMessageToServer("fit_h", "modifier",String.valueOf(platform));
+                sendMessageToServer("fit_h", "modifier", String.valueOf(platform));
                 Log.d("onclick", "FIT HEIGHT");
-                Log.d("pdf m",String.valueOf(platform));
+                Log.d("pdf m", String.valueOf(platform));
                 break;
             case R.id.pdf_fitWidthButtonID:
-                sendMessageToServer("fit_w", "modifier",String.valueOf(platform));
+                sendMessageToServer("fit_w", "modifier", String.valueOf(platform));
                 Log.d("onclick", "FIT WIDTH");
                 break;
             case R.id.pdf_zoomInButtonID:
-                sendMessageToServer("zoom_in", "modifier",String.valueOf(platform));
+                sendMessageToServer("zoom_in", "modifier", String.valueOf(platform));
                 Log.d("onclick", "ZOOM IN");
                 break;
             case R.id.pdf_zoomOutButtonID:
-                sendMessageToServer("zoom_out", "modifier",String.valueOf(platform));
+                sendMessageToServer("zoom_out", "modifier", String.valueOf(platform));
                 Log.d("onclick", "ZOOM OUT");
                 break;
             case R.id.pdf_upButtonID:
                 // sendMessageToServer("modifier");
-                sendMessageToServer("UP", "modifier",String.valueOf(platform));
+                sendMessageToServer("UP", "modifier", String.valueOf(platform));
                 Log.d("onclick", "UP");
                 break;
             case R.id.pdf_leftButtonID:
                 //sendMessageToServer("modifier");
-                sendMessageToServer("LEFT", "modifier",String.valueOf(platform));
+                sendMessageToServer("LEFT", "modifier", String.valueOf(platform));
                 Log.d("onclick", "LEFT");
                 break;
             case R.id.pdf_downButtonID:
                 // sendMessageToServer("modifier");
-                sendMessageToServer("DOWN", "modifier",String.valueOf(platform));
+                sendMessageToServer("DOWN", "modifier", String.valueOf(platform));
                 Log.d("onclick", "DOWN");
                 break;
             case R.id.pdf_rightButtonID:
                 //sendMessageToServer("modifier");
-                sendMessageToServer("RIGHT", "modifier",String.valueOf(platform));
+                sendMessageToServer("RIGHT", "modifier", String.valueOf(platform));
                 Log.d("onclick", "RIGHT");
                 break;
         }
-        Log.d("PDF More",String.valueOf(platform));
+        Log.d("PDF More", String.valueOf(platform));
     }
 
     /**
@@ -155,7 +156,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         try {
             packet.put("type", "pdf");
             packet.put("action", action);
-            packet.put("platform",platform);
+            packet.put("platform", platform);
             packet.put("key", message);
 
             ConnectionManager.getInstance().sendPacket(packet);
@@ -164,12 +165,14 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
             Log.e("PDFFragment", "sendMessageToServer: error sending key-press", e);
         }
     }
-    public void openMoreDialog(){
+
+    private void openMoreDialog() {
         PDFMoreDialog pdfMoreDialog = new PDFMoreDialog();
-        pdfMoreDialog.show(getFragmentManager(),"pdf More Dialog");
+        pdfMoreDialog.show(getFragmentManager(), "pdf More Dialog");
     }
-    public void openDialog(){
-            PDFFindPageDialog pdfFindPageDialog = new PDFFindPageDialog();
-            pdfFindPageDialog.show(getFragmentManager(),"Goto Page Dialog");
+
+    private void openDialog() {
+        PDFFindPageDialog pdfFindPageDialog = new PDFFindPageDialog();
+        pdfFindPageDialog.show(getFragmentManager(), "Goto Page Dialog");
     }
 }

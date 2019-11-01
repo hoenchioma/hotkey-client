@@ -21,12 +21,13 @@ import org.json.JSONObject;
 
 public class PDFFindPageDialog extends AppCompatDialogFragment {
     private TextInputEditText pageNumberEditText;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_pdf_find_page,null);
+        View view = inflater.inflate(R.layout.dialog_pdf_find_page, null);
         builder.setView(view)
                 .setTitle("PDF")
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -39,12 +40,12 @@ public class PDFFindPageDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String number = pageNumberEditText.getText().toString();
-                        Log.d("PDF_Dialog",number);
-                        sendMessageToServer(number,"page");
+                        Log.d("PDF_Dialog", number);
+                        sendMessageToServer(number, "page");
                     }
                 });
         pageNumberEditText = view.findViewById(R.id.pdf_pageNumberTextInputID);
-        return  builder.create();
+        return builder.create();
     }
 
     private void sendMessageToServer(String message, String action) {

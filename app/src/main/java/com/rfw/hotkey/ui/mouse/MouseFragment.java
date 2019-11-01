@@ -1,12 +1,7 @@
 package com.rfw.hotkey.ui.mouse;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,14 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 
 public class MouseFragment extends Fragment {
@@ -49,7 +44,7 @@ public class MouseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    sendMessageToServer("LeftClick",0, 0);
+                    sendMessageToServer("LeftClick", 0, 0);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -75,7 +70,7 @@ public class MouseFragment extends Fragment {
                         initX = event.getX();
                         initY = event.getY();
                         try {
-                            sendMessageToServer("TouchpadMove",(int)disX, (int)disY);
+                            sendMessageToServer("TouchpadMove", (int) disX, (int) disY);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -85,7 +80,7 @@ public class MouseFragment extends Fragment {
 
                         if (disX == 0 && disY == 0) {
                             try {
-                                sendMessageToServer("LeftClick",0, 0);
+                                sendMessageToServer("LeftClick", 0, 0);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -110,7 +105,7 @@ public class MouseFragment extends Fragment {
                         initY = event.getY();
                         if (disY != 0) {
                             try {
-                                sendMessageToServer("ScrollMove",0, (int)disY);
+                                sendMessageToServer("ScrollMove", 0, (int) disY);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -121,7 +116,7 @@ public class MouseFragment extends Fragment {
 
                         if (!scrollMoved) {
                             try {
-                                sendMessageToServer("ScrollClick",0, 0);
+                                sendMessageToServer("ScrollClick", 0, 0);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -134,18 +129,18 @@ public class MouseFragment extends Fragment {
 
         leftClick.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void  onClick(View view){
+            public void onClick(View view) {
                 try {
-                    sendMessageToServer("LeftClick",0, 0);
+                    sendMessageToServer("LeftClick", 0, 0);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        leftClick.setOnLongClickListener(new View.OnLongClickListener(){
+        leftClick.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View view){
+            public boolean onLongClick(View view) {
 
                 return true;
             }
@@ -153,18 +148,18 @@ public class MouseFragment extends Fragment {
 
         rightClick.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void  onClick(View view){
+            public void onClick(View view) {
                 try {
-                    sendMessageToServer("RightClick",0, 0);
+                    sendMessageToServer("RightClick", 0, 0);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        rightClick.setOnLongClickListener(new View.OnLongClickListener(){
+        rightClick.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View view){
+            public boolean onLongClick(View view) {
 
                 return true;
             }
@@ -177,9 +172,9 @@ public class MouseFragment extends Fragment {
     private void sendMessageToServer(String action, int moveX, int moveY) throws JSONException {
         JSONObject packet = new JSONObject();
         packet.put("type", "mouse");
-        switch (action){
+        switch (action) {
             case "TouchpadMove":
-                try{
+                try {
                     packet.put("action", action);
                     packet.put("deltaX", moveX);
                     packet.put("deltaY", moveY);
@@ -188,31 +183,31 @@ public class MouseFragment extends Fragment {
                 }
                 break;
             case "RightClick":
-                try{
+                try {
                     packet.put("action", action);
-                }catch (JSONException e){
+                } catch (JSONException e) {
                     Log.e("MouseFragment", "sendMessageToServer: error sending right click", e);
                 }
                 break;
             case "LeftClick":
-                try{
+                try {
                     packet.put("action", action);
-                }catch (JSONException e){
+                } catch (JSONException e) {
                     Log.e("MouseFragment", "sendMessageToServer: error sending left click", e);
                 }
                 break;
             case "ScrollMove":
-                try{
+                try {
                     packet.put("action", action);
                     packet.put("deltaY", moveY);
-                }catch (JSONException e){
+                } catch (JSONException e) {
                     Log.e("MouseFragment", "sendMessageToServer: error sending scroll movement", e);
                 }
                 break;
             case "ScrollClick":
-                try{
+                try {
                     packet.put("action", action);
-                }catch (JSONException e){
+                } catch (JSONException e) {
                     Log.e("MouseFragment", "sendMessageToServer: error sending scroll click", e);
                 }
                 break;

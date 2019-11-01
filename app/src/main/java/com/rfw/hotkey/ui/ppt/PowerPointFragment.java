@@ -2,9 +2,6 @@ package com.rfw.hotkey.ui.ppt;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,6 +12,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
 
@@ -22,7 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class PowerPointFragment extends Fragment implements View.OnClickListener,View.OnTouchListener{
+public class PowerPointFragment extends Fragment implements View.OnClickListener, View.OnTouchListener {
 
     private boolean mouseMoved = false;
     private boolean scrollMoved = false;
@@ -32,9 +31,10 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
     private float disY;
 
     private TextView touchpad;
-    private ImageButton fullScreenButton, upButton,  leftButton, downButton, righButton;
-    private Button fromThisSlideButton,fromTheBeginningButton;
+    private ImageButton fullScreenButton, upButton, leftButton, downButton, righButton;
+    private Button fromThisSlideButton, fromTheBeginningButton;
     private Boolean isFullScreen;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +56,7 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
                         mouseMoved = false;
                         disX = 0;
                         disY = 0;
-                        Log.d("powerPoint Fragment pointer",String.valueOf(disX)+" "+String.valueOf(disY));
+                        Log.d("powerPoint Fragment pointer", disX + " " + disY);
                         break;
                     case MotionEvent.ACTION_MOVE:
                         disX = event.getX() - initX;
@@ -64,12 +64,12 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
                         initX = event.getX();
                         initY = event.getY();
                         try {
-                            sendMessageToServer("TouchpadMove",(int)disX, (int)disY);
+                            sendMessageToServer("TouchpadMove", (int) disX, (int) disY);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         mouseMoved = true;
-                        Log.d("powerPoint Fragment pointer",String.valueOf(disX)+" "+String.valueOf(disY));
+                        Log.d("powerPoint Fragment pointer", disX + " " + disY);
                         break;
 
 
@@ -100,6 +100,7 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
         fromThisSlideButton.setOnClickListener(this);
         fromTheBeginningButton.setOnClickListener(this);
     }
+
     // TODO Create a POPUP menu for Slide full screen
     @Override
     public void onClick(View view) {
@@ -114,7 +115,7 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
                     //Log.d("onclick", "F5");
                     //fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                     Toast.makeText(getActivity(), "Select Presentation Mode", Toast.LENGTH_SHORT).show();
-                    if(fromThisSlideButton.getVisibility() == View.VISIBLE){
+                    if (fromThisSlideButton.getVisibility() == View.VISIBLE) {
                         fromTheBeginningButton.setVisibility(View.INVISIBLE);
                         fromThisSlideButton.setVisibility(View.INVISIBLE);
                     }
@@ -195,6 +196,7 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
             Log.e("PowerPointFragment", "sendMessageToServer: error sending key-press", e);
         }
     }
+
     private void sendMessageToServer(String action, int moveX, int moveY) throws JSONException {
         JSONObject packet = new JSONObject();
         packet.put("type", "mouse");
@@ -214,6 +216,6 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
-         return false;
+        return false;
     }
 }
