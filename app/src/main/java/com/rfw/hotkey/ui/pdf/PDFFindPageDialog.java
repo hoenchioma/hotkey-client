@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -26,8 +25,7 @@ public class PDFFindPageDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_pdf_find_page, null);
+        View view = View.inflate(getContext(), R.layout.dialog_pdf_find_page, null);
         builder.setView(view)
                 .setTitle("PDF")
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {

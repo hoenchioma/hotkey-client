@@ -1,5 +1,7 @@
 package com.rfw.hotkey.ui.pdf;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,13 +19,24 @@ import com.rfw.hotkey.net.ConnectionManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 
 public class PDFFragment extends Fragment implements View.OnClickListener {
+    private static final String KEY_PDF_READER_PLATFORM = "pdfPlatform";
 
-    private ImageButton fullScreenButton, pdfMoreButton, upButton, zoomInButton, zoomOutButton, leftButton, downButton, righButton, findPageButton;
+    private ImageButton fullScreenButton;
+    private ImageButton pdfMoreButton;
+    private ImageButton upButton;
+    private ImageButton zoomInButton;
+    private ImageButton zoomOutButton;
+    private ImageButton leftButton;
+    private ImageButton downButton;
+    private ImageButton righButton;
+    private ImageButton findPageButton;
+
     private Button fitHeightButton, fitWidthButton;
-    private Boolean isFullScreen;
-    private static int platform;
+    private boolean isFullScreen;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,15 +49,18 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
     }
 
     int getPlatform() {
-        return platform;
+        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
+        return sharedPref.getInt(KEY_PDF_READER_PLATFORM, 1);
     }
 
     void setPlatform(int platform) {
-        this.platform = platform;
+        SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(KEY_PDF_READER_PLATFORM, platform);
+        editor.apply();
     }
 
     private void initialization(View rootView) {
-        platform = 1;
         isFullScreen = false;
         pdfMoreButton = rootView.findViewById(R.id.pdfMoreButtonID);
         findPageButton = rootView.findViewById(R.id.pdf_findPageButtonID);
@@ -74,18 +90,17 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        int platform = getPlatform();
 
         switch (id) {
             case R.id.pdfMoreButtonID:
                 openMoreDialog();
                 break;
-
             case R.id.pdf_findPageButtonID:
                 //TODO Make a dialog
                 openDialog();
                 break;
             case R.id.pdf_fullScreenButtonID:
-
                 if (!isFullScreen) {
                     //sendMessageToServer("F5", "modifier");
                     //Log.d("onclick", "F5");
@@ -101,7 +116,6 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                     Toast.makeText(getActivity(), "Normal Mode", Toast.LENGTH_SHORT).show();
                     isFullScreen = false;
                 }
-
                 break;
             case R.id.pdf_fitHeightButtonID:
                 sendMessageToServer("fit_h", "modifier", String.valueOf(platform));
@@ -167,12 +181,14 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
     }
 
     private void openMoreDialog() {
-        PDFMoreDialog pdfMoreDialog = new PDFMoreDialog();
+        PDFMoreDialog pdfMoreDialog = new PDFMoreDialog(this);
+        assert getFragmentManager() != null;
         pdfMoreDialog.show(getFragmentManager(), "pdf More Dialog");
     }
 
     private void openDialog() {
         PDFFindPageDialog pdfFindPageDialog = new PDFFindPageDialog();
+        assert getFragmentManager() != null;
         pdfFindPageDialog.show(getFragmentManager(), "Goto Page Dialog");
     }
 }
