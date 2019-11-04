@@ -18,6 +18,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/btm_bar_height"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
         android:background="@color/colorPrimaryDark"
         android:orientation="horizontal">
 

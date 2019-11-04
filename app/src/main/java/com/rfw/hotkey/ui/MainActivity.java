@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private MaterialButton settingsButton;
 
     private FragmentHelper fragmentHelper;
+    private MaterialButton highlightedButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,20 +36,22 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentHelper = new FragmentHelper(this, getSupportFragmentManager(), R.id.frameContainer);
 
-        replaceFragment(new ConnectionsFragment());
-
         extrasButton     = findViewById(R.id.extrasButton     );
         connectionButton = findViewById(R.id.connectionButton );
         keyboardButton   = findViewById(R.id.keyboardButton   );
         mouseButton      = findViewById(R.id.mouseButton      );
         settingsButton   = findViewById(R.id.settingsButton   );
 
-        extrasButton    .setOnClickListener(view -> replaceFragment(new ExtrasFragment()      ));
-        connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment() ));
-        keyboardButton  .setOnClickListener(view -> replaceFragment(new KeyboardFragment()    ));
-        mouseButton     .setOnClickListener(view -> replaceFragment(new MouseFragment()       ));
+        extrasButton    .setOnClickListener(view -> { replaceFragment(new ExtrasFragment()     ); highlightButton(extrasButton    ); });
+        connectionButton.setOnClickListener(view -> { replaceFragment(new ConnectionsFragment()); highlightButton(connectionButton); });
+        keyboardButton  .setOnClickListener(view -> { replaceFragment(new KeyboardFragment()   ); highlightButton(keyboardButton  ); });
+        mouseButton     .setOnClickListener(view -> { replaceFragment(new MouseFragment()      ); highlightButton(mouseButton     ); });
 
         settingsButton  .setOnClickListener(view -> startActivity(new Intent(this, SettingsActivity.class)));
+
+        // connections fragment shown on start
+        replaceFragment(new ConnectionsFragment());
+        highlightButton(connectionButton);
 
         // set default values for settings (in case preference activity hasn't been invoked yet)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -64,6 +68,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void pushFragment(@NonNull Fragment newFragment) {
         fragmentHelper.pushFragment(newFragment);
+    }
+
+    private void highlightButton(MaterialButton button) {
+        // un-highlight previous button
+        if (highlightedButton != null) {
+            highlightedButton.setIconTint(
+                    ContextCompat.getColorStateList(this, R.color.colorHighlight)
+            );
+            highlightedButton.setBackgroundTintList(
+                    ContextCompat.getColorStateList(this, android.R.color.transparent)
+            );
+        }
+        // highlight current button
+        highlightedButton = button;
+        highlightedButton.setBackgroundTintList(
+                ContextCompat.getColorStateList(this, R.color.colorPrimary)
+        );
+        highlightedButton.setIconTint(
+                ContextCompat.getColorStateList(this, R.color.colorAccent));
     }
 
     public @Nullable Fragment getVisibleFragment() {

@@ -38,6 +38,8 @@
         <item name="iconGravity">textStart</item>
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingRight">0dp</item>
+        <item name="android:layout_marginTop">-8dp</item>
+        <item name="android:layout_marginBottom">-7dp</item>
     </style>
 
     <!-- Extras Menu Icon Style (inherits from MaterialButton style)-->
