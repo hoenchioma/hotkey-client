@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -25,6 +27,8 @@ import java.util.Objects;
 public class PDFFragment extends Fragment implements View.OnClickListener {
     private static final String KEY_PDF_READER_PLATFORM = "pdfPlatform";
 
+    private LinearLayout pdfButtonLayout;
+    private RelativeLayout pdfPlatformLayout;
     private ImageButton fullScreenButton;
     private ImageButton pdfMoreButton;
     private ImageButton upButton;
@@ -34,6 +38,8 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
     private ImageButton downButton;
     private ImageButton righButton;
     private ImageButton findPageButton;
+    private ImageButton acrobatReaderButton;
+    private ImageButton evinceButton;
 
     private Button fitHeightButton, fitWidthButton;
     private boolean isFullScreen;
@@ -62,6 +68,8 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
 
     private void initialization(View rootView) {
         isFullScreen = false;
+        pdfButtonLayout = rootView.findViewById(R.id.pdfButtonsLayoutID);
+        pdfPlatformLayout = rootView.findViewById(R.id.pdfPlatformLayoutID);
         pdfMoreButton = rootView.findViewById(R.id.pdfMoreButtonID);
         findPageButton = rootView.findViewById(R.id.pdf_findPageButtonID);
         fitWidthButton = rootView.findViewById(R.id.pdf_fitWidthButtonID);
@@ -73,6 +81,10 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         leftButton = rootView.findViewById(R.id.pdf_leftButtonID);
         downButton = rootView.findViewById(R.id.pdf_downButtonID);
         righButton = rootView.findViewById(R.id.pdf_rightButtonID);
+        acrobatReaderButton = rootView.findViewById(R.id.adobeAcrobatReaderID);
+        evinceButton = rootView.findViewById(R.id.evinceID);
+        acrobatReaderButton.setOnClickListener(this);
+        evinceButton.setOnClickListener(this);
         pdfMoreButton.setOnClickListener(this);
         findPageButton.setOnClickListener(this);
         fitHeightButton.setOnClickListener(this);
@@ -84,6 +96,8 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         righButton.setOnClickListener(this);
         zoomInButton.setOnClickListener(this);
         zoomOutButton.setOnClickListener(this);
+
+        pdfPlatformLayout.setVisibility(View.INVISIBLE);
     }
 
 
@@ -94,7 +108,9 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
 
         switch (id) {
             case R.id.pdfMoreButtonID:
-                openMoreDialog();
+                pdfPlatformLayout.setVisibility(View.VISIBLE);
+                pdfButtonLayout.setVisibility(View.INVISIBLE);
+                findPageButton.setVisibility(View.INVISIBLE);
                 break;
             case R.id.pdf_findPageButtonID:
                 //TODO Make a dialog
@@ -154,6 +170,19 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                 sendMessageToServer("RIGHT", "modifier", String.valueOf(platform));
                 Log.d("onclick", "RIGHT");
                 break;
+            case R.id.adobeAcrobatReaderID:
+                platform = 1;
+                pdfPlatformLayout.setVisibility(View.INVISIBLE);
+                pdfButtonLayout.setVisibility(View.VISIBLE);
+                findPageButton.setVisibility(View.VISIBLE);
+                Log.d("pdf_more","adobe acrobat reader");
+                break;
+            case R.id.evinceID:
+                platform = 2;
+                pdfPlatformLayout.setVisibility(View.INVISIBLE);
+                pdfButtonLayout.setVisibility(View.VISIBLE);
+                findPageButton.setVisibility(View.VISIBLE);
+                break;
         }
         Log.d("PDF More", String.valueOf(platform));
     }
@@ -180,11 +209,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void openMoreDialog() {
-        PDFMoreDialog pdfMoreDialog = new PDFMoreDialog(this);
-        assert getFragmentManager() != null;
-        pdfMoreDialog.show(getFragmentManager(), "pdf More Dialog");
-    }
+
 
     private void openDialog() {
         PDFFindPageDialog pdfFindPageDialog = new PDFFindPageDialog();

@@ -47,4 +47,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:truth:1.2.0'
     androidTestImplementation 'com.google.truth:truth:0.42'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'org.jetbrains:annotations:15.0'
 }
