@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.button.MaterialButton;
@@ -15,9 +15,6 @@ import com.rfw.hotkey.R;
 import com.rfw.hotkey.ui.connections.ConnectionsFragment;
 import com.rfw.hotkey.ui.keyboard.KeyboardFragment;
 import com.rfw.hotkey.ui.mouse.MouseFragment;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private View contextView;
@@ -28,13 +25,14 @@ public class MainActivity extends AppCompatActivity {
     private MaterialButton extrasButton;
     private MaterialButton settingsButton;
 
-    private Map<Class, Fragment.SavedState> fragmentSavedStates = new HashMap<>();
-    private String currentFragmentTag = null;
+    private FragmentHelper fragmentHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fragmentHelper = new FragmentHelper(this, getSupportFragmentManager(), R.id.frameContainer);
 
         replaceFragment(new ConnectionsFragment());
 
@@ -54,37 +52,20 @@ public class MainActivity extends AppCompatActivity {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 
-    public void replaceFragment(Fragment newFragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        // save old fragment state
-        Fragment oldFragment = getVisibleFragment();
-        if (oldFragment != null && oldFragment.isAdded()) {
-            fragmentSavedStates.put(oldFragment.getClass(), fragmentManager.saveFragmentInstanceState(oldFragment));
-        }
-
-        // restore state of new fragment (if saved)
-        if (!newFragment.isAdded() && fragmentSavedStates.containsKey(newFragment.getClass())) {
-            newFragment.setInitialSavedState(fragmentSavedStates.get(newFragment.getClass()));
-        }
-
-        currentFragmentTag = newFragment.getClass().getCanonicalName(); // use class name as tag
-        fragmentTransaction.replace(R.id.frameContainer, newFragment, currentFragmentTag);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        fragmentTransaction.commit();
+    public void replaceFragment(@NonNull Fragment newFragment, boolean saveState, boolean restoreState) {
+        fragmentHelper.replaceFragment(newFragment, saveState, restoreState);
     }
 
-    public Fragment getVisibleFragment() {
-        if (currentFragmentTag == null) return null;
-        else return getSupportFragmentManager().findFragmentByTag(currentFragmentTag);
+    public void replaceFragment(@NonNull Fragment newFragment) {
+        fragmentHelper.replaceFragment(newFragment);
+    }
 
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        List<Fragment> fragments = fragmentManager.getFragments();
-//        for (Fragment fragment : fragments) {
-//            if (fragment != null && fragment.isVisible())
-//                return fragment;
-//        }
-//        return null;
+    public void pushFragment(@NonNull Fragment newFragment) {
+        fragmentHelper.pushFragment(newFragment);
+    }
+
+    public @Nullable Fragment getVisibleFragment() {
+        return fragmentHelper.getVisibleFragment();
     }
 }
