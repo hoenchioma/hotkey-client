@@ -36,17 +36,18 @@ public class MainActivity extends AppCompatActivity {
 
         replaceFragment(new ConnectionsFragment());
 
-        extrasButton = findViewById(R.id.extrasButton);
-        connectionButton = findViewById(R.id.connectionButton);
-        keyboardButton = findViewById(R.id.keyboardButton);
-        mouseButton = findViewById(R.id.mouseButton);
-        settingsButton = findViewById(R.id.settingsButton);
+        extrasButton     = findViewById(R.id.extrasButton     );
+        connectionButton = findViewById(R.id.connectionButton );
+        keyboardButton   = findViewById(R.id.keyboardButton   );
+        mouseButton      = findViewById(R.id.mouseButton      );
+        settingsButton   = findViewById(R.id.settingsButton   );
 
-        extrasButton.setOnClickListener(view -> replaceFragment(new ExtrasFragment()));
-        connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment()));
-        keyboardButton.setOnClickListener(view -> replaceFragment(new KeyboardFragment()));
-        mouseButton.setOnClickListener(view -> replaceFragment(new MouseFragment()));
-        settingsButton.setOnClickListener(view -> startActivity(new Intent(this, SettingsActivity.class)));
+        extrasButton    .setOnClickListener(view -> replaceFragment(new ExtrasFragment()      ));
+        connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment() ));
+        keyboardButton  .setOnClickListener(view -> replaceFragment(new KeyboardFragment()    ));
+        mouseButton     .setOnClickListener(view -> replaceFragment(new MouseFragment()       ));
+
+        settingsButton  .setOnClickListener(view -> startActivity(new Intent(this, SettingsActivity.class)));
 
         // set default values for settings (in case preference activity hasn't been invoked yet)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
