@@ -48,7 +48,7 @@
             android:id="@+id/settingsButton"
             style="@style/ExtrasMenuIconStyle"
             app:icon="@drawable/ic_settings_white_24dp"
-            android:contentDescription="@string/extras_settings_btn_desc" />
+            android:contentDescription="@string/btm_bar_settings_btn_desc" />
 
     </androidx.gridlayout.widget.GridLayout>
 

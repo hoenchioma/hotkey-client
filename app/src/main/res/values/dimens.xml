@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="btm_bar_height">65dp</dimen>
+    <dimen name="btm_bar_icon_size">30dp</dimen>
+    <dimen name="extras_menu_icon_size">52dp</dimen>
+</resources>

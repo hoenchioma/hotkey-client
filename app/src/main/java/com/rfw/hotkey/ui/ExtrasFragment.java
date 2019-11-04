@@ -27,7 +27,6 @@ public class ExtrasFragment extends Fragment {
     private MaterialButton pptButton;
     private MaterialButton multimediaButton;
     private MaterialButton pdfButton;
-    private MaterialButton settingsButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,14 +43,12 @@ public class ExtrasFragment extends Fragment {
         multimediaButton = rootView.findViewById(R.id.multimediaButton);
         pdfButton = rootView.findViewById(R.id.pdfButton);
         liveScreenButton = rootView.findViewById(R.id.liveScreenButton);
-        settingsButton = rootView.findViewById(R.id.settingsButton);
 
         pptButton.setOnClickListener(view -> replaceFragment(new PowerPointFragment()));
         macrosButton.setOnClickListener(view -> replaceFragment(new MacrosFragment()));
         multimediaButton.setOnClickListener(view -> replaceFragment(new MultimediaFragment()));
         pdfButton.setOnClickListener(view -> replaceFragment(new PDFFragment()));
         liveScreenButton.setOnClickListener(view -> startActivity(new Intent(getActivity(), LiveScreenActivity.class)));
-        settingsButton.setOnClickListener(view -> startActivity(new Intent(getActivity(), SettingsActivity.class)));
     }
 
     private void replaceFragment(Fragment fragment) {

@@ -1,8 +1,8 @@
 package com.rfw.hotkey.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.button.MaterialButton;
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.ui.connections.ConnectionsFragment;
 import com.rfw.hotkey.ui.keyboard.KeyboardFragment;
@@ -19,11 +20,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    ImageButton keyboardButton;
-    ImageButton connectionButton;
-    ImageButton mouseButton;
-    ImageButton extrasButton;
     private View contextView;
+
+    private MaterialButton keyboardButton;
+    private MaterialButton connectionButton;
+    private MaterialButton mouseButton;
+    private MaterialButton extrasButton;
+    private MaterialButton settingsButton;
 
     private Map<Class, Fragment.SavedState> fragmentSavedStates = new HashMap<>();
     private String currentFragmentTag = null;
@@ -39,11 +42,13 @@ public class MainActivity extends AppCompatActivity {
         connectionButton = findViewById(R.id.connectionButton);
         keyboardButton = findViewById(R.id.keyboardButton);
         mouseButton = findViewById(R.id.mouseButton);
+        settingsButton = findViewById(R.id.settingsButton);
 
         extrasButton.setOnClickListener(view -> replaceFragment(new ExtrasFragment()));
         connectionButton.setOnClickListener(view -> replaceFragment(new ConnectionsFragment()));
         keyboardButton.setOnClickListener(view -> replaceFragment(new KeyboardFragment()));
         mouseButton.setOnClickListener(view -> replaceFragment(new MouseFragment()));
+        settingsButton.setOnClickListener(view -> startActivity(new Intent(this, SettingsActivity.class)));
 
         // set default values for settings (in case preference activity hasn't been invoked yet)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
