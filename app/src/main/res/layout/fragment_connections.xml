@@ -55,8 +55,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/scanQRCodeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/connections_btn_width"
+                android:layout_height="@dimen/connections_btn_height"
                 android:text="@string/connections_scan_qr_code_btn_text" />
 
             <Space
@@ -67,8 +67,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/enterIPButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/connections_btn_width"
+                android:layout_height="@dimen/connections_btn_height"
                 android:text="@string/connections_enter_ip_btn_text" />
 
         </LinearLayout>
@@ -129,8 +129,8 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/connectButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/connections_btn_width"
+            android:layout_height="@dimen/connections_btn_height"
             android:text="@{ viewModel.state == State.CONNECTED ? @string/connections_disconnect_btn_text : @string/connections_connect_btn_text }"
             android:visibility="@{ viewModel.state == State.CONNECTED || viewModel.state == State.IP_INPUT ? View.VISIBLE : View.GONE }"/>
 
