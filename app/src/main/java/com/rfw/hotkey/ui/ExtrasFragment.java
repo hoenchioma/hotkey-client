@@ -55,6 +55,6 @@ public class ExtrasFragment extends Fragment {
     private void pushFragment(@NonNull Fragment fragment) {
         MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
-        activity.pushFragment(fragment);
+        activity.pushFragmentWithSlideVert(fragment);
     }
 }

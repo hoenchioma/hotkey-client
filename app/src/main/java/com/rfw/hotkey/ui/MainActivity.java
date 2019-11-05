@@ -27,7 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private MaterialButton settingsButton;
 
     private FragmentHelper fragmentHelper;
+
     private MaterialButton highlightedButton;
+    private int curFragIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,32 +44,61 @@ public class MainActivity extends AppCompatActivity {
         mouseButton      = findViewById(R.id.mouseButton      );
         settingsButton   = findViewById(R.id.settingsButton   );
 
-        extrasButton    .setOnClickListener(view -> { replaceFragment(new ExtrasFragment()     ); highlightButton(extrasButton    ); });
-        connectionButton.setOnClickListener(view -> { replaceFragment(new ConnectionsFragment()); highlightButton(connectionButton); });
-        keyboardButton  .setOnClickListener(view -> { replaceFragment(new KeyboardFragment()   ); highlightButton(keyboardButton  ); });
-        mouseButton     .setOnClickListener(view -> { replaceFragment(new MouseFragment()      ); highlightButton(mouseButton     ); });
+        keyboardButton  .setOnClickListener(view -> { replaceFragmentWithSlideHoriz(new KeyboardFragment()   , 1); highlightButton(keyboardButton  ); });
+        connectionButton.setOnClickListener(view -> { replaceFragmentWithSlideHoriz(new ConnectionsFragment(), 2); highlightButton(connectionButton); });
+        mouseButton     .setOnClickListener(view -> { replaceFragmentWithSlideHoriz(new MouseFragment()      , 3); highlightButton(mouseButton     ); });
+        extrasButton    .setOnClickListener(view -> { replaceFragmentWithSlideHoriz(new ExtrasFragment()     , 4); highlightButton(extrasButton    ); });
 
-        settingsButton  .setOnClickListener(view -> startActivity(new Intent(this, SettingsActivity.class)));
+        settingsButton.setOnClickListener(view -> {
+            startActivity(new Intent(this, SettingsActivity.class));
+            overridePendingTransition(R.anim.activity_slide_in_right, R.anim.activity_slide_out_left);
+        });
 
         // connections fragment shown on start
-        replaceFragment(new ConnectionsFragment());
+        replaceFragment(new ConnectionsFragment(), 2);
         highlightButton(connectionButton);
 
         // set default values for settings (in case preference activity hasn't been invoked yet)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 
-
-    public void replaceFragment(@NonNull Fragment newFragment, boolean saveState, boolean restoreState) {
-        fragmentHelper.replaceFragment(newFragment, saveState, restoreState);
+    public void replaceFragment(@NonNull Fragment newFragment, int newFragIndex) {
+        fragmentHelper.replaceFragment(newFragment);
+        curFragIndex = newFragIndex;
     }
 
-    public void replaceFragment(@NonNull Fragment newFragment) {
-        fragmentHelper.replaceFragment(newFragment);
+    public void replaceFragmentWithSlideHoriz(@NonNull Fragment newFragment, int newFragIndex) {
+        if (newFragIndex < curFragIndex) {
+            fragmentHelper.replaceFragmentWithAnim(newFragment,
+                    new int[]{
+                            R.anim.fragment_slide_in_right,
+                            R.anim.fragment_slide_out_left
+                    }
+            );
+        } else if (newFragIndex > curFragIndex) {
+            fragmentHelper.replaceFragmentWithAnim(newFragment,
+                    new int[]{
+                            R.anim.fragment_slide_in_left,
+                            R.anim.fragment_slide_out_right
+                    }
+            );
+        }
+        curFragIndex = newFragIndex;
     }
 
     public void pushFragment(@NonNull Fragment newFragment) {
         fragmentHelper.pushFragment(newFragment);
+    }
+
+    public void pushFragmentWithSlideVert(@NonNull Fragment newFragment) {
+        fragmentHelper.pushFragmentWithAnim(newFragment,
+                new int[]{
+                        R.anim.fragment_slide_in_down,
+                        R.anim.fragment_slide_out_up,
+                        R.anim.fragment_slide_in_up,
+                        R.anim.fragment_slide_out_down
+                }
+        );
     }
 
     private void highlightButton(MaterialButton button) {

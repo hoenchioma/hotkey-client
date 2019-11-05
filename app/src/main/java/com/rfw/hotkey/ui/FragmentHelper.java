@@ -31,27 +31,40 @@ public class FragmentHelper {
      * @param saveState whether the state of the previous fragment will be saved
      * @param restoreState whether the state of the new fragment will be loaded (if saved before)
      */
-    public void replaceFragment(@NonNull Fragment newFragment, boolean saveState, boolean restoreState) {
+    public void replaceFragment(@NonNull Fragment newFragment, boolean saveState, boolean restoreState, boolean addToBackStack, int[] anim) {
+        if (anim != null && anim.length != 4 && anim.length != 2) throw new AssertionError();
+
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         saveAndLoadState(newFragment, saveState, restoreState);
+
+        if (anim != null) {
+            if (anim.length == 2) fragmentTransaction.setCustomAnimations(anim[0], anim[1]);
+            else fragmentTransaction.setCustomAnimations(anim[0], anim[1], anim[2], anim[3]);
+        }
+
         currentFragmentTag = getDefaultTag(newFragment); // use class name as tag
         fragmentTransaction.replace(fragmentContainerID, newFragment, currentFragmentTag);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+
+        if (addToBackStack) fragmentTransaction.addToBackStack(currentFragmentTag + "-" + getDefaultTag(newFragment));
+
         fragmentTransaction.commit();
     }
 
     public void replaceFragment(@NonNull Fragment newFragment) {
-        replaceFragment(newFragment, true, true);
+        replaceFragment(newFragment, true, true, false, null);
+    }
+
+    public void replaceFragmentWithAnim(@NonNull Fragment newFragment, int[] anim) {
+        replaceFragment(newFragment, true, true, false, anim);
     }
 
     public void pushFragment(@NonNull Fragment newFragment) {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        saveAndLoadState(newFragment, true, false);
-        currentFragmentTag = getDefaultTag(newFragment); // use class name as tag
-        fragmentTransaction.replace(fragmentContainerID, newFragment, currentFragmentTag);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        fragmentTransaction.addToBackStack(null); // added to back stack so that it can be loaded
-        fragmentTransaction.commit();
+        replaceFragment(newFragment, true, false, true, null);
+    }
+
+    public void pushFragmentWithAnim(@NonNull Fragment newFragment, int[] anim) {
+        replaceFragment(newFragment, true, false, true, anim);
     }
 
     private void saveAndLoadState(@NonNull Fragment newFragment, boolean saveState, boolean restoreState) {
@@ -62,9 +75,8 @@ public class FragmentHelper {
                 fragmentSavedStates.put(oldFragment.getClass(), fragmentManager.saveFragmentInstanceState(oldFragment));
             }
         }
-
+        // restore state of new fragment (if saved)
         if (restoreState) {
-            // restore state of new fragment (if saved)
             if (!newFragment.isAdded() && fragmentSavedStates.containsKey(newFragment.getClass())) {
                 newFragment.setInitialSavedState(fragmentSavedStates.get(newFragment.getClass()));
             }
