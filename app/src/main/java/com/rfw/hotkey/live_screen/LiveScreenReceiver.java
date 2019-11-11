@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.rfw.hotkey.net.Connection;
+import com.rfw.hotkey.net.connection.Connection;
 
 import static com.rfw.hotkey.util.Constants.LiveScreen.COMPRESS_RATIO;
 import static com.rfw.hotkey.util.Constants.LiveScreen.FPS;

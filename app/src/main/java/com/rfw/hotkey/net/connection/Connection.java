@@ -1,13 +1,12 @@
-package com.rfw.hotkey.net;
+package com.rfw.hotkey.net.connection;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 import androidx.databinding.ObservableBoolean;
-
-import com.rfw.hotkey.util.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,93 +14,85 @@ import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.net.SocketTimeoutException;
 
 import static com.rfw.hotkey.util.Device.getDeviceName;
 
-public class WiFiConnection implements Connection {
-    private static final String TAG = "WiFiConnection";
+public abstract class Connection {
+    private static final String TAG = "Connection";
+
+    private static final String SERVER_UUID = "8fbdf1a6-1185-43a7-952a-3f38f6af0c36";
+    private static final int SERVER_VERSION = 1;
 
     private ObservableBoolean active = new ObservableBoolean(false);
     private String computerName;
 
-    private String ipAddress;
-    private int port;
-    private int connectTimeOut;
+    protected BufferedReader in;
+    protected PrintWriter out;
 
-    private Socket socket;
-    private BufferedReader in;
-    private PrintWriter out;
+    public abstract Type getType();
 
-    /**
-     * Constructs a WiFi based connection using ip address and port
-     * @param connectTimeOut the maximum time spent waiting to connect (in milliseconds)
-     */
-    public WiFiConnection(String ipAddress, int port, int connectTimeOut) {
-        this.ipAddress = ipAddress;
-        this.port = port;
-        this.connectTimeOut = connectTimeOut;
-    }
-
-    public WiFiConnection(String ipAddress, int port) {
-        this(ipAddress, port, Constants.Net.SOCKET_CONNECT_TIMEOUT);
-    }
-
-    @Override
     public ObservableBoolean getActive() {
         return active;
     }
 
-    @Override
-    public Type getType() {
-        return Type.WIFI;
-    }
-
-    @Override
     public String getComputerName() {
         return computerName;
     }
 
-    synchronized private void connectUtil() throws IOException {
-        socket = new Socket();
-        socket.connect(new InetSocketAddress(ipAddress, port), connectTimeOut);
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        out = new PrintWriter(socket.getOutputStream(), true);
-    }
+    /**
+     * called after connecting
+     * (meant to be overridden)
+     *
+     * @param success      whether the connection was successful
+     * @param errorMessage error message if connection was unsuccessful (null otherwise)
+     */
+    protected void onConnect(boolean success, @Nullable String errorMessage) {}
+
+    /**
+     * called after disconnecting
+     * (meant to be overridden)
+     */
+    protected void onDisconnect() {}
 
     /**
      * Exchange device names with server
      */
     private void handshake() throws IOException, AssertionError {
         // send handshake packet
-        JSONObject handshakePacket = new JSONObject();
         try {
-            handshakePacket.put("type", "connectionRequest");
-            handshakePacket.put("deviceName", getDeviceName());
-            handshakePacket.put("connectionType", "normal");
+            sendPacketUtil(new JSONObject()
+                    .put("type", "connectionRequest")
+                    .put("deviceName", getDeviceName())
+                    .put("connectionType", "normal")
+                    .put("serverUuid", SERVER_UUID)
+                    .put("serverVersion", SERVER_VERSION)
+            );
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        sendPacketUtil(handshakePacket);
 
         // receive handshake response packet
         String response = in.readLine();
         try {
             JSONObject receivedPacket = new JSONObject(new JSONTokener(response));
             if (!receivedPacket.getString("type").equals("connectionResponse")) throw new AssertionError();
-            if (!receivedPacket.getBoolean("success")) throw new AssertionError();
+            if (!receivedPacket.getBoolean("success")) throw new AssertionError("connection unsuccessful");
+            if (!receivedPacket.getString("serverUuid").equals(SERVER_UUID) || receivedPacket.getInt("serverVersion") != SERVER_VERSION) {
+                throw new AssertionError("server mismatch");
+            }
             computerName = receivedPacket.getString("deviceName");
         } catch (JSONException e) {
-            e.printStackTrace();
+            throw new AssertionError("error in received packet");
         }
     }
 
+    /**
+     * connect to server (based on connection type) asynchronously
+     * and perform some sort of handshake (to get computer name)
+     */
     @SuppressLint("StaticFieldLeak")
-    @Override
     public void connect() {
         new AsyncTask<Void, Void, Void>() {
             boolean success = false;
@@ -113,9 +104,9 @@ public class WiFiConnection implements Connection {
                     connectUtil();
                     handshake();
                     success = true;
-                    Log.i(TAG, "connect.doInBackground: connected successfully to " + computerName);
+                    Log.i(Connection.TAG, "connect.doInBackground: connected successfully to " + computerName);
                 } catch (AssertionError | IOException e) {
-                    Log.e(TAG, "connect.doInBackground: error connecting", e);
+                    Log.e(Connection.TAG, "connect.doInBackground: error connecting", e);
                     success = false;
                     errorMessage = e.getMessage();
                 }
@@ -131,15 +122,12 @@ public class WiFiConnection implements Connection {
         }.execute();
     }
 
+    protected abstract void connectUtil() throws IOException;
 
-    private synchronized void disconnectUtil() throws IOException {
-        out.close();
-        in.close();
-        socket.close();
-    }
-
+    /**
+     * close the connection
+     */
     @SuppressLint("StaticFieldLeak")
-    @Override
     public void disconnect() {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -147,7 +135,7 @@ public class WiFiConnection implements Connection {
                 try {
                     disconnectUtil();
                 } catch (IOException e) {
-                    Log.e(TAG, "disconnect.doInBackground: error while disconnecting", e);
+                    Log.e(Connection.TAG, "disconnect.doInBackground: error while disconnecting", e);
                 }
                 return null;
             }
@@ -159,23 +147,14 @@ public class WiFiConnection implements Connection {
         }.execute();
     }
 
-    /**
-     * Internal helper class to send String messages to server
-     * (synchronized to prevent collision while sending)
-     *
-     * @param packet JSON packet to be sent
-     */
-    private synchronized void sendPacketUtil(JSONObject packet) {
-        out.println(packet);
-    }
+    protected abstract void disconnectUtil() throws IOException;
 
     /**
-     * send packet to server
+     * send a JSON packet asynchronously
      *
-     * @param packet JSON object to send
+     * @param packet JSON object representing the packet to be sent
      */
     @SuppressLint("StaticFieldLeak")
-    @Override
     public void sendJSONPacket(JSONObject packet) {
         new AsyncTask<Void, Void, Void>() {
             boolean disconnect = false;
@@ -185,8 +164,8 @@ public class WiFiConnection implements Connection {
                 sendPacketUtil(packet);
                 try {
                     if (out.checkError()) { // error while sending indicated broken connection
-                        Log.e(TAG, "sendJSONPacket.doInBackground: broken connection", new RuntimeException("broken connection"));
-                        Log.i(TAG, "sendJSONPacket.doInBackground: closing connection ...");
+                        Log.e(Connection.TAG, "sendJSONPacket.doInBackground: broken connection", new RuntimeException("broken connection"));
+                        Log.i(Connection.TAG, "sendJSONPacket.doInBackground: closing connection ...");
                         disconnectUtil(); // close connection (broken pipe)
                         disconnect = true;
                     }
@@ -206,8 +185,12 @@ public class WiFiConnection implements Connection {
         }.execute();
     }
 
+    /**
+     * send a JSON packet and receive a response immediately
+     *
+     * @param receivedPacketHandler function to handle received packet
+     */
     @SuppressLint("StaticFieldLeak")
-    @Override
     public void sendAndReceiveJSONPacket(JSONObject packetToSend, Consumer<JSONObject> receivedPacketHandler) {
         new AsyncTask<Void, Void, Void>() {
             JSONObject receivedPacket = null;
@@ -218,8 +201,8 @@ public class WiFiConnection implements Connection {
                 sendPacketUtil(packetToSend);
                 try {
                     if (out.checkError()) { // error while sending indicated broken connection
-                        Log.e(TAG, "sendAndReceiveJSONPacket.doInBackground: broken connection", new RuntimeException("broken connection"));
-                        Log.i(TAG, "sendAndReceiveJSONPacket.doInBackground: closing connection ...");
+                        Log.e(Connection.TAG, "sendAndReceiveJSONPacket.doInBackground: broken connection", new RuntimeException("broken connection"));
+                        Log.i(Connection.TAG, "sendAndReceiveJSONPacket.doInBackground: closing connection ...");
                         disconnectUtil(); // close connection (broken pipe)
                         disconnect = true;
                     }
@@ -231,10 +214,10 @@ public class WiFiConnection implements Connection {
                     String response = in.readLine();
                     receivedPacket = new JSONObject(new JSONTokener(response));
                 } catch (SocketTimeoutException e) {
-                    Log.e(TAG, "sendAndReceiveJSONPacket.doInBackground: receive timed out", e);
+                    Log.e(Connection.TAG, "sendAndReceiveJSONPacket.doInBackground: receive timed out", e);
                 } catch (IOException e) { // error while reading from stream indicated broken connection
-                    Log.e(TAG, "sendAndReceiveJSONPacket.doInBackground: broken connection", e);
-                    Log.i(TAG, "sendAndReceiveJSONPacket.doInBackground: closing connection ...");
+                    Log.e(Connection.TAG, "sendAndReceiveJSONPacket.doInBackground: broken connection", e);
+                    Log.i(Connection.TAG, "sendAndReceiveJSONPacket.doInBackground: closing connection ...");
                     try {
                         disconnectUtil();
                         disconnect = true;
@@ -253,7 +236,7 @@ public class WiFiConnection implements Connection {
                     if (receivedPacket != null) {
                         receivedPacketHandler.accept(receivedPacket);
                     } else {
-                        Log.e(TAG, "sendAndReceive.onPostExecute: receivedPacket is null", new RuntimeException());
+                        Log.e(Connection.TAG, "sendAndReceive.onPostExecute: receivedPacket is null", new RuntimeException());
                     }
                 } else {
                     active.set(false);
@@ -261,5 +244,20 @@ public class WiFiConnection implements Connection {
                 }
             }
         }.execute();
+    }
+
+    protected synchronized void sendPacketUtil(JSONObject packet) {
+        out.println(packet);
+    }
+
+    /**
+     * Defines the network type of the connection
+     * (the type of network that will be used to do the transfer)
+     */
+    public enum Type {
+        WIFI,
+        BLUETOOTH,
+        INTERNET,
+        NONE
     }
 }

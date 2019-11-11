@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
+
     ImageButton keyboardButton;
     ImageButton connectionButton;
     ImageButton mouseButton;

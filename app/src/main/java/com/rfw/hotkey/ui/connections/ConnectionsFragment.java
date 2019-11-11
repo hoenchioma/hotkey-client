@@ -24,9 +24,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.databinding.FragmentConnectionsBinding;
-import com.rfw.hotkey.net.Connection;
+import com.rfw.hotkey.net.connection.Connection;
 import com.rfw.hotkey.net.ConnectionManager;
-import com.rfw.hotkey.net.WiFiConnection;
+import com.rfw.hotkey.net.connection.WiFiConnection;
 import com.rfw.hotkey.ui.connections.ConnectionsViewModel.State;
 import com.rfw.hotkey.util.Constants;
 
