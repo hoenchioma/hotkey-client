@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
@@ -106,7 +107,7 @@ public class GamepadActivity extends AppCompatActivity {
         buttons.add(findViewById(R.id.leftStickBotID));
         buttons.add(findViewById(R.id.leftStickRightID));
         rightStick = findViewById(R.id.rightStickID);
-        seekBar = findViewById(R.id.seekBarID);
+        //seekBar = findViewById(R.id.seekBarID);
         keyBoardGrid = findViewById(R.id.keyGridID);
         editButton = findViewById(R.id.editButtonID);
         saveButton = findViewById(R.id.saveButtonID);
@@ -127,7 +128,8 @@ public class GamepadActivity extends AppCompatActivity {
         if(editLayout){
             editButton.setVisibility(View.VISIBLE);
             saveButton.setVisibility(View.VISIBLE);
-            seekBar.setVisibility(View.VISIBLE);
+            //seekBar.setVisibility(View.VISIBLE);
+            //seekBar.setMax(500);
 
             saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -203,6 +205,9 @@ public class GamepadActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 if(editLayout) {
+                    //seekBar.setProgress((view.getWidth()/500)*seekBar.getMax());
+                    //seekBarHeight = (view.getHeight()/500)*seekBar.getMax();
+                    /*curIndex = -2;
                     final int x = (int) event.getRawX();
                     final int y = (int) event.getRawY();
 
@@ -228,7 +233,7 @@ public class GamepadActivity extends AppCompatActivity {
                             view.setRight(view.getLeft() + widthV);
                             view.setBottom(view.getTop() + heightV);
                             break;
-                    }
+                    }*/
                 }
                 else{
                     switch (event.getAction()) {
@@ -260,6 +265,36 @@ public class GamepadActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        /*seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                LayoutParams params;
+                if(curIndex == -2){
+                    params = (LayoutParams) rightStick.getLayoutParams();
+                    params.setMargins(rightStick.getLeft(),rightStick.getTop(),rightStick.getRight(),rightStick.getBottom());
+                    params.width = progress;
+                    buttons.get(curIndex).setLayoutParams(params);
+                }
+                else if(curIndex > -1 && curIndex < buttons.size()){
+                    params = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+                    params.setMargins(buttons.get(curIndex).getLeft(),buttons.get(curIndex).getTop(),buttons.get(curIndex).getRight(),buttons.get(curIndex).getBottom());
+                    params.width = progress;
+                    params.height = progress;
+                    buttons.get(curIndex).setLayoutParams(params);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });*/
     }
 
     private View.OnTouchListener onTouchListener() {
@@ -269,8 +304,10 @@ public class GamepadActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 if(editLayout) {
+                    //seekBar.setProgress(view.getWidth());
+
                     curIndex = Integer.parseInt((String) view.getTag());
-                    final int x = (int) event.getRawX();
+                    /*final int x = (int) event.getRawX();
                     final int y = (int) event.getRawY();
 
                     switch (event.getAction() & MotionEvent.ACTION_MASK) {
@@ -295,7 +332,7 @@ public class GamepadActivity extends AppCompatActivity {
                             view.setRight(view.getLeft() + widthV);
                             view.setBottom(view.getTop() + heightV);
                             break;
-                    }
+                    }*/
                 }
                 else {
                     if(event.getAction() != MotionEvent.ACTION_UP) {
@@ -334,26 +371,18 @@ public class GamepadActivity extends AppCompatActivity {
         String data;
         try {
             JSONObject buttonData;
+            //LayoutParams params;
             for(int i = 0; i < buttons.size(); i++){
                 actions.add("");
                 data = sharedPref.getString("buttonData" + Integer.toString(i), null);
                 if(data != null){
                     buttonData = new JSONObject(data);
+                    /*params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                    params.setMargins(buttonData.getInt("left"),buttonData.getInt("top"),buttonData.getInt("right"),buttonData.getInt("bottom"));
+                    buttons.get(i).setLayoutParams(params);*/
                     actions.set( i, buttonData.getString("action"));
-                    buttons.get(i).setLeft(buttonData.getInt("left"));
-                    buttons.get(i).setRight(buttonData.getInt("right"));
-                    buttons.get(i).setTop(buttonData.getInt("top"));
-                    buttons.get(i).setBottom(buttonData.getInt("bottom"));
                 }
                 buttons.get(i).setTag(Integer.toString(i));
-            }
-            data = sharedPref.getString("buttonDataRightStick", null);
-            if(data != null) {
-                 buttonData = new JSONObject(data);
-                rightStick.setLeft(buttonData.getInt("left"));
-                rightStick.setRight(buttonData.getInt("right"));
-                rightStick.setTop(buttonData.getInt("top"));
-                rightStick.setBottom(buttonData.getInt("bottom"));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -380,19 +409,13 @@ public class GamepadActivity extends AppCompatActivity {
         for(int i = 0; i < buttons.size(); i++){
             buttonData = new JSONObject();
             buttonData.put("action",actions.get(i));
-            buttonData.put("left",(Integer)buttons.get(i).getLeft());
-            buttonData.put("right",(Integer)buttons.get(i).getRight());
-            buttonData.put("top",(Integer)buttons.get(i).getTop());
-            buttonData.put("bottom",(Integer)buttons.get(i).getBottom());
+            /*buttonData.put("left",(int)buttons.get(i).getLeft());
+            buttonData.put("right",(int)buttons.get(i).getRight());
+            buttonData.put("top",(int)buttons.get(i).getTop());
+            buttonData.put("bottom",(int)buttons.get(i).getBottom());*/
 
             editor.putString("buttonData" + Integer.toString(i), buttonData.toString());
         }
-        buttonData = new JSONObject();
-        buttonData.put("left",(Integer)rightStick.getLeft());
-        buttonData.put("right",(Integer)rightStick.getRight());
-        buttonData.put("top",(Integer)rightStick.getTop());
-        buttonData.put("bottom",(Integer)rightStick.getBottom());
-        editor.putString("buttonDataRightStick", buttonData.toString());
         editor.apply();
         Toast.makeText(getApplicationContext(),
                 "Data Saved", Toast.LENGTH_SHORT).show();

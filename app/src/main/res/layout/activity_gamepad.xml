@@ -16,7 +16,7 @@ tools:context=".ui.GamepadActivity">
         android:layout_marginLeft="92dp"
         android:layout_marginTop="338dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/left_stick_bottom" />
 
     <ImageView
         android:id="@+id/editButtonID"
@@ -38,7 +38,7 @@ tools:context=".ui.GamepadActivity">
         android:layout_marginLeft="44dp"
         android:layout_marginTop="283dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/left_stick_left" />
 
     <ImageView
         android:id="@+id/leftStickTopID"
@@ -49,7 +49,7 @@ tools:context=".ui.GamepadActivity">
         android:layout_marginLeft="92dp"
         android:layout_marginTop="231dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/left_stick_up" />
 
     <ImageView
         android:id="@+id/leftStickRightID"
@@ -60,7 +60,7 @@ tools:context=".ui.GamepadActivity">
         android:layout_marginLeft="140dp"
         android:layout_marginTop="283dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/left_stick_right" />
 
     <ImageView
         android:id="@+id/rightStickID"
@@ -71,7 +71,7 @@ tools:context=".ui.GamepadActivity">
         android:layout_marginLeft="493dp"
         android:layout_marginTop="207dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_sticks_default" />
+        android:src="@drawable/axis_button" />
 
     <ImageView
         android:id="@+id/leftLeftID"
@@ -82,7 +82,7 @@ tools:context=".ui.GamepadActivity">
         android:layout_marginLeft="41dp"
         android:layout_marginTop="94dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/top_left_default" />
 
     <ImageView
         android:id="@+id/leftBotID"
@@ -93,7 +93,7 @@ tools:context=".ui.GamepadActivity">
         android:layout_marginLeft="85dp"
         android:layout_marginTop="143dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/top_bottom_default" />
 
     <ImageView
         android:id="@+id/leftRightID"
@@ -104,7 +104,7 @@ tools:context=".ui.GamepadActivity">
         android:layout_marginLeft="129dp"
         android:layout_marginTop="95dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/top_right_default" />
 
     <ImageView
         android:id="@+id/leftTopID"
@@ -115,7 +115,7 @@ tools:context=".ui.GamepadActivity">
         android:layout_marginLeft="85dp"
         android:layout_marginTop="50dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/top_top_default" />
 
     <ImageView
         android:id="@+id/rightLeftID"
@@ -170,7 +170,7 @@ tools:context=".ui.GamepadActivity">
         android:layout_marginLeft="131dp"
         android:layout_marginTop="1dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/trigger_button" />
 
     <ImageView
         android:id="@+id/LTID"
@@ -181,7 +181,7 @@ tools:context=".ui.GamepadActivity">
         android:layout_marginLeft="38dp"
         android:layout_marginTop="2dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/trigger_button" />
 
     <ImageView
         android:id="@+id/LSID"
@@ -203,7 +203,7 @@ tools:context=".ui.GamepadActivity">
         android:layout_marginLeft="625dp"
         android:layout_marginTop="-2dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/trigger_button" />
 
     <ImageView
         android:id="@+id/RBID"
@@ -214,7 +214,7 @@ tools:context=".ui.GamepadActivity">
         android:layout_marginLeft="532dp"
         android:layout_marginTop="-1dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/trigger_button" />
 
     <ImageView
         android:id="@+id/RSID"
