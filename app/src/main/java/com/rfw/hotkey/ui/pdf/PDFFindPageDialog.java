@@ -20,7 +20,7 @@ import org.json.JSONObject;
 
 public class PDFFindPageDialog extends AppCompatDialogFragment {
     private TextInputEditText pageNumberEditText;
-
+    PDFFragment pdfFragment = new PDFFragment();
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -39,19 +39,20 @@ public class PDFFindPageDialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String number = pageNumberEditText.getText().toString();
                         Log.d("PDF_Dialog", number);
-                        sendMessageToServer(number, "page");
+                        sendMessageToServer(number, "page",String.valueOf(pdfFragment.getPlatform()));
                     }
                 });
         pageNumberEditText = view.findViewById(R.id.pdf_pageNumberTextInputID);
         return builder.create();
     }
 
-    private void sendMessageToServer(String message, String action) {
+    private void sendMessageToServer(String message, String action, String platform) {
         JSONObject packet = new JSONObject();
 
         try {
             packet.put("type", "pdf");
             packet.put("action", action);
+            packet.put("platform", platform);
             packet.put("key", message);
 
             ConnectionManager.getInstance().sendPacket(packet);

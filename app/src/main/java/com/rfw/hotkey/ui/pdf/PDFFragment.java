@@ -36,11 +36,11 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
     private ImageButton zoomOutButton;
     private ImageButton leftButton;
     private ImageButton downButton;
-    private ImageButton righButton;
+    private ImageButton rightButton;
     private ImageButton findPageButton;
     private ImageButton acrobatReaderButton;
     private ImageButton evinceButton;
-
+    private int platform;
     private Button fitHeightButton, fitWidthButton;
     private boolean isFullScreen;
 
@@ -57,7 +57,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
     int getPlatform() {
         SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
         return sharedPref.getInt(KEY_PDF_READER_PLATFORM, 1);
-    }
+        }
 
     void setPlatform(int platform) {
         SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
@@ -67,6 +67,8 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initialization(View rootView) {
+
+
         isFullScreen = false;
         pdfButtonLayout = rootView.findViewById(R.id.pdfButtonsLayoutID);
         pdfPlatformLayout = rootView.findViewById(R.id.pdfPlatformLayoutID);
@@ -80,7 +82,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         zoomOutButton = rootView.findViewById(R.id.pdf_zoomOutButtonID);
         leftButton = rootView.findViewById(R.id.pdf_leftButtonID);
         downButton = rootView.findViewById(R.id.pdf_downButtonID);
-        righButton = rootView.findViewById(R.id.pdf_rightButtonID);
+        rightButton = rootView.findViewById(R.id.pdf_rightButtonID);
         acrobatReaderButton = rootView.findViewById(R.id.adobeAcrobatReaderID);
         evinceButton = rootView.findViewById(R.id.evinceID);
         acrobatReaderButton.setOnClickListener(this);
@@ -93,7 +95,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         upButton.setOnClickListener(this);
         leftButton.setOnClickListener(this);
         downButton.setOnClickListener(this);
-        righButton.setOnClickListener(this);
+        rightButton.setOnClickListener(this);
         zoomInButton.setOnClickListener(this);
         zoomOutButton.setOnClickListener(this);
 
@@ -104,7 +106,6 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        int platform = getPlatform();
 
         switch (id) {
             case R.id.pdfMoreButtonID:
@@ -122,11 +123,11 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                     //Log.d("onclick", "F5");
                     //fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                     Toast.makeText(getActivity(), "Full Screen Mode", Toast.LENGTH_SHORT).show();
-                    sendMessageToServer("fullscreen", "modifier", String.valueOf(platform));
+                    sendMessageToServer("fullscreen", "modifier", String.valueOf(getPlatform()));
                     fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                     isFullScreen = true;
                 } else {
-                    sendMessageToServer("ESC", "modifier", String.valueOf(platform));
+                    sendMessageToServer("ESC", "modifier", String.valueOf(getPlatform()));
                     Log.d("onclick", "ESC");
                     fullScreenButton.setImageResource(R.drawable.ic_fullscreen_white_24dp);
                     Toast.makeText(getActivity(), "Normal Mode", Toast.LENGTH_SHORT).show();
@@ -134,44 +135,46 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.pdf_fitHeightButtonID:
-                sendMessageToServer("fit_h", "modifier", String.valueOf(platform));
+                sendMessageToServer("fit_h", "modifier", String.valueOf(getPlatform()));
                 Log.d("onclick", "FIT HEIGHT");
-                Log.d("pdf m", String.valueOf(platform));
+                Log.d("pdf m", String.valueOf(getPlatform()));
                 break;
             case R.id.pdf_fitWidthButtonID:
-                sendMessageToServer("fit_w", "modifier", String.valueOf(platform));
+                sendMessageToServer("fit_w", "modifier", String.valueOf(getPlatform()));
                 Log.d("onclick", "FIT WIDTH");
                 break;
             case R.id.pdf_zoomInButtonID:
-                sendMessageToServer("zoom_in", "modifier", String.valueOf(platform));
+                sendMessageToServer("zoom_in", "modifier", String.valueOf(getPlatform()));
                 Log.d("onclick", "ZOOM IN");
                 break;
             case R.id.pdf_zoomOutButtonID:
-                sendMessageToServer("zoom_out", "modifier", String.valueOf(platform));
+                sendMessageToServer("zoom_out", "modifier", String.valueOf(getPlatform()));
                 Log.d("onclick", "ZOOM OUT");
                 break;
             case R.id.pdf_upButtonID:
                 // sendMessageToServer("modifier");
-                sendMessageToServer("UP", "modifier", String.valueOf(platform));
+                sendMessageToServer("UP", "modifier", String.valueOf(getPlatform()));
                 Log.d("onclick", "UP");
                 break;
             case R.id.pdf_leftButtonID:
                 //sendMessageToServer("modifier");
-                sendMessageToServer("LEFT", "modifier", String.valueOf(platform));
+                sendMessageToServer("LEFT", "modifier", String.valueOf(getPlatform()));
                 Log.d("onclick", "LEFT");
                 break;
             case R.id.pdf_downButtonID:
                 // sendMessageToServer("modifier");
-                sendMessageToServer("DOWN", "modifier", String.valueOf(platform));
+                sendMessageToServer("DOWN", "modifier", String.valueOf(getPlatform()));
                 Log.d("onclick", "DOWN");
                 break;
             case R.id.pdf_rightButtonID:
                 //sendMessageToServer("modifier");
-                sendMessageToServer("RIGHT", "modifier", String.valueOf(platform));
+                sendMessageToServer("RIGHT", "modifier", String.valueOf(getPlatform()));
                 Log.d("onclick", "RIGHT");
                 break;
             case R.id.adobeAcrobatReaderID:
                 platform = 1;
+                setPlatform(platform);
+                Log.d("PDF More", String.valueOf(getPlatform()));
                 pdfPlatformLayout.setVisibility(View.INVISIBLE);
                 pdfButtonLayout.setVisibility(View.VISIBLE);
                 findPageButton.setVisibility(View.VISIBLE);
@@ -179,12 +182,13 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.evinceID:
                 platform = 2;
+                setPlatform(platform);
                 pdfPlatformLayout.setVisibility(View.INVISIBLE);
                 pdfButtonLayout.setVisibility(View.VISIBLE);
                 findPageButton.setVisibility(View.VISIBLE);
                 break;
         }
-        Log.d("PDF More", String.valueOf(platform));
+        Log.d("PDF More", String.valueOf(getPlatform()));
     }
 
     /**
