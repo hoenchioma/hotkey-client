@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
@@ -16,8 +17,6 @@ import com.rfw.hotkey.ui.multimedia.MultimediaFragment;
 import com.rfw.hotkey.ui.pdf.PDFFragment;
 import com.rfw.hotkey.ui.ppt.PowerPointFragment;
 
-import java.util.Objects;
-
 
 public class ExtrasFragment extends Fragment {
     private static final String TAG = "ExtrasFragment";
@@ -27,11 +26,11 @@ public class ExtrasFragment extends Fragment {
     private MaterialButton pptButton;
     private MaterialButton multimediaButton;
     private MaterialButton pdfButton;
-    private MaterialButton settingsButton;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_extras, container, false);
         init(rootView);
@@ -44,22 +43,18 @@ public class ExtrasFragment extends Fragment {
         multimediaButton = rootView.findViewById(R.id.multimediaButton);
         pdfButton = rootView.findViewById(R.id.pdfButton);
         liveScreenButton = rootView.findViewById(R.id.liveScreenButton);
-        settingsButton = rootView.findViewById(R.id.settingsButton);
 
-        pptButton.setOnClickListener(view -> replaceFragment(new PowerPointFragment()));
-        macrosButton.setOnClickListener(view -> replaceFragment(new MacrosFragment()));
-        multimediaButton.setOnClickListener(view -> replaceFragment(new MultimediaFragment()));
-        pdfButton.setOnClickListener(view -> replaceFragment(new PDFFragment()));
+        pptButton       .setOnClickListener(view -> pushFragment(new PowerPointFragment() ));
+        macrosButton    .setOnClickListener(view -> pushFragment(new MacrosFragment()     ));
+        multimediaButton.setOnClickListener(view -> pushFragment(new MultimediaFragment() ));
+        pdfButton       .setOnClickListener(view -> pushFragment(new PDFFragment()        ));
+
         liveScreenButton.setOnClickListener(view -> startActivity(new Intent(getActivity(), LiveScreenActivity.class)));
-        settingsButton.setOnClickListener(view -> startActivity(new Intent(getActivity(), SettingsActivity.class)));
     }
 
-    private void replaceFragment(Fragment fragment) {
-        ((MainActivity) Objects.requireNonNull(getActivity())).replaceFragment(fragment);
-
-//        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.frameContainer,fragment);
-//        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//        fragmentTransaction.commit();
+    private void pushFragment(@NonNull Fragment fragment) {
+        MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
+        activity.pushFragmentWithSlideVert(fragment);
     }
 }

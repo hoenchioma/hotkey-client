@@ -63,13 +63,13 @@ public class ConnectionsFragment extends Fragment {
     }
 
     private void init(View contextView) {
-        MaterialButton connectButton = contextView.findViewById(R.id.connectButton);
-        MaterialButton scanQRCodeButton = contextView.findViewById(R.id.scanQRCodeButton);
-        MaterialButton enterIPButton = contextView.findViewById(R.id.enterIPButton);
+        MaterialButton connectButton    = contextView.findViewById(R.id.connectButton    );
+        MaterialButton scanQRCodeButton = contextView.findViewById(R.id.scanQRCodeButton );
+        MaterialButton enterIPButton    = contextView.findViewById(R.id.enterIPButton    );
 
-        enterIPButton.setOnClickListener(view -> viewModel.state.set(State.IP_INPUT));
-        scanQRCodeButton.setOnClickListener(view -> scanQRCodeAction());
-        connectButton.setOnClickListener(view -> connectButtonAction());
+        enterIPButton   .setOnClickListener(view -> viewModel.state.set(State.IP_INPUT));
+        scanQRCodeButton.setOnClickListener(view -> scanQRCodeAction()      );
+        connectButton   .setOnClickListener(view -> connectButtonAction()   );
     }
 
     private void initDataBinding(FragmentConnectionsBinding binding) {

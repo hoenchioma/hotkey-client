@@ -18,13 +18,28 @@
         <item name="android:textColor">@color/dark_bg_light_primary_text</item>
     </style>
 
-    <!-- Bottom Menu Icon Style -->
-    <style name="MenuIconStyle" >
+    <!-- Regular Icon Style -->
+    <style name="GeneralIconStyle" >
         <item name="android:layout_height">65sp</item>
         <item name="android:layout_width">65sp</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:padding">14dp</item>
+    </style>
+
+    <!-- Bottom Menu Icon Style (inherits from MaterialButton style)-->
+    <style name="BottomBarIconStyle" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="iconTint">@color/white</item>
+        <item name="iconSize">@dimen/btm_bar_icon_size</item>
+        <item name="iconGravity">textStart</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:layout_marginTop">-8dp</item>
+        <item name="android:layout_marginBottom">-7dp</item>
     </style>
 
     <!-- Extras Menu Icon Style (inherits from MaterialButton style)-->
@@ -36,7 +51,7 @@
         <item name="layout_columnWeight">1</item>
         <item name="layout_gravity">fill_horizontal</item>
         <item name="iconTint">@color/white</item>
-        <item name="iconSize">52dp</item>
+        <item name="iconSize">@dimen/extras_menu_icon_size</item>
         <item name="iconGravity">textStart</item>
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingRight">0dp</item>
