@@ -63,7 +63,7 @@
 
         <ImageButton
             android:id="@+id/ppt_presentationButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.8"
             android:scaleY="1.8"
             android:rotation="180"
@@ -86,7 +86,7 @@
 
         <ImageButton
             android:id="@+id/ppt_upButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:rotation="-90"
@@ -116,7 +116,7 @@
             android:layout_weight="6"/>
         <ImageButton
             android:id="@+id/ppt_leftButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:rotation="180"
@@ -131,7 +131,7 @@
 
         <ImageButton
             android:id="@+id/ppt_downButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:rotation="90"
@@ -148,7 +148,7 @@
 
         <ImageButton
             android:id="@+id/ppt_rightButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:src="@drawable/ic_forward_white_24dp">

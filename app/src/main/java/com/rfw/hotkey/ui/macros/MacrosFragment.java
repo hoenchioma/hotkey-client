@@ -3,34 +3,29 @@ package com.rfw.hotkey.ui.macros;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
+import com.rfw.hotkey.ui.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -104,14 +99,11 @@ public class MacrosFragment extends Fragment {
         gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 EditMacrosFragment editMacro = new EditMacrosFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("keyIndex", position);
                 editMacro.setArguments(bundle);
-                fragmentTransaction.replace(R.id.frameContainer, editMacro);
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                fragmentTransaction.commit();
+                pushFragment(editMacro);
                 return false;
             }
         });
@@ -119,15 +111,18 @@ public class MacrosFragment extends Fragment {
         addMacro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 EditMacrosFragment editMacro = new EditMacrosFragment();
-                fragmentTransaction.replace(R.id.frameContainer, editMacro);
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                fragmentTransaction.commit();
+                pushFragment(editMacro);
             }
         });
 
         return v;
 
+    }
+
+    private void pushFragment(@NonNull Fragment fragment) {
+        MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
+        activity.pushFragment(fragment);
     }
 }

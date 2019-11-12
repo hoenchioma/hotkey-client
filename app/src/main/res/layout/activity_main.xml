@@ -2,6 +2,7 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
@@ -16,61 +17,48 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/btm_bar_height"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:background="@color/colorPrimaryDark"
         android:orientation="horizontal">
 
-        <Space
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settingsButton"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
+            style="@style/BottomBarIconStyle"
+            app:icon="@drawable/ic_settings_white_24dp"
+            android:contentDescription="@string/btm_bar_settings_btn_desc" />
 
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/keyboardButton"
-            style="@style/MenuIconStyle"
-            android:src="@drawable/ic_keyboard_white_24dp"
-            android:contentDescription="@string/btm_bar_keyboard_btn_desc" />
-
-        <Space
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
+            style="@style/BottomBarIconStyle"
+            app:icon="@drawable/ic_keyboard_white_24dp"
+            android:contentDescription="@string/btm_bar_keyboard_btn_desc"/>
 
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/connectionButton"
-            style="@style/MenuIconStyle"
-            android:src="@drawable/ic_network_wifi_white_24dp"
+            android:layout_weight="1"
+            style="@style/BottomBarIconStyle"
+            app:icon="@drawable/ic_network_wifi_white_24dp"
             android:contentDescription="@string/btm_bar_connections_btn_desc" />
 
-        <Space
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
-
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/mouseButton"
-            style="@style/MenuIconStyle"
-            android:scaleX="0.9"
-            android:scaleY="0.9"
-            android:src="@drawable/ic_mouse_white_24dp"
+            android:layout_weight="1"
+            style="@style/BottomBarIconStyle"
+            app:icon="@drawable/ic_mouse_white_24dp"
             android:contentDescription="@string/btm_bar_mouse_btn_desc" />
 
-        <Space
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
-
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/extrasButton"
-            style="@style/MenuIconStyle"
-            android:scaleX="0.9"
-            android:scaleY="0.9"
-            android:src="@drawable/ic_more_horiz_white_24dp"
-            android:contentDescription="@string/btm_bar_extras_btn_desc" />
-
-        <Space
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
+            style="@style/BottomBarIconStyle"
+            app:icon="@drawable/ic_more_horiz_white_24dp"
+            android:contentDescription="@string/btm_bar_extras_btn_desc" />
 
     </LinearLayout>
 
