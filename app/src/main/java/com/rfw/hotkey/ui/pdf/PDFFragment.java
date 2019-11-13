@@ -186,7 +186,9 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                 pdfPlatformLayout.setVisibility(View.INVISIBLE);
                 pdfButtonLayout.setVisibility(View.VISIBLE);
                 findPageButton.setVisibility(View.VISIBLE);
+                Log.d("PDF More", String.valueOf(getPlatform()));
                 break;
+
         }
         Log.d("PDF More", String.valueOf(getPlatform()));
     }
