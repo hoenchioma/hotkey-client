@@ -22,6 +22,7 @@ import androidx.preference.PreferenceManager;
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.live_screen.LiveScreenReceiver;
 import com.rfw.hotkey.live_screen.WiFiLiveScreenReceiver;
+import com.rfw.hotkey.net.Connection;
 import com.rfw.hotkey.net.ConnectionManager;
 import com.rfw.hotkey.util.Constants;
 
@@ -138,9 +139,16 @@ public class LiveScreenActivity extends AppCompatActivity {
         // while interacting with the UI.
 //        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
-        // make screen orientation landscape
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        // close activity if connection type is not wifi or is not connected
+        if (ConnectionManager.getInstance().getConnectionType() != Connection.Type.WIFI) {
+            Toast.makeText(getApplicationContext(),
+                    ConnectionManager.getInstance().isConnectionActive() ? R.string.live_screen_only_wifi : R.string.not_connected_msg,
+                    Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
+        // initiate live screen receiver
         liveScreenReceiver = new WiFiLiveScreenReceiver(this) {
             @Override
             public void onFrameReceive(@NonNull Bitmap bitmap) {
@@ -149,8 +157,10 @@ public class LiveScreenActivity extends AppCompatActivity {
 
             @Override
             public void onError(@Nullable Exception e, boolean isFatal) {
-                if (e != null)
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                if (e != null && e.getMessage() != null && !e.getMessage().isEmpty()) {
+                    runOnUiThread(() -> Toast.makeText(getApplicationContext(),
+                            e.getMessage(), Toast.LENGTH_SHORT).show());
+                }
                 if (isFatal) finish();
             }
         };
@@ -197,6 +207,9 @@ public class LiveScreenActivity extends AppCompatActivity {
             }
             return true;
         });
+
+        // make screen orientation landscape
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
     @Override
