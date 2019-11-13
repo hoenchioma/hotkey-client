@@ -34,6 +34,7 @@ public class BluetoothConnection extends Connection {
     protected synchronized void connectUtil() throws IOException {
         UUID uuid = UUID.fromString(BLUETOOTH_SERVICE_UUID);
         socket = device.createRfcommSocketToServiceRecord(uuid);
+        socket.connect();
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
     }
