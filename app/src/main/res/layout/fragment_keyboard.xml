@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.rfw.hotkey.ui.KeyboardView
+<com.rfw.hotkey.ui.keyboard.KeyboardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/keyboardView"
@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="20"
-        tools:context="com.rfw.hotkey.ui.KeyboardFragment">
+        tools:context="com.rfw.hotkey.ui.keyboard.KeyboardFragment">
 
         <Space
             android:layout_width="match_parent"
@@ -212,4 +212,4 @@
 
     </LinearLayout>
 
-</com.rfw.hotkey.ui.KeyboardView>
+</com.rfw.hotkey.ui.keyboard.KeyboardView>

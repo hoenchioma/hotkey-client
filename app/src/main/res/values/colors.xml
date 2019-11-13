@@ -5,6 +5,7 @@
     <color name="colorSecondary">#99aab5</color>
     <color name="colorAccent">#7289da</color>
     <color name="colorBackground">#2c2f33</color>
+    <color name="colorHighlight">@color/white</color>
 
     <!-- Material Color Palette-->
     <color name="red_50">#FFEBEE</color>

@@ -6,25 +6,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.PowerPointFragment"
+    tools:context=".ui.ppt.PowerPointFragment"
     android:weightSum="10">
     <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="25dp">
+        android:layout_height="wrap_content">
 
         <ImageButton
+            android:id="@+id/pdfMoreButtonID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/GeneralIconStyle"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_more_vert_white_24dp"
+            android:scaleY="1.8"
+            android:scaleX="1.8"
+
+            />
+        <ImageButton
             android:id="@+id/pdf_findPageButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
+            android:layout_marginLeft="10dp"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:src="@drawable/ic_find_in_page_white_24dp"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentLeft="true">
 
         </ImageButton>
 
@@ -59,7 +76,7 @@
 
         <ImageButton
             android:id="@+id/pdf_fullScreenButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:rotation="90"
@@ -99,7 +116,7 @@
             android:layout_weight="6"/>
         <ImageButton
             android:id="@+id/pdf_zoomOutButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:src="@drawable/ic_zoom_out_white_24dp">
@@ -113,7 +130,7 @@
 
         <ImageButton
             android:id="@+id/pdf_upButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:rotation="-90"
@@ -130,7 +147,7 @@
 
         <ImageButton
             android:id="@+id/pdf_zoomInButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:src="@drawable/ic_zoom_in_white_24dp">
@@ -153,7 +170,7 @@
             android:layout_weight="6"/>
         <ImageButton
             android:id="@+id/pdf_leftButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:rotation="180"
@@ -168,7 +185,7 @@
 
         <ImageButton
             android:id="@+id/pdf_downButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:rotation="90"
@@ -185,7 +202,7 @@
 
         <ImageButton
             android:id="@+id/pdf_rightButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:src="@drawable/ic_forward_white_24dp">
@@ -193,7 +210,5 @@
         </ImageButton>
 
     </LinearLayout>
-
-
 
 </LinearLayout>

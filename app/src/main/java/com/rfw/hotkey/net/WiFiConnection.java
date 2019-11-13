@@ -7,6 +7,8 @@ import android.util.Log;
 import androidx.core.util.Consumer;
 import androidx.databinding.ObservableBoolean;
 
+import com.rfw.hotkey.util.Constants;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -19,27 +21,34 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
-import static com.rfw.hotkey.util.Utils.getDeviceName;
+import static com.rfw.hotkey.util.Device.getDeviceName;
 
 public class WiFiConnection implements Connection {
     private static final String TAG = "WiFiConnection";
-
-    private static final int CONNECTION_TIMEOUT = 5000;
-    private static final int DEFAULT_RECEIVE_TIMEOUT = 1000;
 
     private ObservableBoolean active = new ObservableBoolean(false);
     private String computerName;
 
     private String ipAddress;
     private int port;
+    private int connectTimeOut;
 
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
 
-    public WiFiConnection(String ipAddress, int port) {
+    /**
+     * Constructs a WiFi based connection using ip address and port
+     * @param connectTimeOut the maximum time spent waiting to connect (in milliseconds)
+     */
+    public WiFiConnection(String ipAddress, int port, int connectTimeOut) {
         this.ipAddress = ipAddress;
         this.port = port;
+        this.connectTimeOut = connectTimeOut;
+    }
+
+    public WiFiConnection(String ipAddress, int port) {
+        this(ipAddress, port, Constants.Net.SOCKET_CONNECT_TIMEOUT);
     }
 
     @Override
@@ -59,7 +68,7 @@ public class WiFiConnection implements Connection {
 
     synchronized private void connectUtil() throws IOException {
         socket = new Socket();
-        socket.connect(new InetSocketAddress(ipAddress, port), CONNECTION_TIMEOUT);
+        socket.connect(new InetSocketAddress(ipAddress, port), connectTimeOut);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
     }
@@ -67,11 +76,11 @@ public class WiFiConnection implements Connection {
     /**
      * Exchange device names with server
      */
-    private void handshake() throws IOException {
+    private void handshake() throws IOException, AssertionError {
         // send handshake packet
         JSONObject handshakePacket = new JSONObject();
         try {
-            handshakePacket.put("type", "handshake");
+            handshakePacket.put("type", "connectionRequest");
             handshakePacket.put("deviceName", getDeviceName());
             handshakePacket.put("connectionType", "normal");
         } catch (JSONException e) {
@@ -83,7 +92,8 @@ public class WiFiConnection implements Connection {
         String response = in.readLine();
         try {
             JSONObject receivedPacket = new JSONObject(new JSONTokener(response));
-            if (!receivedPacket.getString("type").equals("handshake")) throw new AssertionError();
+            if (!receivedPacket.getString("type").equals("connectionResponse")) throw new AssertionError();
+            if (!receivedPacket.getBoolean("success")) throw new AssertionError();
             computerName = receivedPacket.getString("deviceName");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -104,7 +114,7 @@ public class WiFiConnection implements Connection {
                     handshake();
                     success = true;
                     Log.i(TAG, "connect.doInBackground: connected successfully to " + computerName);
-                } catch (IOException e) {
+                } catch (AssertionError | IOException e) {
                     Log.e(TAG, "connect.doInBackground: error connecting", e);
                     success = false;
                     errorMessage = e.getMessage();

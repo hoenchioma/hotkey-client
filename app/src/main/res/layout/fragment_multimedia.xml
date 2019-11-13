@@ -5,17 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ui.MultimediaFragment">
+    tools:context=".ui.multimedia.MultimediaFragment">
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="100dp" />
 
-    <ImageView
-        android:id="@+id/playid"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:src="@drawable/ic_play_arrow_24dp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_weight="3"
+            android:layout_height="120dp" />
+
+        <ImageView
+            android:id="@+id/playPauseID"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:layout_weight="1"
+            android:src="@drawable/play_pause_default" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_weight="3"
+            android:layout_height="120dp" />
+
+    </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
@@ -27,28 +45,14 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/previd"
+            android:id="@+id/prevID"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:layout_weight="1"
             android:src="@drawable/ic_skip_previous_24dp" />
 
         <ImageView
-            android:id="@+id/fRewindid"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_fast_rewind_24dp" />
-
-        <ImageView
-            android:id="@+id/fForwardid"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_fast_forward_24dp" />
-
-        <ImageView
-            android:id="@+id/nextid"
+            android:id="@+id/nextID"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:layout_weight="1"
@@ -60,19 +64,35 @@
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
-    <ImageView
-        android:id="@+id/volumeid"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_volume_up_24dp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <SeekBar
-        android:id="@+id/volumeControlid"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:progress="@android:integer/status_bar_notification_info_maxnum" />
+
+        <ImageView
+            android:id="@+id/volumeDownID"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_remove_default" />
+
+        <ImageView
+            android:id="@+id/muteID"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_volume_mute_default" />
+
+        <ImageView
+            android:id="@+id/volumeUpID"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_add_default" />
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

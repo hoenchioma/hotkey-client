@@ -6,12 +6,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.PowerPointFragment"
+    tools:context=".ui.ppt.PowerPointFragment"
     android:weightSum="10">
     <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="7.5" />
+        android:layout_weight="1" />
+
+
+    <TextView
+        android:id="@+id/pointerCursorID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:layout_margin="30dp"
+        android:background="@color/colorAccent"
+        android:text="Pointer"
+        android:textAlignment="center"
+        android:textSize="30dp"/>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,7 +63,7 @@
 
         <ImageButton
             android:id="@+id/ppt_presentationButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.8"
             android:scaleY="1.8"
             android:rotation="180"
@@ -72,7 +86,7 @@
 
         <ImageButton
             android:id="@+id/ppt_upButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:rotation="-90"
@@ -102,7 +116,7 @@
             android:layout_weight="6"/>
         <ImageButton
             android:id="@+id/ppt_leftButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:rotation="180"
@@ -117,7 +131,7 @@
 
         <ImageButton
             android:id="@+id/ppt_downButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:rotation="90"
@@ -134,7 +148,7 @@
 
         <ImageButton
             android:id="@+id/ppt_rightButtonID"
-            style="@style/MenuIconStyle"
+            style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:src="@drawable/ic_forward_white_24dp">
