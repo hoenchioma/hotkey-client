@@ -90,8 +90,7 @@
                     android:src="@drawable/ic_adobe_acrobat"
                     android:scaleX="3"
                     android:scaleY="3"
-                    android:layout_weight="1"
-                    android:background="?attr/selectableItemBackgroundBorderless"/>
+                    android:layout_weight="1"/>
 
 
                 <Space
@@ -106,8 +105,7 @@
                     android:src="@drawable/ic_evince"
                     android:scaleX="3"
                     android:scaleY="3"
-                    android:layout_weight="1"
-                    android:background="?attr/selectableItemBackgroundBorderless"/>
+                    android:layout_weight="1"/>
 
 
             </LinearLayout>
