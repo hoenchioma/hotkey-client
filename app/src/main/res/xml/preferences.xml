@@ -11,6 +11,13 @@
             app:onlyNum="true"
             app:defaultValue="2000" />
 
+        <CheckBoxPreference
+            app:key="@string/settings_key_enter_ip"
+            app:title="@string/settings_title_enter_ip"
+            app:summary="@string/settings_summary_enter_ip"
+            app:defaultValue="false" />
+
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_title_live_screen">

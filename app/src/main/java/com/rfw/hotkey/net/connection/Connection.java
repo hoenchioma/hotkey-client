@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 import androidx.databinding.ObservableBoolean;
@@ -65,7 +66,6 @@ public abstract class Connection {
             sendPacketUtil(new JSONObject()
                     .put("type", "connectionRequest")
                     .put("deviceName", getDeviceName())
-                    .put("connectionType", "normal")
                     .put("serverUuid", SERVER_UUID)
                     .put("serverVersion", SERVER_VERSION)
             );
@@ -84,6 +84,7 @@ public abstract class Connection {
             }
             computerName = receivedPacket.getString("deviceName");
         } catch (JSONException e) {
+            e.printStackTrace();
             throw new AssertionError("error in received packet");
         }
     }
@@ -258,6 +259,27 @@ public abstract class Connection {
         WIFI,
         BLUETOOTH,
         INTERNET,
-        NONE
+        NONE; // not connected or intermediary state
+
+        @Override
+        public @NonNull String toString() {
+            switch (this) {
+                case WIFI: return "WiFi";
+                case BLUETOOTH: return "Bluetooth";
+                case INTERNET: return "Internet";
+                case NONE: return "None";
+                default: throw new IllegalArgumentException();
+            }
+        }
+
+        public @NonNull String toCamelCaseString() {
+            switch (this) {
+                case WIFI: return "wiFi";
+                case BLUETOOTH: return "bluetooth";
+                case INTERNET: return "internet";
+                case NONE: return "none";
+                default: throw new IllegalArgumentException();
+            }
+        }
     }
 }

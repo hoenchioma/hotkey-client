@@ -1,6 +1,7 @@
 package com.rfw.hotkey.ui.connections;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,8 +25,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.databinding.FragmentConnectionsBinding;
-import com.rfw.hotkey.net.connection.Connection;
 import com.rfw.hotkey.net.ConnectionManager;
+import com.rfw.hotkey.net.connection.BluetoothConnection;
+import com.rfw.hotkey.net.connection.Connection;
 import com.rfw.hotkey.net.connection.WiFiConnection;
 import com.rfw.hotkey.ui.connections.ConnectionsViewModel.State;
 import com.rfw.hotkey.util.Constants;
@@ -63,13 +65,13 @@ public class ConnectionsFragment extends Fragment {
     }
 
     private void init(View contextView) {
+        MaterialButton wiFiButton       = contextView.findViewById(R.id.wiFiButton       );
+        MaterialButton bluetoothButton  = contextView.findViewById(R.id.bluetoothButton  );
         MaterialButton connectButton    = contextView.findViewById(R.id.connectButton    );
-        MaterialButton scanQRCodeButton = contextView.findViewById(R.id.scanQRCodeButton );
-        MaterialButton enterIPButton    = contextView.findViewById(R.id.enterIPButton    );
 
-        enterIPButton   .setOnClickListener(view -> viewModel.state.set(State.IP_INPUT));
-        scanQRCodeButton.setOnClickListener(view -> scanQRCodeAction()      );
-        connectButton   .setOnClickListener(view -> connectButtonAction()   );
+        wiFiButton      .setOnClickListener(view -> wiFiButtonAction());
+        bluetoothButton .setOnClickListener(view -> scanQRCodeAction(Connection.Type.BLUETOOTH));
+        connectButton   .setOnClickListener(view -> connectButtonAction());
     }
 
     private void initDataBinding(FragmentConnectionsBinding binding) {
@@ -130,11 +132,12 @@ public class ConnectionsFragment extends Fragment {
         super.onStop();
     }
 
-    private void scanQRCodeAction() {
+    private void scanQRCodeAction(Connection.Type connectionType) {
         Intent intent = QRCodeReaderActivity.getLaunchIntent(getContext(), true, false, barcode -> {
             try {
                 JSONObject code = new JSONObject(new JSONTokener(barcode.rawValue));
-                return code.getString("type").equals("qrCode");
+                return code.getString("type").equals("qrCode")
+                        && code.getString("connectionType").equals(connectionType.toCamelCaseString());
             } catch (JSONException e) {
                 return false;
             }
@@ -150,9 +153,17 @@ public class ConnectionsFragment extends Fragment {
                 try {
                     JSONObject code = new JSONObject(new JSONTokener(barcode.rawValue));
                     if (!code.getString("type").equals("qrCode")) throw new AssertionError();
-                    String ipAddress = code.getString("ipAddress");
-                    int port = code.getInt("port");
-                    makeConnection(ipAddress, port);
+
+                    if (code.getString("connectionType").equals(Connection.Type.WIFI.toCamelCaseString())) {
+                        String ipAddress = code.getString("ipAddress");
+                        int port = code.getInt("port");
+                        makeWiFiConnection(ipAddress, port);
+                    }
+                    else if (code.getString("connectionType").equals(Connection.Type.BLUETOOTH.toCamelCaseString())) {
+                        String bluetoothAddress = code.getString("bluetoothAddress");
+                        makeBluetoothConnection(bluetoothAddress);
+                    }
+                    else throw new IllegalStateException("Unknown connection type");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -163,7 +174,7 @@ public class ConnectionsFragment extends Fragment {
         }
     }
 
-    private void makeConnection(String ipAddress, int port) {
+    private void makeWiFiConnection(String ipAddress, int port) {
         State prevState = viewModel.state.get();
         viewModel.state.set(State.CONNECTING);
         long startTime = System.nanoTime();
@@ -191,7 +202,9 @@ public class ConnectionsFragment extends Fragment {
                     viewModel.state.set(prevState);
 
                     Snackbar.make(activity.findViewById(android.R.id.content),
-                            R.string.connection_error_msg, Snackbar.LENGTH_SHORT).show();
+                            getString(R.string.connection_error_msg)
+                                    + (errorMessage == null || errorMessage.isEmpty()? "" : "\n" + errorMessage),
+                            Snackbar.LENGTH_SHORT).show();
                 }
 
 //                        Snackbar.make(activity.findViewById(android.R.id.content),
@@ -211,6 +224,68 @@ public class ConnectionsFragment extends Fragment {
         ConnectionManager.getInstance().makeConnection(connection);
     }
 
+    private void makeBluetoothConnection(String bluetoothAddress) {
+        if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+            Snackbar.make(Objects.requireNonNull(getActivity()).findViewById(android.R.id.content),
+                    getString(R.string.connection_error_msg)
+                            + "\nBluetooth not enabled",
+                    Snackbar.LENGTH_SHORT).show();
+            return;
+        }
+
+        State prevState = viewModel.state.get();
+        viewModel.state.set(State.CONNECTING);
+        long startTime = System.nanoTime();
+
+        Connection connection = new BluetoothConnection(bluetoothAddress) {
+            Activity activity = getActivity();
+
+            @Override
+            public void onConnect(boolean success, String errorMessage) {
+                try {
+                    // make sure the spinner is visible for at least 500 ms
+                    long currentTime = (System.nanoTime() - startTime);
+                    Thread.sleep(Math.max(500 - currentTime / 1000000, 0));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                if (success) {
+                    viewModel.computerName = getComputerName();
+                    viewModel.state.set(State.CONNECTED);
+                } else {
+                    viewModel.state.set(prevState);
+
+                    Snackbar.make(activity.findViewById(android.R.id.content),
+                            getString(R.string.connection_error_msg)
+                                    + (errorMessage == null || errorMessage.isEmpty()? "" : "\n" + errorMessage),
+                            Snackbar.LENGTH_SHORT).show();
+                }
+
+//                        Snackbar.make(activity.findViewById(android.R.id.content),
+//                                success ? R.string.connection_success_msg : R.string.connection_error_msg,
+//                                Snackbar.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDisconnect() {
+                viewModel.state.set(State.NOT_CONNECTED);
+
+                Snackbar.make(activity.findViewById(android.R.id.content),
+                        R.string.connection_closed_msg,
+                        Snackbar.LENGTH_SHORT).show();
+            }
+        };
+        ConnectionManager.getInstance().makeConnection(connection);
+    }
+
+    private void wiFiButtonAction() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getActivity()));
+        boolean enterIp = sharedPref.getBoolean(getString(R.string.settings_key_enter_ip), false);
+        if (enterIp) viewModel.state.set(State.IP_INPUT);
+        else scanQRCodeAction(Connection.Type.WIFI);
+    }
+
     private void connectButtonAction() {
         try {
             if (!ConnectionManager.getInstance().isConnectionActive()) {
@@ -220,7 +295,7 @@ public class ConnectionsFragment extends Fragment {
                 if (portText.isEmpty()) throw new RuntimeException("Port field empty");
                 int port = Integer.parseInt(portText);
 
-                makeConnection(ipAddress, port);
+                makeWiFiConnection(ipAddress, port);
             } else { // if already connected disconnect on click
                 ConnectionManager.getInstance().closeConnection();
                 viewModel.state.set(State.NOT_CONNECTED);

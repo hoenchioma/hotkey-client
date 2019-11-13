@@ -54,10 +54,10 @@
             android:visibility="@{ viewModel.state == State.NOT_CONNECTED ? View.VISIBLE : View.GONE }">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/scanQRCodeButton"
+                android:id="@+id/wiFiButton"
                 android:layout_width="@dimen/connections_btn_width"
                 android:layout_height="@dimen/connections_btn_height"
-                android:text="@string/connections_scan_qr_code_btn_text" />
+                android:text="@string/connections_wifi_btn_text" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -66,10 +66,10 @@
                 tools:ignore="NestedWeights" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/enterIPButton"
+                android:id="@+id/bluetoothButton"
                 android:layout_width="@dimen/connections_btn_width"
                 android:layout_height="@dimen/connections_btn_height"
-                android:text="@string/connections_enter_ip_btn_text" />
+                android:text="@string/connections_bluetooth_btn_text" />
 
         </LinearLayout>
 
