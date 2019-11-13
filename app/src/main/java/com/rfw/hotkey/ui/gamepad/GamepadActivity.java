@@ -119,7 +119,9 @@ public class GamepadActivity extends AppCompatActivity {
         ///////////handle settings button activity
 
         Intent intent = getIntent();
-        if(intent!= null) editLayout = true;
+        if(intent.getBooleanExtra("gamepadEditLayout", false)) {
+            editLayout = true;
+        }
 
 
         //////////////////
@@ -347,7 +349,7 @@ public class GamepadActivity extends AppCompatActivity {
                         }
 //                        Toast.makeText(getApplicationContext(),
 //                                (String)view.getTag(), Toast.LENGTH_SHORT).show();
-                        keyBoardGrid.setVisibility(View.INVISIBLE);
+                        //keyBoardGrid.setVisibility(View.INVISIBLE);
                     } else {
                         if (buttonPresser != null) {
                             buttonPresser.end();

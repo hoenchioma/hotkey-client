@@ -262,6 +262,7 @@ tools:context=".ui.gamepad.GamepadActivity">
 
     <SeekBar
         android:id="@+id/seekBarID"
+        android:visibility="gone"
         android:layout_width="135dp"
         android:layout_height="48dp"
         android:layout_alignTop="@+id/editButtonID"
