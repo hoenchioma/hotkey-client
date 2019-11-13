@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
+import com.rfw.hotkey.util.LoopedExecutor;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +26,7 @@ import org.json.JSONObject;
 import java.util.Objects;
 
 
-public class PDFFragment extends Fragment implements View.OnClickListener {
+public class PDFFragment extends Fragment implements View.OnClickListener, View.OnTouchListener {
     private static final String KEY_PDF_READER_PLATFORM = "pdfPlatform";
 
     private LinearLayout pdfButtonLayout;
@@ -43,13 +45,42 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
     private int platform;
     private Button fitHeightButton, fitWidthButton;
     private boolean isFullScreen;
-
+    private LoopedExecutor buttonPresser = null;
+    private  static  final long BUTTON_PRESS_DELAY = 100 ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_pdf, container, false);
         initialization(rootView);
+
+        downButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN ) {
+
+                    Log.d("LoopExecutor", "it works");
+                    if (buttonPresser == null) {
+                        buttonPresser = new LoopedExecutor(BUTTON_PRESS_DELAY) {
+                            @Override
+                            public void task() {
+                                Log.d("LoopExecutor", "it works");
+                                sendMessageToServer("DOWN", "modifier", String.valueOf(getPlatform()));
+                            }
+                        };
+                        buttonPresser.start();
+                    }
+                }
+                    else if(event.getAction() == MotionEvent.ACTION_UP) {
+                        if (buttonPresser != null) {
+                            buttonPresser.end();
+                            buttonPresser = null;
+                        }
+                    }
+
+                return false;
+            }
+        });
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -94,11 +125,12 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         fullScreenButton.setOnClickListener(this);
         upButton.setOnClickListener(this);
         leftButton.setOnClickListener(this);
-        downButton.setOnClickListener(this);
+        //downButton.setOnClickListener(this);
         rightButton.setOnClickListener(this);
         zoomInButton.setOnClickListener(this);
         zoomOutButton.setOnClickListener(this);
 
+        //downButton.setOnTouchListener(this);
         pdfPlatformLayout.setVisibility(View.INVISIBLE);
     }
 
@@ -161,11 +193,11 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                 sendMessageToServer("LEFT", "modifier", String.valueOf(getPlatform()));
                 Log.d("onclick", "LEFT");
                 break;
-            case R.id.pdf_downButtonID:
-                // sendMessageToServer("modifier");
-                sendMessageToServer("DOWN", "modifier", String.valueOf(getPlatform()));
-                Log.d("onclick", "DOWN");
-                break;
+//            case R.id.pdf_downButtonID:
+//                // sendMessageToServer("modifier");
+//                sendMessageToServer("DOWN", "modifier", String.valueOf(getPlatform()));
+//                Log.d("onclick", "DOWN");
+//                break;
             case R.id.pdf_rightButtonID:
                 //sendMessageToServer("modifier");
                 sendMessageToServer("RIGHT", "modifier", String.valueOf(getPlatform()));
@@ -221,5 +253,34 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         PDFFindPageDialog pdfFindPageDialog = new PDFFindPageDialog();
         assert getFragmentManager() != null;
         pdfFindPageDialog.show(getFragmentManager(), "Goto Page Dialog");
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        int id = view.getId();
+        switch (id){
+            case R.id.downButtonID :
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN ){
+
+                    Log.d("LoopExecutor","it works");
+                    if (buttonPresser == null) {
+                        buttonPresser = new LoopedExecutor(BUTTON_PRESS_DELAY) {
+                            @Override
+                            public void task() {
+                                Log.d("LoopExecutor","it works");
+                                sendMessageToServer("DOWN", "modifier", String.valueOf(getPlatform()));
+                            }
+                        };
+                        buttonPresser.start();
+                    }
+                    else if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                        if (buttonPresser != null) {
+                            buttonPresser.end();
+                            buttonPresser = null;
+                        }
+                    }
+                }
+        }
+        return false;
     }
 }
