@@ -33,5 +33,23 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/settings_title_gamepad">
+
+        <Preference
+            app:key="@string/settings_key_gamepad_edit_layout"
+            app:title="@string/settings_title_gamepad_edit_layout"
+            app:summary="@string/settings_summary_gamepad_edit_layout">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="com.rfw.hotkey"
+                android:targetClass="com.rfw.hotkey.ui.gamepad.GamepadActivity">
+                <extra
+                    android:name="gamepadEditLayout"
+                    android:value="true" />
+            </intent>
+        </Preference>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
 

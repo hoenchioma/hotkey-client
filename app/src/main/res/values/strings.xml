@@ -35,6 +35,7 @@
     <!-- Settings -->
     <string name="settings_title_connect">Connect</string>
     <string name="settings_title_live_screen">Live Screen</string>
+    <string name="settings_title_gamepad">Gamepad</string>
 
     <string name="settings_key_connect_timeout">connectTimeOut</string>
     <string name="settings_title_connect_timeout">Connect timeout</string>
@@ -47,6 +48,10 @@
     <string name="settings_key_live_screen_img_quality">liveScreenImageQuality</string>
     <string name="settings_title_live_screen_img_quality">Image quality</string>
     <string name="settings_summary_live_screen_img_quality">Quality of image sent from server (Very high quality might cause lag)</string>
+
+    <string name="settings_key_gamepad_edit_layout">gamepadEditLayout</string>
+    <string name="settings_title_gamepad_edit_layout">Edit Gamepad layout</string>
+    <string name="settings_summary_gamepad_edit_layout">Edit the layout of the buttons in the gamepad</string>
 
     <!-- Live Screen -->
     <string name="live_screen_only_wifi">Only available on Wifi</string>
