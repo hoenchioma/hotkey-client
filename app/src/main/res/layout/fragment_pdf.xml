@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.ppt.PowerPointFragment"
     android:weightSum="10">
     <Space
         android:layout_width="wrap_content"
@@ -32,7 +31,7 @@
             android:src="@drawable/ic_more_vert_white_24dp"
             android:scaleY="1.8"
             android:scaleX="1.8"
-
+            android:background="?attr/selectableItemBackgroundBorderless"
             />
         <ImageButton
             android:id="@+id/pdf_findPageButtonID"
@@ -41,7 +40,8 @@
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:src="@drawable/ic_find_in_page_white_24dp"
-            android:layout_alignParentLeft="true">
+            android:layout_alignParentLeft="true"
+            android:background="?attr/selectableItemBackgroundBorderless">
 
         </ImageButton>
 
@@ -49,11 +49,110 @@
     <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="7.5" />
+        android:layout_weight="2"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pdfPlatformLayoutID"
+        android:visibility="visible">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Platform"
+        android:layout_centerHorizontal="true"
+        android:textSize="30dp"/>
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical"
+            android:layout_width="400dp"
+            android:layout_height="200dp"
+            android:weightSum="10"
+            android:layout_marginStart="20dp">
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:weightSum="10">
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.2"/>
+
+                <ImageButton
+                    android:id="@+id/adobeAcrobatReaderID"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    style="@style/GeneralIconStyle"
+                    android:src="@drawable/ic_adobe_acrobat"
+                    android:scaleX="3"
+                    android:scaleY="3"
+                    android:layout_weight="1"/>
+
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"/>
+                <ImageButton
+                    android:id="@+id/evinceID"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    style="@style/GeneralIconStyle"
+                    android:src="@drawable/ic_evince"
+                    android:scaleX="3"
+                    android:scaleY="3"
+                    android:layout_weight="1"/>
+
+
+            </LinearLayout>
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10"
+                android:orientation="horizontal">
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.8"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Acrobat Reader"
+                    android:layout_weight="1"/>
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.3"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Evince Reader"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
     <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"/>
+        android:layout_weight="7" />
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="240dp"
+         android:id="@+id/pdfButtonsLayoutID"
+         android:orientation="vertical"
+         android:weightSum="5">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,11 +162,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"/>
+
         <Button
             android:id="@+id/pdf_fitWidthButtonID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FIT Width"/>
+            android:text="FIT Width" />
 
         <Space
             android:layout_width="wrap_content"
@@ -80,7 +180,8 @@
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:rotation="90"
-            android:src="@drawable/ic_fullscreen_white_24dp">
+            android:src="@drawable/ic_fullscreen_white_24dp"
+            android:background="?attr/selectableItemBackgroundBorderless">
 
         </ImageButton>
 
@@ -119,7 +220,8 @@
             style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
-            android:src="@drawable/ic_zoom_out_white_24dp">
+            android:src="@drawable/ic_zoom_out_white_24dp"
+            android:background="?attr/selectableItemBackgroundBorderless">
 
         </ImageButton>
 
@@ -134,7 +236,8 @@
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:rotation="-90"
-            android:src="@drawable/ic_forward_white_24dp">
+            android:src="@drawable/ic_forward_white_24dp"
+            android:background="?attr/selectableItemBackgroundBorderless">
 
         </ImageButton>
 
@@ -150,7 +253,8 @@
             style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
-            android:src="@drawable/ic_zoom_in_white_24dp">
+            android:src="@drawable/ic_zoom_in_white_24dp"
+            android:background="?attr/selectableItemBackgroundBorderless">
 
         </ImageButton>
 
@@ -174,7 +278,8 @@
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:rotation="180"
-            android:src="@drawable/ic_forward_white_24dp">
+            android:src="@drawable/ic_forward_white_24dp"
+            android:background="?attr/selectableItemBackgroundBorderless">
 
         </ImageButton>
 
@@ -189,7 +294,8 @@
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:rotation="90"
-            android:src="@drawable/ic_forward_white_24dp">
+            android:src="@drawable/ic_forward_white_24dp"
+            android:background="?attr/selectableItemBackgroundBorderless">
 
         </ImageButton>
 
@@ -205,10 +311,12 @@
             style="@style/GeneralIconStyle"
             android:scaleX="1.5"
             android:scaleY="1.5"
-            android:src="@drawable/ic_forward_white_24dp">
+            android:src="@drawable/ic_forward_white_24dp"
+            android:background="?attr/selectableItemBackgroundBorderless">
 
         </ImageButton>
 
     </LinearLayout>
+     </LinearLayout>
 
 </LinearLayout>
