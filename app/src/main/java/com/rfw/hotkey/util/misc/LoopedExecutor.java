@@ -1,4 +1,4 @@
-package com.rfw.hotkey.util;
+package com.rfw.hotkey.util.misc;
 
 /**
  * Repeatedly executes task at a fixed delay

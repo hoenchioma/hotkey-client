@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
-import com.rfw.hotkey.util.LoopedExecutor;
+import com.rfw.hotkey.util.misc.LoopedExecutor;
 
 import org.json.JSONException;
 import org.json.JSONObject;
