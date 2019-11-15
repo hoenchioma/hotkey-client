@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
-import com.rfw.hotkey.net.Connection;
+import com.rfw.hotkey.net.connection.Connection;
 import com.rfw.hotkey.net.ConnectionManager;
 import com.rfw.hotkey.util.Constants;
 import com.rfw.hotkey.util.Device;

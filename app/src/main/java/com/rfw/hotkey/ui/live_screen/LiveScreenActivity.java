@@ -22,8 +22,8 @@ import androidx.preference.PreferenceManager;
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.live_screen.LiveScreenReceiver;
 import com.rfw.hotkey.live_screen.WiFiLiveScreenReceiver;
-import com.rfw.hotkey.net.Connection;
 import com.rfw.hotkey.net.ConnectionManager;
+import com.rfw.hotkey.net.connection.Connection;
 import com.rfw.hotkey.util.Constants;
 
 import org.json.JSONException;
