@@ -1,5 +1,8 @@
 package com.rfw.hotkey.util;
 
+/**
+ * Repeatedly executes task at a fixed delay
+ */
 public abstract class LoopedExecutor extends Thread {
     private volatile boolean stop = true;
     private volatile long delay = 100; // milliseconds
@@ -10,10 +13,27 @@ public abstract class LoopedExecutor extends Thread {
         this.delay = delay;
     }
 
+    public static LoopedExecutor getInstance(Runnable taskToRun, long delay) {
+        return new LoopedExecutor(delay) {
+            @Override
+            public void task() {
+                taskToRun.run();
+            }
+        };
+    }
+
     @Override
     public synchronized void start() {
         super.start();
         stop = false;
+    }
+
+    public void end() {
+        stop = true;
+    }
+
+    public boolean isRunning() {
+        return !stop;
     }
 
     public long getDelay() {
@@ -24,20 +44,22 @@ public abstract class LoopedExecutor extends Thread {
         this.delay = delay;
     }
 
+    /**
+     * The task to executed
+     * (Abstract method meant to be overloaded)
+     */
     public abstract void task();
-
-    public void end() {
-        stop = true;
-    }
 
     @Override
     public void run() {
         while (!stop) {
             task();
-            try {
-                Thread.sleep(delay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (delay > 0) {
+                try {
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
         stop = true;
