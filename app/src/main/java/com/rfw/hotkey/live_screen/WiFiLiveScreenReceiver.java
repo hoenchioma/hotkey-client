@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
-import com.rfw.hotkey.net.Connection;
+import com.rfw.hotkey.net.connection.Connection;
 import com.rfw.hotkey.net.ConnectionManager;
 import com.rfw.hotkey.util.Constants;
 import com.rfw.hotkey.util.Device;
@@ -65,16 +65,15 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
 
             serverSocket.setSoTimeout(Constants.SERVER_SOCKET_TIMEOUT);
 
-            JSONObject packet = new JSONObject();
-
-            packet.put("type", "liveScreen");
-            packet.put("command", "start");
-            packet.put("ipAddress", getLocalIpAddress());
-            packet.put("port", serverSocket.getLocalPort());
-            packet.put("screenSizeX", screenSizeX);
-            packet.put("screenSizeY", screenSizeY);
-            packet.put("fps", fps);
-            packet.put("compressRatio", compressRatio);
+            JSONObject packet = new JSONObject()
+                    .put("type", "liveScreen")
+                    .put("command", "start")
+                    .put("ipAddress", getLocalIpAddress())
+                    .put("port", serverSocket.getLocalPort())
+                    .put("screenSizeX", screenSizeX)
+                    .put("screenSizeY", screenSizeY)
+                    .put("fps", fps)
+                    .put("compressRatio", compressRatio);
 
             connectionThread = new Thread(() -> {
                 try {
@@ -83,8 +82,10 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
                     in = new DataInputStream(socket.getInputStream());
                 } catch (SocketTimeoutException e) {
                     Log.e(TAG, "start: serverSocket.accept() timed out", e);
+                    onError(e, false);
                 } catch (IOException e) {
                     Log.e(TAG, "start: error connecting to live screen sender", e);
+                    onError(e, false);
                 }
             });
             connectionThread.start();
@@ -155,7 +156,7 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
                 running = false;
             } else {
                 Log.e(TAG, "Receiver.run: connection not established, cannot start receiver");
-                onError(new Exception("connection not established, cannot start receiver"), false);
+                onError(new Exception("Connection not established, cannot start receiver"), true);
             }
         }
     }

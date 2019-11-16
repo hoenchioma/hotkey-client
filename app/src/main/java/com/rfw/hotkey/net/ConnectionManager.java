@@ -6,9 +6,9 @@ import androidx.core.util.Consumer;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 
-import org.json.JSONObject;
+import com.rfw.hotkey.net.connection.Connection;
 
-import java.util.Objects;
+import org.json.JSONObject;
 
 public class ConnectionManager {
     private static final String TAG = "ConnectionManager";

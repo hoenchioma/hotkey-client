@@ -19,6 +19,11 @@ import com.rfw.hotkey.net.ConnectionManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * @author Shadman Wadith
+ * @version 1.0
+ * @since 2019-07-01
+ */
 
 public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
@@ -97,7 +102,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
         downButton = rootView.findViewById(R.id.downButtonID);
         righButton = rootView.findViewById(R.id.rightButtonID);
         copyButton.setOnClickListener(this);
-//        homeButton.setOnTouchListener(this);
+//      homeButton.setOnTouchListener(this);
         homeButton.setOnClickListener(this);
         escButton.setOnClickListener(this);
         tabButton.setOnClickListener(this);
@@ -108,38 +113,9 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
         leftButton.setOnClickListener(this);
         downButton.setOnClickListener(this);
         righButton.setOnClickListener(this);
-//        shiftButton.setOnTouchListener(this);
-//        rootView.setOnTouchListener(this);
+//      shiftButton.setOnTouchListener(this);
+//      rootView.setOnTouchListener(this);
     }
-
-//    private char newCharacter(CharSequence currentText, CharSequence previousText) {
-//        char ch = 0;
-//        int currentTextLength = currentText.length();
-//        int previousTextLength = previousText.length();
-////        if(currentTextLength == 0 && previousTextLength == 1)
-////        {
-////            currentText = "abcd";
-////            previousText = "abcde";
-////        }
-//        int difference = currentTextLength - previousTextLength;
-//        if (currentTextLength > previousTextLength) {
-//            if (1 == difference) {
-//                ch = currentText.charAt(previousTextLength);
-//            }
-//        } else if (currentTextLength < previousTextLength) {
-//            if (-1 == difference) {
-//                ch = '\b';
-//            } else {
-//                ch = ' ';
-//            }
-//        }
-////        else if(currentTextLength == 0){
-////            ch = '\b';
-////        }
-//        Log.d("newChar", previousTextLength + " " + ch + " " + currentTextLength);
-//
-//        return ch;
-//    }
 
 
     @Override
@@ -197,29 +173,6 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-//    @Override
-//    public boolean onTouch(View view, MotionEvent motionEvent) {
-//        String action = "KEY_PRESS";
-//        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//            action = "KEY_PRESS";
-//            Log.d("Pressed", "Kaj kore");
-//        } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-//            action = "KEY_RELEASE";
-//        }
-//        int keyCode = 17; //dummy init
-//        switch (view.getId()) {
-//            case R.id.shiftButtonID:
-//                Log.d("keyboardFragmentPress", "shift");
-//                break;
-//            // TODO CTRL,ALT
-//
-//        }
-//        //Log.d("ONTOUCH", Integer.toString(keyCode));
-//        //Utils.out.println(keyCode);
-//        //sendKeyCodeToServer(action, keyCode);
-//        return false;
-//    }
-
     /**
      * sends the message of specified action to Connection Manager
      *
@@ -228,7 +181,6 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
      */
     private void sendKeyToServer(String action, String key) {
         JSONObject packet = new JSONObject();
-
         try {
             packet.put("type", "keyboard");
             packet.put("action", action);
@@ -236,19 +188,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         ConnectionManager.getInstance().sendPacket(packet);
     }
 
-/*    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        char ch = newCharacter(s, previousText);
-        if (ch == 0) {
-            return;
-        }
-        Log.d("ONTEXTCHANGE", String.valueOf(ch));
-
-        //MainActivity.sendKeyToServer("TYPE_CHARACTER");
-        //MainActivity.sendKeyToServer(Character.toString(ch));
-        previousText = s.toString();
-    }*/
 }

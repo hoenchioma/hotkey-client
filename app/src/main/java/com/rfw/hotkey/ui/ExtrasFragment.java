@@ -17,7 +17,11 @@ import com.rfw.hotkey.ui.multimedia.MultimediaFragment;
 import com.rfw.hotkey.ui.pdf.PDFFragment;
 import com.rfw.hotkey.ui.ppt.PowerPointFragment;
 
-
+/**
+ * @author Shadman Wadith
+ * @version 1.0
+ * @since 2019-07-01
+ */
 public class ExtrasFragment extends Fragment {
     private static final String TAG = "ExtrasFragment";
 
@@ -44,10 +48,10 @@ public class ExtrasFragment extends Fragment {
         pdfButton = rootView.findViewById(R.id.pdfButton);
         liveScreenButton = rootView.findViewById(R.id.liveScreenButton);
 
-        pptButton       .setOnClickListener(view -> pushFragment(new PowerPointFragment() ));
-        macrosButton    .setOnClickListener(view -> pushFragment(new MacrosFragment()     ));
-        multimediaButton.setOnClickListener(view -> pushFragment(new MultimediaFragment() ));
-        pdfButton       .setOnClickListener(view -> pushFragment(new PDFFragment()        ));
+        pptButton.setOnClickListener(view -> pushFragment(new PowerPointFragment()));
+        macrosButton.setOnClickListener(view -> pushFragment(new MacrosFragment()));
+        multimediaButton.setOnClickListener(view -> pushFragment(new MultimediaFragment()));
+        pdfButton.setOnClickListener(view -> pushFragment(new PDFFragment()));
 
         liveScreenButton.setOnClickListener(view -> startActivity(new Intent(getActivity(), LiveScreenActivity.class)));
     }
