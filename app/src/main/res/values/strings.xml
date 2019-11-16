@@ -3,6 +3,7 @@
 
     <string name="title_activity_live_screen">ScreenActivity</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="title_qr_code_scanner">QR Code Scanner</string>
 
     <!-- Main Activity -->
     <string name="btm_bar_keyboard_btn_desc">Press to open keyboard</string>
@@ -36,6 +37,7 @@
     <!-- Settings -->
     <string name="settings_title_connect">Connect</string>
     <string name="settings_title_live_screen">Live Screen</string>
+    <string name="settings_title_pdf">PDF Assistant</string>
 
     <string name="settings_key_connect_timeout">connectTimeOut</string>
     <string name="settings_title_connect_timeout">Connect timeout</string>
@@ -53,8 +55,11 @@
     <string name="settings_title_live_screen_img_quality">Image quality</string>
     <string name="settings_summary_live_screen_img_quality">Quality of image sent from server (Very high quality might cause lag)</string>
 
+    <string name="settings_key_pdf_platform">pdfPlatform</string>
+    <string name="settings_title_pdf_platform">PDF Reader Program</string>
+    <string name="settings_dialog_title_pdf_platform">Choose the PDF reader program to control</string>
+
     <!-- Live Screen -->
     <string name="live_screen_only_wifi">Only available on Wifi</string>
-    <string name="title_qr_code_scanner">QR Code Scanner</string>
 
 </resources>
