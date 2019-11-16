@@ -1,8 +1,10 @@
 package com.rfw.hotkey.ui.pdf;
 
 import android.annotation.SuppressLint;
+
 import android.content.Context;
 import android.annotation.SuppressLint;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,20 +19,24 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
-import com.rfw.hotkey.util.LoopedExecutor;
+import com.rfw.hotkey.util.misc.LoopedExecutor;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Objects;
 
+import static com.rfw.hotkey.util.Utils.getIntPref;
 
-public class PDFFragment extends Fragment implements View.OnClickListener, View.OnTouchListener {
+
+public class PDFFragment extends Fragment implements View.OnClickListener {
     private static final String KEY_PDF_READER_PLATFORM = "pdfPlatform";
-
+    private static final int PLATFORM_ADOBE = 1;
+    private static final int PLATFORM_EVINCE = 2;
     private LinearLayout pdfButtonLayout;
     private RelativeLayout pdfPlatformLayout;
     private ImageButton fullScreenButton;
@@ -51,6 +57,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener, View.
 
     @SuppressLint("ClickableViewAccessibility")
     private  static  final long BUTTON_PRESS_DELAY = 100 ;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
