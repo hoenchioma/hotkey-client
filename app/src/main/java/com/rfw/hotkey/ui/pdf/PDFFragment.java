@@ -21,7 +21,11 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 
-
+/**
+ * @author Shadman Wadith
+ * @version 1.0
+ * @since 2019-07-01
+ */
 public class PDFFragment extends Fragment implements View.OnClickListener {
     private static final String KEY_PDF_READER_PLATFORM = "pdfPlatform";
 
@@ -32,7 +36,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
     private ImageButton zoomOutButton;
     private ImageButton leftButton;
     private ImageButton downButton;
-    private ImageButton righButton;
+    private ImageButton rightButton;
     private ImageButton findPageButton;
 
     private Button fitHeightButton, fitWidthButton;
@@ -72,7 +76,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         zoomOutButton = rootView.findViewById(R.id.pdf_zoomOutButtonID);
         leftButton = rootView.findViewById(R.id.pdf_leftButtonID);
         downButton = rootView.findViewById(R.id.pdf_downButtonID);
-        righButton = rootView.findViewById(R.id.pdf_rightButtonID);
+        rightButton = rootView.findViewById(R.id.pdf_rightButtonID);
         pdfMoreButton.setOnClickListener(this);
         findPageButton.setOnClickListener(this);
         fitHeightButton.setOnClickListener(this);
@@ -81,7 +85,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         upButton.setOnClickListener(this);
         leftButton.setOnClickListener(this);
         downButton.setOnClickListener(this);
-        righButton.setOnClickListener(this);
+        rightButton.setOnClickListener(this);
         zoomInButton.setOnClickListener(this);
         zoomOutButton.setOnClickListener(this);
     }
@@ -97,7 +101,6 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                 openMoreDialog();
                 break;
             case R.id.pdf_findPageButtonID:
-                //TODO Make a dialog
                 openDialog();
                 break;
             case R.id.pdf_fullScreenButtonID:
