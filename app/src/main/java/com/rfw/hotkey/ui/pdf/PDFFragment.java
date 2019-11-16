@@ -28,7 +28,12 @@ import java.util.Objects;
 
 import static com.rfw.hotkey.util.Utils.getIntPref;
 
-public class PDFFragment extends Fragment implements View.OnClickListener, View.OnTouchListener {
+/**
+ * @author Shadman Wadith
+ * @version 1.0
+ * @since 2019-07-01
+ */
+public class PDFFragment extends Fragment implements View.OnClickListener {
     private static final long BUTTON_PRESS_DELAY = 100;
 
     private static final int PLATFORM_ADOBE = 1;
@@ -116,12 +121,9 @@ public class PDFFragment extends Fragment implements View.OnClickListener, View.
         fullScreenButton.setOnClickListener(this);
         upButton.setOnClickListener(this);
         leftButton.setOnClickListener(this);
-        //downButton.setOnClickListener(this);
         rightButton.setOnClickListener(this);
         zoomInButton.setOnClickListener(this);
         zoomOutButton.setOnClickListener(this);
-
-        //downButton.setOnTouchListener(this);
         pdfPlatformLayout.setVisibility(View.INVISIBLE);
     }
 
@@ -142,9 +144,6 @@ public class PDFFragment extends Fragment implements View.OnClickListener, View.
                 break;
             case R.id.pdf_fullScreenButtonID:
                 if (!isFullScreen) {
-                    //sendMessageToServer("F5", "modifier");
-                    //Log.d("onclick", "F5");
-                    //fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                     Toast.makeText(getActivity(), "Full Screen Mode", Toast.LENGTH_SHORT).show();
                     sendMessageToServer("fullscreen", "modifier", String.valueOf(getPlatform()));
                     fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
@@ -184,11 +183,6 @@ public class PDFFragment extends Fragment implements View.OnClickListener, View.
                 sendMessageToServer("LEFT", "modifier", String.valueOf(getPlatform()));
                 Log.d("onclick", "LEFT");
                 break;
-//            case R.id.pdf_downButtonID:
-//                // sendMessageToServer("modifier");
-//                sendMessageToServer("DOWN", "modifier", String.valueOf(getPlatform()));
-//                Log.d("onclick", "DOWN");
-//                break;
             case R.id.pdf_rightButtonID:
                 //sendMessageToServer("modifier");
                 sendMessageToServer("RIGHT", "modifier", String.valueOf(getPlatform()));
@@ -220,35 +214,6 @@ public class PDFFragment extends Fragment implements View.OnClickListener, View.
         PDFFindPageDialog pdfFindPageDialog = new PDFFindPageDialog(this);
         assert getFragmentManager() != null;
         pdfFindPageDialog.show(getFragmentManager(), "Goto Page Dialog");
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        int id = view.getId();
-        switch (id) {
-            case R.id.downButtonID:
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-
-                    Log.d("LoopExecutor", "it works");
-                    if (buttonPresser == null) {
-                        buttonPresser = new LoopedExecutor(BUTTON_PRESS_DELAY) {
-                            @Override
-                            public void task() {
-                                Log.d("LoopExecutor", "it works");
-                                sendMessageToServer("DOWN", "modifier", String.valueOf(getPlatform()));
-                            }
-                        };
-                        buttonPresser.start();
-                    } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                        if (buttonPresser != null) {
-                            buttonPresser.end();
-                            buttonPresser = null;
-                        }
-                    }
-                }
-        }
-        return false;
     }
 
     int getPlatform() {

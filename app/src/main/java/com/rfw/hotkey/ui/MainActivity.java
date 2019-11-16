@@ -38,16 +38,28 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentHelper = new FragmentHelper(this, getSupportFragmentManager(), R.id.frameContainer);
 
-        extrasButton     = findViewById(R.id.extrasButton     );
-        connectionButton = findViewById(R.id.connectionButton );
-        keyboardButton   = findViewById(R.id.keyboardButton   );
-        mouseButton      = findViewById(R.id.mouseButton      );
-        settingsButton   = findViewById(R.id.settingsButton   );
+        extrasButton = findViewById(R.id.extrasButton);
+        connectionButton = findViewById(R.id.connectionButton);
+        keyboardButton = findViewById(R.id.keyboardButton);
+        mouseButton = findViewById(R.id.mouseButton);
+        settingsButton = findViewById(R.id.settingsButton);
 
-        keyboardButton  .setOnClickListener(view -> { replaceFragmentWithSlideHoriz(new KeyboardFragment()   , 1); highlightButton(keyboardButton  ); });
-        connectionButton.setOnClickListener(view -> { replaceFragmentWithSlideHoriz(new ConnectionsFragment(), 2); highlightButton(connectionButton); });
-        mouseButton     .setOnClickListener(view -> { replaceFragmentWithSlideHoriz(new MouseFragment()      , 3); highlightButton(mouseButton     ); });
-        extrasButton    .setOnClickListener(view -> { replaceFragmentWithSlideHoriz(new ExtrasFragment()     , 4); highlightButton(extrasButton    ); });
+        keyboardButton.setOnClickListener(view -> {
+            replaceFragmentWithSlideHoriz(new KeyboardFragment(), 1);
+            highlightButton(keyboardButton);
+        });
+        connectionButton.setOnClickListener(view -> {
+            replaceFragmentWithSlideHoriz(new ConnectionsFragment(), 2);
+            highlightButton(connectionButton);
+        });
+        mouseButton.setOnClickListener(view -> {
+            replaceFragmentWithSlideHoriz(new MouseFragment(), 3);
+            highlightButton(mouseButton);
+        });
+        extrasButton.setOnClickListener(view -> {
+            replaceFragmentWithSlideHoriz(new ExtrasFragment(), 4);
+            highlightButton(extrasButton);
+        });
 
         settingsButton.setOnClickListener(view -> {
             startActivity(new Intent(this, SettingsActivity.class));
@@ -120,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
                 ContextCompat.getColorStateList(this, R.color.colorAccent));
     }
 
-    public @Nullable Fragment getVisibleFragment() {
+    public @Nullable
+    Fragment getVisibleFragment() {
         return fragmentHelper.getVisibleFragment();
     }
 }

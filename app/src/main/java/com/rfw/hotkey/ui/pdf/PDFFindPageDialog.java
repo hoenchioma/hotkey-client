@@ -16,7 +16,11 @@ import com.rfw.hotkey.R;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
-
+/**
+ * @author  Shadman Wadith
+ * @version 1.0
+ * @since   2019-07-01
+ */
 public class PDFFindPageDialog extends AppCompatDialogFragment {
     private TextInputEditText pageNumberEditText;
     private WeakReference<PDFFragment> pdfFragment;

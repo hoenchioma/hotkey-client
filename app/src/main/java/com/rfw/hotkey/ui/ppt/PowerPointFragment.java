@@ -19,7 +19,11 @@ import com.rfw.hotkey.net.ConnectionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+/**
+ * @author  Shadman Wadith
+ * @version 1.0
+ * @since   2019-07-01
+ */
 
 public class PowerPointFragment extends Fragment implements View.OnClickListener, View.OnTouchListener {
 
@@ -81,6 +85,10 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
         return rootView;
     }
 
+    /**
+     * setting all listeners
+     * @param rootView
+     */
     private void initialization(View rootView) {
         isFullScreen = false;
         touchpad = rootView.findViewById(R.id.pointerCursorID);
@@ -101,7 +109,6 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
         fromTheBeginningButton.setOnClickListener(this);
     }
 
-    // TODO Create a POPUP menu for Slide full screen
     @Override
     public void onClick(View view) {
 
@@ -111,9 +118,6 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
             case R.id.ppt_presentationButtonID:
 
                 if (!isFullScreen) {
-                    //sendMessageToServer("F5", "modifier");
-                    //Log.d("onclick", "F5");
-                    //fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                     Toast.makeText(getActivity(), "Select Presentation Mode", Toast.LENGTH_SHORT).show();
                     if (fromThisSlideButton.getVisibility() == View.VISIBLE) {
                         fromTheBeginningButton.setVisibility(View.INVISIBLE);
@@ -196,7 +200,13 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
             Log.e("PowerPointFragment", "sendMessageToServer: error sending key-press", e);
         }
     }
-
+    /**
+     * sends the message of specified action to Connection Manager
+     *
+     * @param moveX x co-ordinate
+     * @param moveY y co-ordinate
+     * @param action  type of the message
+     */
     private void sendMessageToServer(String action, int moveX, int moveY) throws JSONException {
         JSONObject packet = new JSONObject();
         packet.put("type", "mouse");
