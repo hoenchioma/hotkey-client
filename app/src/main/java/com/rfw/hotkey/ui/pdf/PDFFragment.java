@@ -1,5 +1,6 @@
 package com.rfw.hotkey.ui.pdf;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener, View.
     private boolean isFullScreen;
     private LoopedExecutor buttonPresser = null;
     private  static  final long BUTTON_PRESS_DELAY = 100 ;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,6 +56,33 @@ public class PDFFragment extends Fragment implements View.OnClickListener, View.
         View rootView = inflater.inflate(R.layout.fragment_pdf, container, false);
         initialization(rootView);
 
+        upButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                if(event.getAction() == MotionEvent.ACTION_DOWN ) {
+
+                    Log.d("LoopExecutor", "it works");
+                    if (buttonPresser == null) {
+                        buttonPresser = new LoopedExecutor(BUTTON_PRESS_DELAY) {
+                            @Override
+                            public void task() {
+                                Log.d("LoopExecutor", "it works");
+                                sendMessageToServer("UP", "modifier", String.valueOf(getPlatform()));
+                            }
+                        };
+                        buttonPresser.start();
+                    }
+                }
+                else if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if (buttonPresser != null) {
+                        buttonPresser.end();
+                        buttonPresser = null;
+                    }
+                }
+                return false;
+            }
+        });
         downButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
