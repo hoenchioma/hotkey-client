@@ -148,7 +148,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         fitHeightButton.setOnClickListener(this);
         fitWidthButton.setOnClickListener(this);
         fullScreenButton.setOnClickListener(this);
-        upButton.setOnClickListener(this);
+        //upButton.setOnClickListener(this);
         leftButton.setOnClickListener(this);
         //downButton.setOnClickListener(this);
         rightButton.setOnClickListener(this);
