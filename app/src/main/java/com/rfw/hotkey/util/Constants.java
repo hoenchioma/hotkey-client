@@ -7,6 +7,7 @@ public interface Constants {
         int SOCKET_CONNECT_TIMEOUT = 2000; // in milliseconds
         int CONNECT_TIMEOUT = SOCKET_CONNECT_TIMEOUT;
         int SOCKET_RECEIVE_TIMEOUT = 1000; // in milliseconds
+        int HEART_BEAT_INTERVAL = 1000;
     }
 
     interface LiveScreen {

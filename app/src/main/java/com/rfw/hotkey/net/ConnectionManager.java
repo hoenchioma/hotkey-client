@@ -2,6 +2,7 @@ package com.rfw.hotkey.net;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
@@ -50,15 +51,21 @@ public class ConnectionManager {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public void sendPacket(JSONObject packet) {
+    public void sendPacket(@NonNull JSONObject packet) {
         if (!isConnectionActive()) Log.e(TAG, "sendPacket: attempt to send package using inactive connection");
         else connection.get().sendJSONPacket(packet);
     }
 
     @SuppressWarnings("ConstantConditions")
-    public void sendAndReceivePacket(JSONObject packetToSend, Consumer<JSONObject> receivedPacketHandler) {
+    public void sendAndReceivePacket(@NonNull JSONObject packetToSend, @NonNull Consumer<JSONObject> receivedPacketHandler) {
         if (!isConnectionActive()) Log.e(TAG, "sendAndReceivePacket: attempt to send package using inactive connection");
         else connection.get().sendAndReceiveJSONPacket(packetToSend, receivedPacketHandler);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public void sendAndReceivePacket(@NonNull JSONObject packetToSend, @NonNull Consumer<JSONObject> receivedPacketHandler, long timeOut) {
+        if (!isConnectionActive()) Log.e(TAG, "sendAndReceivePacket: attempt to send package using inactive connection");
+        else connection.get().sendAndReceiveJSONPacket(packetToSend, receivedPacketHandler, timeOut);
     }
 
     @SuppressWarnings("ConstantConditions")
