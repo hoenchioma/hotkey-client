@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 import androidx.databinding.ObservableBoolean;
 
+import com.rfw.hotkey.util.Constants;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -16,7 +18,12 @@ import org.json.JSONTokener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.SocketTimeoutException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static com.rfw.hotkey.util.Device.getDeviceName;
 
@@ -31,6 +38,8 @@ public abstract class Connection {
 
     protected BufferedReader in;
     protected PrintWriter out;
+
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public abstract Type getType();
 
@@ -156,7 +165,7 @@ public abstract class Connection {
      * @param packet JSON object representing the packet to be sent
      */
     @SuppressLint("StaticFieldLeak")
-    public void sendJSONPacket(JSONObject packet) {
+    public void sendJSONPacket(@NonNull JSONObject packet) {
         new AsyncTask<Void, Void, Void>() {
             boolean disconnect = false;
 
@@ -190,9 +199,13 @@ public abstract class Connection {
      * send a JSON packet and receive a response immediately
      *
      * @param receivedPacketHandler function to handle received packet
+     *                              it may receive null if packet receive failed
+     * @param timeOut time in milliseconds after which the receive times out
      */
     @SuppressLint("StaticFieldLeak")
-    public void sendAndReceiveJSONPacket(JSONObject packetToSend, Consumer<JSONObject> receivedPacketHandler) {
+    public void sendAndReceiveJSONPacket(@NonNull JSONObject packetToSend,
+                                         @NonNull Consumer<JSONObject> receivedPacketHandler,
+                                         long timeOut) {
         new AsyncTask<Void, Void, Void>() {
             JSONObject receivedPacket = null;
             boolean disconnect = false;
@@ -212,20 +225,28 @@ public abstract class Connection {
                 }
 
                 try {
-                    String response = in.readLine();
-                    receivedPacket = new JSONObject(new JSONTokener(response));
-                } catch (SocketTimeoutException e) {
-                    Log.e(Connection.TAG, "sendAndReceiveJSONPacket.doInBackground: receive timed out", e);
-                } catch (IOException e) { // error while reading from stream indicated broken connection
-                    Log.e(Connection.TAG, "sendAndReceiveJSONPacket.doInBackground: broken connection", e);
-                    Log.i(Connection.TAG, "sendAndReceiveJSONPacket.doInBackground: closing connection ...");
-                    try {
-                        disconnectUtil();
-                        disconnect = true;
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+                    Future<String> future = executor.submit(() -> {
+                        try {
+                            return in.readLine();
+                        } catch (IOException e) { // error while reading from stream indicated broken connection
+                            Log.e(Connection.TAG, "sendAndReceiveJSONPacket.doInBackground: broken connection", e);
+                            Log.i(Connection.TAG, "sendAndReceiveJSONPacket.doInBackground: closing connection ...");
+                            try {
+                                disconnectUtil();
+                                disconnect = true;
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            return null;
+                        }
+                    });
+                    String response = future.get(timeOut, TimeUnit.MILLISECONDS);
+                    if (response != null) receivedPacket = new JSONObject(new JSONTokener(response));
                 } catch (JSONException e) {
+                    Log.e(TAG, "sendAndReceiveJSONPacket.doInBackground: invalid packet (could not parse JSON)", e);
+                } catch (TimeoutException e) {
+                    Log.e(Connection.TAG, "sendAndReceiveJSONPacket.doInBackground: receive timed out", e);
+                } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
                 return null;
@@ -233,18 +254,29 @@ public abstract class Connection {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                if (!disconnect) {
-                    if (receivedPacket != null) {
-                        receivedPacketHandler.accept(receivedPacket);
-                    } else {
-                        Log.e(Connection.TAG, "sendAndReceive.onPostExecute: receivedPacket is null", new RuntimeException());
-                    }
-                } else {
+                if (disconnect) {
                     active.set(false);
                     onDisconnect();
                 }
+                if (receivedPacket == null) {
+                    Log.e(Connection.TAG, "sendAndReceive.onPostExecute: receivedPacket is null");
+                }
+                receivedPacketHandler.accept(receivedPacket);
             }
         }.execute();
+    }
+
+    /**
+     * send a JSON packet and receive a response immediately
+     * (receive times out after default receive timeout period)
+     *
+     * @param receivedPacketHandler function to handle received packet
+     *                              it may receive null if packet receive failed
+     */
+    @SuppressLint("StaticFieldLeak")
+    public void sendAndReceiveJSONPacket(@NonNull JSONObject packetToSend,
+                                         @NonNull Consumer<JSONObject> receivedPacketHandler) {
+        sendAndReceiveJSONPacket(packetToSend, receivedPacketHandler, Constants.Net.SOCKET_RECEIVE_TIMEOUT);
     }
 
     protected synchronized void sendPacketUtil(JSONObject packet) {
