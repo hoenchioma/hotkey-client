@@ -15,13 +15,11 @@ import java.util.TimerTask;
 public class ConnectionHeartbeat extends TimerTask {
     private static final String TAG = "ConnectionHeartbeat";
 
-    private static final int INVALID_PACKET_THRESHOLD = 5;
     private static final long LATENCY_REPORT_INTERVAL = 60000; // ms
 
     private static long globalStartTime = System.currentTimeMillis();
     private static double avgLatency = 0;
     private static int count = 0;
-    private static int invalidPacketCount = 0;
 
     @Override
     public void run() {
@@ -46,16 +44,12 @@ public class ConnectionHeartbeat extends TimerTask {
 
                                     globalStartTime = System.currentTimeMillis();
                                     avgLatency = count = 0;
-                                    invalidPacketCount = 0;
                                 }
                             } catch (Exception e) {
-                                invalidPacketCount++;
                                 Log.e(TAG, "run: error in ping packet", e);
+                                Log.i(TAG, "run: closing connection ...");
 
-                                if (invalidPacketCount > INVALID_PACKET_THRESHOLD) {
-                                    ConnectionManager.getInstance().closeConnection();
-                                    invalidPacketCount = 0;
-                                }
+                                ConnectionManager.getInstance().closeConnection();
                             }
                         }
                 );
