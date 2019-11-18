@@ -21,6 +21,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
+/**
+ * Live screen receiver which communicates over WiFi/LAN
+ * (over TCP)
+ *
+ * @author Raheeb Hassan
+ */
 public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
     private static final String TAG = "WiFiLiveScreenReceiver";
 

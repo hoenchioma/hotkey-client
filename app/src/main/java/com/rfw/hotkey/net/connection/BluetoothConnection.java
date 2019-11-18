@@ -10,6 +10,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.UUID;
 
+/**
+ * Subclass of Connection for bluetooth based connection
+ *
+ * @author Raheeb Hassan
+ */
 public class BluetoothConnection extends Connection {
     // the unique UUID used by server for hosting the bluetooth device
     private static final String BLUETOOTH_SERVICE_UUID = "35ba7039-f3f2-4617-91f9-64c9c56bb437";

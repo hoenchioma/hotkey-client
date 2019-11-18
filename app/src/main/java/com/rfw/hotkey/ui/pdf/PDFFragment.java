@@ -32,7 +32,9 @@ import java.util.Objects;
 
 import static com.rfw.hotkey.util.Utils.getIntPref;
 
-
+/**
+ * @author Shadman Wadith
+ */
 public class PDFFragment extends Fragment implements View.OnClickListener {
     private static final String KEY_PDF_READER_PLATFORM = "pdfPlatform";
     private static final int PLATFORM_ADOBE = 1;
@@ -148,14 +150,11 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         fitHeightButton.setOnClickListener(this);
         fitWidthButton.setOnClickListener(this);
         fullScreenButton.setOnClickListener(this);
-        //upButton.setOnClickListener(this);
+        upButton.setOnClickListener(this);
         leftButton.setOnClickListener(this);
-        //downButton.setOnClickListener(this);
         rightButton.setOnClickListener(this);
         zoomInButton.setOnClickListener(this);
         zoomOutButton.setOnClickListener(this);
-
-        //downButton.setOnTouchListener(this);
         pdfPlatformLayout.setVisibility(View.INVISIBLE);
     }
 
@@ -172,7 +171,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.pdf_findPageButtonID:
                 //TODO Make a dialog
-                openDialog();
+                openFindPageDialog();
                 break;
             case R.id.pdf_fullScreenButtonID:
                 if (!isFullScreen) {
@@ -242,7 +241,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         Log.d("PDF More", String.valueOf(getPlatform()));
     }
 
-    private void openDialog() {
+    private void openFindPageDialog() {
         PDFFindPageDialog pdfFindPageDialog = new PDFFindPageDialog(this);
         assert getFragmentManager() != null;
         pdfFindPageDialog.show(getFragmentManager(), "Goto Page Dialog");

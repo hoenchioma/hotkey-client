@@ -21,8 +21,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 /**
  * @author  Shadman Wadith
- * @version 1.0
- * @since   2019-07-01
  */
 
 public class PowerPointFragment extends Fragment implements View.OnClickListener, View.OnTouchListener {
@@ -87,10 +85,6 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
         return rootView;
     }
 
-    /**
-     * setting all listeners
-     * @param rootView
-     */
     private void initialization(View rootView) {
         isFullScreen = false;
         touchpad = rootView.findViewById(R.id.pointerCursorID);
@@ -221,8 +215,8 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
     /**
      * sends the message of specified action to Connection Manager
      *
-     * @param moveX x co-ordinate
-     * @param moveY y co-ordinate
+     * @param moveX move x co-ordinate of pointer
+     * @param moveY move y co-ordinate of pointer
      * @param action  type of the message
      */
     private void sendMessageToServer(String action, int moveX, int moveY) throws JSONException {

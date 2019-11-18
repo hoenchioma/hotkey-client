@@ -11,6 +11,9 @@ import com.rfw.hotkey.net.connection.Connection;
 
 import org.json.JSONObject;
 
+/**
+ * Singleton class which manages connections
+ */
 public class ConnectionManager {
     private static final String TAG = "ConnectionManager";
 
