@@ -9,6 +9,9 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+/**
+ * Subclass of Connection for WiFi/LAN based connection
+ */
 public class WiFiConnection extends Connection {
     private static final String TAG = "WiFiConnection";
 
