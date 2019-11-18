@@ -30,8 +30,6 @@ import static com.rfw.hotkey.util.Utils.getIntPref;
 
 /**
  * @author Shadman Wadith
- * @version 1.0
- * @since 2019-07-01
  */
 public class PDFFragment extends Fragment implements View.OnClickListener {
     private static final long BUTTON_PRESS_DELAY = 100;
@@ -140,7 +138,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.pdf_findPageButtonID:
                 //TODO Make a dialog
-                openDialog();
+                openFindPageDialog();
                 break;
             case R.id.pdf_fullScreenButtonID:
                 if (!isFullScreen) {
@@ -210,7 +208,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         Log.d("PDF More", String.valueOf(getPlatform()));
     }
 
-    private void openDialog() {
+    private void openFindPageDialog() {
         PDFFindPageDialog pdfFindPageDialog = new PDFFindPageDialog(this);
         assert getFragmentManager() != null;
         pdfFindPageDialog.show(getFragmentManager(), "Goto Page Dialog");
