@@ -9,6 +9,12 @@ import android.view.SurfaceView;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * A SurfaceView which updates at a constant FPS
+ * changeable bitmap (live screen frames)
+ *
+ * @author Raheeb Hassan
+ */
 public class LiveScreenView extends SurfaceView implements SurfaceHolder.Callback {
     public static final long DEFAULT_FPS = 60;
 
