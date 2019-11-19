@@ -1,276 +1,507 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:id="@+id/gamepad"
-tools:context=".ui.gamepad.GamepadActivity">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gamepad"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.gamepad.GamepadActivity">
 
     <ImageView
         android:id="@+id/leftStickBotID"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="92dp"
-        android:layout_marginTop="338dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/left_stick_bottom" />
 
-    <ImageView
-        android:id="@+id/editButtonID"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="305dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginLeft="76dp"
+        android:layout_marginTop="335dp"
+        android:layout_marginEnd="595dp"
+        android:layout_marginRight="595dp"
+        android:layout_marginBottom="16dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_edit_key_default" />
+        android:src="@drawable/left_stick_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/leftStickLeftID"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="44dp"
-        android:layout_marginTop="283dp"
+
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="274dp"
+        android:layout_marginEnd="655dp"
+        android:layout_marginRight="655dp"
+        android:layout_marginBottom="77dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/left_stick_left" />
+        android:src="@drawable/left_stick_left"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/leftStickTopID"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="92dp"
-        android:layout_marginTop="231dp"
+
+        android:layout_marginStart="76dp"
+        android:layout_marginLeft="76dp"
+        android:layout_marginTop="213dp"
+        android:layout_marginEnd="595dp"
+        android:layout_marginRight="595dp"
+        android:layout_marginBottom="138dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/left_stick_up" />
+        android:src="@drawable/left_stick_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/leftStickRightID"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="140dp"
-        android:layout_marginTop="283dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/left_stick_right" />
 
-    <ImageView
-        android:id="@+id/rightStickID"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="493dp"
-        android:layout_marginTop="207dp"
+        android:layout_marginStart="136dp"
+        android:layout_marginLeft="136dp"
+        android:layout_marginTop="274dp"
+        android:layout_marginEnd="535dp"
+        android:layout_marginRight="535dp"
+        android:layout_marginBottom="77dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/axis_button" />
+        android:src="@drawable/left_stick_right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/leftLeftID"
         android:layout_width="44dp"
         android:layout_height="47dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="94dp"
+
+        android:layout_marginStart="55dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="107dp"
+        android:layout_marginEnd="632dp"
+        android:layout_marginRight="632dp"
+        android:layout_marginBottom="257dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/top_left_default" />
+        android:src="@drawable/top_left_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/leftBotID"
         android:layout_width="44dp"
         android:layout_height="47dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="85dp"
-        android:layout_marginTop="143dp"
+
+        android:layout_marginStart="99dp"
+        android:layout_marginLeft="99dp"
+        android:layout_marginTop="154dp"
+        android:layout_marginEnd="588dp"
+        android:layout_marginRight="588dp"
+        android:layout_marginBottom="210dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/top_bottom_default" />
+        android:src="@drawable/top_bottom_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/leftRightID"
         android:layout_width="44dp"
         android:layout_height="47dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="129dp"
-        android:layout_marginTop="95dp"
+
+        android:layout_marginStart="143dp"
+        android:layout_marginLeft="143dp"
+        android:layout_marginTop="107dp"
+        android:layout_marginEnd="544dp"
+        android:layout_marginRight="544dp"
+        android:layout_marginBottom="257dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/top_right_default" />
+        android:src="@drawable/top_right_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/leftTopID"
         android:layout_width="44dp"
         android:layout_height="47dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="85dp"
-        android:layout_marginTop="50dp"
+
+        android:layout_marginStart="99dp"
+        android:layout_marginLeft="99dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="588dp"
+        android:layout_marginRight="588dp"
+        android:layout_marginBottom="304dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/top_top_default" />
+        android:src="@drawable/top_top_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/rightLeftID"
         android:layout_width="44dp"
         android:layout_height="47dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="534dp"
-        android:layout_marginTop="94dp"
+
+        android:layout_marginStart="566dp"
+        android:layout_marginLeft="566dp"
+        android:layout_marginTop="107dp"
+        android:layout_marginEnd="121dp"
+        android:layout_marginRight="121dp"
+        android:layout_marginBottom="257dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/rightBotID"
         android:layout_width="44dp"
         android:layout_height="47dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="578dp"
-        android:layout_marginTop="143dp"
+
+        android:layout_marginStart="610dp"
+        android:layout_marginLeft="610dp"
+        android:layout_marginTop="154dp"
+        android:layout_marginEnd="77dp"
+        android:layout_marginRight="77dp"
+        android:layout_marginBottom="210dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/rightRightID"
         android:layout_width="44dp"
         android:layout_height="47dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="622dp"
-        android:layout_marginTop="95dp"
+
+        android:layout_marginStart="654dp"
+        android:layout_marginLeft="654dp"
+        android:layout_marginTop="107dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_marginBottom="257dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/rightTopID"
         android:layout_width="44dp"
         android:layout_height="47dp"
+
+        android:layout_marginStart="610dp"
+        android:layout_marginLeft="610dp"
+        android:layout_marginTop="61dp"
+        android:layout_marginEnd="77dp"
+        android:layout_marginRight="77dp"
+        android:layout_marginBottom="304dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/rightStickBaseID"
+        android:layout_width="176dp"
+        android:layout_height="174dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="578dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginStart="538dp"
+        android:layout_marginLeft="538dp"
+        android:layout_marginTop="232dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/ic_empty_circle_default"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"/>
+
+    <ImageView
+        android:id="@+id/rightStickID"
+        android:layout_width="66dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="592dp"
+        android:layout_marginLeft="592dp"
+        android:layout_marginTop="286dp"
+        android:layout_marginEnd="73dp"
+        android:layout_marginRight="73dp"
+        android:layout_marginBottom="60dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_target_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/LBID"
         android:layout_width="44dp"
         android:layout_height="47dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="131dp"
-        android:layout_marginTop="1dp"
+
+        android:layout_marginStart="143dp"
+        android:layout_marginLeft="143dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="544dp"
+        android:layout_marginRight="544dp"
+        android:layout_marginBottom="350dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/trigger_button" />
+        android:src="@drawable/trigger_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/LTID"
         android:layout_width="44dp"
         android:layout_height="47dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="38dp"
-        android:layout_marginTop="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="55dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="632dp"
+        android:layout_marginRight="632dp"
+        android:layout_marginBottom="350dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/trigger_button" />
+        android:src="@drawable/trigger_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/LSID"
         android:layout_width="44dp"
         android:layout_height="47dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="252dp"
-        android:layout_marginTop="127dp"
+
+        android:layout_marginStart="210dp"
+        android:layout_marginLeft="210dp"
+        android:layout_marginTop="289dp"
+        android:layout_marginEnd="477dp"
+        android:layout_marginRight="477dp"
+        android:layout_marginBottom="75dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/RTID"
         android:layout_width="44dp"
         android:layout_height="47dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="625dp"
-        android:layout_marginTop="-2dp"
+
+        android:layout_marginStart="654dp"
+        android:layout_marginLeft="654dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_marginBottom="351dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/trigger_button" />
+        android:src="@drawable/trigger_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/RBID"
         android:layout_width="44dp"
         android:layout_height="47dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="532dp"
-        android:layout_marginTop="-1dp"
+
+        android:layout_marginStart="566dp"
+        android:layout_marginLeft="566dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="121dp"
+        android:layout_marginRight="121dp"
+        android:layout_marginBottom="351dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/trigger_button" />
+        android:src="@drawable/trigger_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/RSID"
         android:layout_width="44dp"
         android:layout_height="47dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="430dp"
-        android:layout_marginTop="128dp"
+
+        android:layout_marginStart="453dp"
+        android:layout_marginLeft="453dp"
+        android:layout_marginTop="290dp"
+        android:layout_marginEnd="234dp"
+        android:layout_marginRight="234dp"
+        android:layout_marginBottom="74dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/menuID"
         android:layout_width="44dp"
         android:layout_height="47dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="343dp"
-        android:layout_marginTop="238dp"
+
+        android:layout_marginStart="254dp"
+        android:layout_marginLeft="254dp"
+        android:layout_marginTop="227dp"
+        android:layout_marginEnd="433dp"
+        android:layout_marginRight="433dp"
+        android:layout_marginBottom="137dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/startID"
         android:layout_width="44dp"
         android:layout_height="47dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="343dp"
-        android:layout_marginTop="313dp"
+
+        android:layout_marginStart="409dp"
+        android:layout_marginLeft="409dp"
+        android:layout_marginTop="227dp"
+        android:layout_marginEnd="278dp"
+        android:layout_marginRight="278dp"
+        android:layout_marginBottom="137dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_gamepad_buttons_default" />
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/saveButtonID"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="365dp"
-        android:layout_marginTop="-2dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_save_default" />
 
-    <SeekBar
-        android:id="@+id/seekBarID"
-        android:visibility="gone"
-        android:layout_width="135dp"
-        android:layout_height="48dp"
-        android:layout_alignTop="@+id/editButtonID"
-        android:layout_marginStart="124dp"
-        android:layout_marginLeft="124dp"
-        android:layout_marginTop="60dp"
-        android:layout_toEndOf="@+id/leftRightID"
-        android:layout_toRightOf="@+id/leftRightID" />
+        android:layout_marginStart="324dp"
+        android:layout_marginLeft="324dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="347dp"
+        android:layout_marginRight="347dp"
+        android:layout_marginBottom="329dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_save_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/editButtonID"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+
+        android:layout_marginStart="254dp"
+        android:layout_marginLeft="254dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="417dp"
+        android:layout_marginRight="417dp"
+        android:layout_marginBottom="329dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_edit_key_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/cancelButtonID"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+
+        android:layout_marginStart="393dp"
+        android:layout_marginLeft="393dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="278dp"
+        android:layout_marginRight="278dp"
+        android:layout_marginBottom="329dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_cancel_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/gamepadMenuID"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+
+        android:layout_marginStart="324dp"
+        android:layout_marginLeft="324dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="347dp"
+        android:layout_marginRight="347dp"
+        android:layout_marginBottom="257dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_menu_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <GridView
         android:id="@+id/keyGridID"
@@ -279,12 +510,10 @@ tools:context=".ui.gamepad.GamepadActivity">
         android:columnWidth="150dp"
         android:gravity="center"
         android:numColumns="6"
-        android:stretchMode="columnWidth"
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
         android:paddingRight="16dp"
-        android:paddingBottom="16dp">
+        android:paddingBottom="16dp"
+        android:stretchMode="columnWidth"></GridView>
 
-    </GridView>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

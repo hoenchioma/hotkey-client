@@ -15,7 +15,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,22 +35,23 @@ public class GamepadActivity extends AppCompatActivity {
 
     private ArrayList<ImageView> buttons;
     private ArrayList<String> actions;
+    private ArrayList<String> pressedButtons;
     private boolean editLayout;
-    private ImageView rightStick;
     private ImageView editButton;
     private ImageView saveButton;
+    private ImageView cancelButton;
+    private ImageView menuButton;
     private GridView keyBoardGrid;
-    private SeekBar seekBar;
 
     private int xDelta;
     private int yDelta;
     private int widthV;
     private int heightV;
-    private float RSX;
-    private float RSY;
-    private float disRSX;
-    private float disRSY;
+    private int RSX;
+    private int RSY;
     private int curIndex;
+
+    private boolean setRightStick;
 
     static final String[] keyboardKeys = new String[]{
             "0","1", "2", "3", "4",
@@ -74,16 +74,19 @@ public class GamepadActivity extends AppCompatActivity {
     private static final long BUTTON_PRESS_DELAY = 100; // milliseconds
 
     private LoopedExecutor buttonPresser = null;
+    private LoopedExecutor rightStickHandler = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gamepad);
         editLayout = false;
+        setRightStick = true;
 
 
         buttons = new ArrayList<ImageView>();
         actions = new ArrayList<>();
+        pressedButtons = new ArrayList<>();
 
         buttons.add(findViewById(R.id.leftLeftID));
         buttons.add(findViewById(R.id.leftBotID));
@@ -105,32 +108,31 @@ public class GamepadActivity extends AppCompatActivity {
         buttons.add(findViewById(R.id.leftStickLeftID));
         buttons.add(findViewById(R.id.leftStickBotID));
         buttons.add(findViewById(R.id.leftStickRightID));
-        rightStick = findViewById(R.id.rightStickID);
-        //seekBar = findViewById(R.id.seekBarID);
+        buttons.add(findViewById(R.id.rightStickID));
+        cancelButton = findViewById(R.id.cancelButtonID);
         keyBoardGrid = findViewById(R.id.keyGridID);
         editButton = findViewById(R.id.editButtonID);
         saveButton = findViewById(R.id.saveButtonID);
+        menuButton = findViewById(R.id.gamepadMenuID);
 
         init();
 
         for(int i = 0; i < buttons.size(); i++) buttons.get(i).setOnTouchListener(onTouchListener());
-
-
-        ///////////handle settings button activity
 
         Intent intent = getIntent();
         if(intent.getBooleanExtra("gamepadEditLayout", false)) {
             editLayout = true;
         }
 
-
-        //////////////////
-
         if(editLayout){
             editButton.setVisibility(View.VISIBLE);
             saveButton.setVisibility(View.VISIBLE);
-            //seekBar.setVisibility(View.VISIBLE);
-            //seekBar.setMax(500);
+            cancelButton.setVisibility(View.VISIBLE);
+            menuButton.setVisibility(View.INVISIBLE);
+
+            editButton.setColorFilter(R.color.colorAccent);
+            saveButton.setColorFilter(R.color.colorAccent);
+            cancelButton.setColorFilter(R.color.colorAccent);
 
             saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -141,6 +143,13 @@ public class GamepadActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+            });
+
+            cancelButton.setOnClickListener(view -> {
+                finish();
+                Intent intnt = new Intent(this, GamepadActivity.class);
+                intnt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                startActivity(intnt);
             });
 
             editButton.setOnClickListener(new View.OnClickListener() {
@@ -199,57 +208,43 @@ public class GamepadActivity extends AppCompatActivity {
 
         }
 
+        menuButton.setOnClickListener(view -> {
+            finish();
+            Intent intnt = new Intent(this, GamepadActivity.class);
+            intnt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+            intnt.putExtra("gamepadEditLayout", true);
+            startActivity(intnt);
+        });
 
-
-
-        rightStick.setOnTouchListener(new View.OnTouchListener() {
+        /*rightStick.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
-                if(editLayout) {
-                    //seekBar.setProgress((view.getWidth()/500)*seekBar.getMax());
-                    //seekBarHeight = (view.getHeight()/500)*seekBar.getMax();
-                    /*curIndex = -2;
-                    final int x = (int) event.getRawX();
-                    final int y = (int) event.getRawY();
 
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-
+                if(!editLayout){
+                    int x = (int) event.getRawX();
+                    int y = (int) event.getRawY();
+                    switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams)
-                                    view.getLayoutParams();
-
-                            xDelta = x - view.getLeft();
-                            yDelta = y - view.getTop();
-                            widthV = view.getWidth();
-                            heightV = view.getHeight();
+                            xDelta =(int) x - rightStick.getLeft();
+                            yDelta = (int) y - rightStick.getTop();
+                            widthV = rightStick.getWidth();
+                            heightV = rightStick.getHeight();
                             break;
 
                         case MotionEvent.ACTION_UP:
-
+                            rightStick.setLeft(RSX);
+                            rightStick.setTop(RSY);
+                            rightStick.setRight(view.getLeft() + widthV);
+                            rightStick.setBottom(view.getTop() + heightV);
                             break;
 
                         case MotionEvent.ACTION_MOVE:
-                            view.setLeft(x - xDelta);
-                            view.setTop(y - yDelta);
-                            view.setRight(view.getLeft() + widthV);
-                            view.setBottom(view.getTop() + heightV);
-                            break;
-                    }*/
-                }
-                else{
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-
-                            RSX = event.getX();
-                            RSY = event.getY();
-                            disRSX = 0;
-                            disRSY = 0;
-                            break;
-                        case MotionEvent.ACTION_MOVE:
-                            disRSX = event.getX() - RSX;
-                            disRSY = event.getY() - RSY;
-                            RSX = event.getX();
-                            RSY = event.getY();
+                           // if(){
+                            rightStick.setLeft(x - xDelta);
+                            rightStick.setTop(y - yDelta);
+                            rightStick.setRight(view.getLeft() + widthV);
+                            rightStick.setBottom(view.getTop() + heightV);
+                        //}
                             break;
                     }
                     try {
@@ -262,38 +257,8 @@ public class GamepadActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }////////////////////////implement thread
+                }
                 return false;
-            }
-        });
-
-        /*seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                LayoutParams params;
-                if(curIndex == -2){
-                    params = (LayoutParams) rightStick.getLayoutParams();
-                    params.setMargins(rightStick.getLeft(),rightStick.getTop(),rightStick.getRight(),rightStick.getBottom());
-                    params.width = progress;
-                    buttons.get(curIndex).setLayoutParams(params);
-                }
-                else if(curIndex > -1 && curIndex < buttons.size()){
-                    params = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-                    params.setMargins(buttons.get(curIndex).getLeft(),buttons.get(curIndex).getTop(),buttons.get(curIndex).getRight(),buttons.get(curIndex).getBottom());
-                    params.width = progress;
-                    params.height = progress;
-                    buttons.get(curIndex).setLayoutParams(params);
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });*/
     }
@@ -301,61 +266,132 @@ public class GamepadActivity extends AppCompatActivity {
     private View.OnTouchListener onTouchListener() {
         return new View.OnTouchListener() {
 
-            @SuppressLint("ClickableViewAccessibility")
+            @SuppressLint({"ClickableViewAccessibility", "ResourceAsColor"})
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 if(editLayout) {
-                    //seekBar.setProgress(view.getWidth());
-
+                    if(curIndex != -1){
+                        buttons.get(curIndex).setColorFilter(R.color.colorAccent);
+                    }
                     curIndex = Integer.parseInt((String) view.getTag());
-                    /*final int x = (int) event.getRawX();
-                    final int y = (int) event.getRawY();
-
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-
-                        case MotionEvent.ACTION_DOWN:
-                            RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams)
-                                    view.getLayoutParams();
-
-                            xDelta = x - view.getLeft();
-                            yDelta = y - view.getTop();
-                            widthV = view.getWidth();
-                            heightV = view.getHeight();
-                            break;
-
-                        case MotionEvent.ACTION_UP:
-
-                            break;
-
-                        case MotionEvent.ACTION_MOVE:
-                            view.setLeft(x - xDelta);
-                            view.setTop(y - yDelta);
-                            view.setRight(view.getLeft() + widthV);
-                            view.setBottom(view.getTop() + heightV);
-                            break;
-                    }*/
+                    buttons.get(curIndex).clearColorFilter();
                 }
                 else {
-                    if(event.getAction() != MotionEvent.ACTION_UP) {
-                        if (buttonPresser == null) {
-                            buttonPresser = new LoopedExecutor(BUTTON_PRESS_DELAY) {
-                                @Override
-                                public void task() {
-                                    sendKeyToServer("char",
-                                            actions.get(Integer.parseInt((String) view.getTag())));
+                    if(!view.getTag().equals("rightStick")) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                if (!actions.get(Integer.parseInt((String) view.getTag())).equals("") && !pressedButtons.contains(actions.get(Integer.parseInt((String) view.getTag())))) {
+                                    pressedButtons.add(actions.get(Integer.parseInt((String) view.getTag())));
                                 }
-                            };
-                            buttonPresser.start();
-                        }
-//                        Toast.makeText(getApplicationContext(),
-//                                (String)view.getTag(), Toast.LENGTH_SHORT).show();
-                        //keyBoardGrid.setVisibility(View.INVISIBLE);
-                    } else {
-                        if (buttonPresser != null) {
-                            buttonPresser.end();
-                            buttonPresser = null;
+                                if (buttonPresser == null && !actions.get(Integer.parseInt((String) view.getTag())).equals("")) {
+                                    buttonPresser = new LoopedExecutor(BUTTON_PRESS_DELAY) {
+                                        @Override
+                                        public void task() {
+                                            JSONObject gamepad = new JSONObject();
+                                            try {
+                                                gamepad.put("type", "macro");
+                                                gamepad.put("size", Integer.toString(pressedButtons.size()));
+                                                for (int i = 0; i < pressedButtons.size(); i++) {
+                                                    gamepad.put(Integer.toString(i), pressedButtons.get(i));
+                                                }
+                                                ConnectionManager.getInstance().sendPacket(gamepad);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    };
+                                    buttonPresser.start();
+                                }
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                if (pressedButtons.contains(actions.get(Integer.parseInt((String) view.getTag()))))
+                                    pressedButtons.remove(actions.get(Integer.parseInt((String) view.getTag())));
+                                if (pressedButtons.size() == 0 && buttonPresser != null) {
+                                    buttonPresser.end();
+                                    buttonPresser = null;
+                                }
+                                break;
                         }
                     }
+                    else{
+                        final int x = (int) event.getRawX();
+                        final int y = (int) event.getRawY();
+                        if(setRightStick){
+                            RSX = view.getLeft();
+                            RSY = view.getTop();
+                            setRightStick = false;
+
+                        }
+
+                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+
+                            case MotionEvent.ACTION_DOWN:
+                                xDelta = x - view.getLeft();
+                                yDelta = y - view.getTop();
+                                widthV = view.getWidth();
+                                heightV = view.getHeight();
+
+                                if (rightStickHandler == null) {
+                                    rightStickHandler = new LoopedExecutor(BUTTON_PRESS_DELAY) {
+                                        @Override
+                                        public void task() {
+                                            try {
+                                                JSONObject packet = new JSONObject();
+                                                packet.put("type", "mouse");
+                                                packet.put("action", "TouchpadMove");
+                                                packet.put("deltaX", RSX - view.getLeft());
+                                                packet.put("deltaY", RSY - view.getTop());
+                                                ConnectionManager.getInstance().sendPacket(packet);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    };
+                                    rightStickHandler.start();
+                                }
+                                break;
+
+                            case MotionEvent.ACTION_UP:
+                                view.setLeft(RSX);
+                                view.setTop(RSY);
+                                view.setRight(view.getLeft() + widthV);
+                                view.setBottom(view.getTop() + heightV);
+                                if(rightStickHandler != null){
+                                    rightStickHandler.end();
+                                    rightStickHandler = null;
+                                }
+                                break;
+
+                            case MotionEvent.ACTION_MOVE:
+                                if((x - xDelta > RSX - 100) && (x - xDelta < RSX + 100) && (y - yDelta > RSY - 100) && (y - yDelta < RSY + 100)){
+                                    view.setLeft(x - xDelta);
+                                    view.setTop(y - yDelta);
+                                    view.setRight(view.getLeft() + widthV);
+                                    view.setBottom(view.getTop() + heightV);
+                                }
+
+                                if (rightStickHandler == null) {
+                                    rightStickHandler = new LoopedExecutor(BUTTON_PRESS_DELAY) {
+                                        @Override
+                                        public void task() {
+                                            try {
+                                                JSONObject packet = new JSONObject();
+                                                packet.put("type", "mouse");
+                                                packet.put("action", "TouchpadMove");
+                                                packet.put("deltaX", RSX - view.getLeft());
+                                                packet.put("deltaY", RSY - view.getTop());
+                                                ConnectionManager.getInstance().sendPacket(packet);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    };
+                                    rightStickHandler.start();
+                                }
+                                break;
+                        }
+                    }
+
                 }
                 return true;
             }
@@ -367,40 +403,27 @@ public class GamepadActivity extends AppCompatActivity {
         keyBoardGrid.setVisibility(View.INVISIBLE);
         editButton.setVisibility(View.INVISIBLE);
         saveButton.setVisibility(View.INVISIBLE);
-//        seekBar.setVisibility(View.INVISIBLE);
+        cancelButton.setVisibility(View.INVISIBLE);
         curIndex = -1;
         String data;
+        menuButton.setColorFilter(R.color.colorAccent);
+        //rightStick.setColorFilter(R.color.colorAccent);
         try {
             JSONObject buttonData;
-            //LayoutParams params;
-            for(int i = 0; i < buttons.size(); i++){
+            for(int i = 0; i < buttons.size() - 1; i++){
+                buttons.get(i).setColorFilter(R.color.colorAccent);
                 actions.add("");
                 data = sharedPref.getString("buttonData" + Integer.toString(i), null);
                 if(data != null){
                     buttonData = new JSONObject(data);
-                    /*params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                    params.setMargins(buttonData.getInt("left"),buttonData.getInt("top"),buttonData.getInt("right"),buttonData.getInt("bottom"));
-                    buttons.get(i).setLayoutParams(params);*/
                     actions.set( i, buttonData.getString("action"));
                 }
                 buttons.get(i).setTag(Integer.toString(i));
             }
+            buttons.get(buttons.size() - 1).setTag("rightStick");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-    private void sendKeyToServer(String action, String key) {
-        JSONObject packet = new JSONObject();
-
-        try {
-            packet.put("type", "keyboard");
-            packet.put("action", action);
-            packet.put("key", key);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        ConnectionManager.getInstance().sendPacket(packet);
     }
 
     void saveData() throws JSONException {
@@ -410,11 +433,6 @@ public class GamepadActivity extends AppCompatActivity {
         for(int i = 0; i < buttons.size(); i++){
             buttonData = new JSONObject();
             buttonData.put("action",actions.get(i));
-            /*buttonData.put("left",(int)buttons.get(i).getLeft());
-            buttonData.put("right",(int)buttons.get(i).getRight());
-            buttonData.put("top",(int)buttons.get(i).getTop());
-            buttonData.put("bottom",(int)buttons.get(i).getBottom());*/
-
             editor.putString("buttonData" + Integer.toString(i), buttonData.toString());
         }
         editor.apply();
