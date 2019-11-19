@@ -75,13 +75,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void replaceFragment(@NonNull Fragment newFragment, int newFragIndex) {
-        fragmentHelper.clearBackStack();
         fragmentHelper.replaceFragment(newFragment);
         curFragIndex = newFragIndex;
     }
 
     public void replaceFragmentWithSlideHoriz(@NonNull Fragment newFragment, int newFragIndex) {
-        fragmentHelper.clearBackStack();
         if (newFragIndex < curFragIndex) {
             fragmentHelper.replaceFragmentWithAnim(newFragment,
                     new int[]{
