@@ -45,6 +45,12 @@ import java.util.TimerTask;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.rfw.hotkey.util.Utils.getIntPref;
 
+/**
+ * Fragment which shows whether the device is connected and
+ * info about the connected device (if present)
+ *
+ * @author Raheeb Hassan
+ */
 public class ConnectionsFragment extends Fragment {
     private static final String TAG = ConnectionsFragment.class.getCanonicalName();
     private static final int QR_CODE_READER_ACTIVITY_REQUEST = 0;
@@ -116,6 +122,7 @@ public class ConnectionsFragment extends Fragment {
         assert getView() != null;
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
+        // handle the back key press
         getView().setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK) {
                 if (viewModel.state.get() == State.IP_INPUT) {
@@ -160,6 +167,7 @@ public class ConnectionsFragment extends Fragment {
         Intent intent = QRCodeReaderActivity.getLaunchIntent(getContext(), true, false, barcode -> {
             try {
                 JSONObject code = new JSONObject(new JSONTokener(barcode.rawValue));
+                // check whether the qr code is valid
                 return code.getString("type").equals("qrCode")
                         && code.getString("connectionType").equals(connectionType.toCamelCaseString());
             } catch (JSONException e) {
@@ -178,12 +186,12 @@ public class ConnectionsFragment extends Fragment {
                     JSONObject code = new JSONObject(new JSONTokener(barcode.rawValue));
                     if (!code.getString("type").equals("qrCode")) throw new AssertionError();
 
-                    if (code.getString("connectionType").equals(Connection.Type.WIFI.toCamelCaseString())) {
+                    if (code.getString("connectionType").equals(Connection.Type.WIFI.toCamelCaseString())) { // if WiFi
                         String ipAddress = code.getString("ipAddress");
                         int port = code.getInt("port");
                         makeWiFiConnection(ipAddress, port);
                     }
-                    else if (code.getString("connectionType").equals(Connection.Type.BLUETOOTH.toCamelCaseString())) {
+                    else if (code.getString("connectionType").equals(Connection.Type.BLUETOOTH.toCamelCaseString())) { // if bluetooth
                         String bluetoothAddress = code.getString("bluetoothAddress");
                         makeBluetoothConnection(bluetoothAddress);
                     }

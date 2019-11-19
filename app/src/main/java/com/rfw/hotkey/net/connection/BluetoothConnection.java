@@ -22,10 +22,20 @@ public class BluetoothConnection extends Connection {
     private BluetoothDevice device;
     private BluetoothSocket socket;
 
+    /**
+     * Constructs a bluetooth based connection with specified device
+     *
+     * @param device the bt device to connect to
+     */
     public BluetoothConnection(BluetoothDevice device) {
         this.device = device;
     }
 
+    /**
+     * Find device with specified bluetooth address and make connection with it
+     *
+     * @param bluetoothAddress bluetooth address of the device to connect to
+     */
     public BluetoothConnection(String bluetoothAddress) {
         this(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(bluetoothAddress));
     }

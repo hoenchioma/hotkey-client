@@ -17,6 +17,12 @@ import com.rfw.hotkey.ui.connections.ConnectionsFragment;
 import com.rfw.hotkey.ui.keyboard.KeyboardFragment;
 import com.rfw.hotkey.ui.mouse.MouseFragment;
 
+/**
+ * The main activity of the application
+ * (entry point of the entire application)
+ *
+ * @author Raheeb Hassan
+ */
 public class MainActivity extends AppCompatActivity {
     private View contextView;
 
@@ -82,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void replaceFragmentWithSlideHoriz(@NonNull Fragment newFragment, int newFragIndex) {
         fragmentHelper.clearBackStack();
+        // use index to decide whether to use slide right or left animation
         if (newFragIndex < curFragIndex) {
             fragmentHelper.replaceFragmentWithAnim(newFragment,
                     new int[]{

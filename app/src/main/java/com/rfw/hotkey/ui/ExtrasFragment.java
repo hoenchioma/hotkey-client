@@ -18,9 +18,9 @@ import com.rfw.hotkey.ui.pdf.PDFFragment;
 import com.rfw.hotkey.ui.ppt.PowerPointFragment;
 
 /**
+ * Fragment for accessing other features not directly visible on bottom bar
+ *
  * @author Shadman Wadith
- * @version 1.0
- * @since 2019-07-01
  */
 public class ExtrasFragment extends Fragment {
     private static final String TAG = "ExtrasFragment";
@@ -57,6 +57,7 @@ public class ExtrasFragment extends Fragment {
     }
 
     private void pushFragment(@NonNull Fragment fragment) {
+        // call the pushFragment method from MainActivity
         MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
         activity.pushFragmentWithSlideVert(fragment);

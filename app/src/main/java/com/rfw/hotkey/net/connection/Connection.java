@@ -207,7 +207,7 @@ public abstract class Connection {
     }
 
     /**
-     * send a JSON packet and receive a response immediately
+     * send a JSON packet and receive a response immediately (uses default timeout)
      *
      * @param receivedPacketHandler function to handle received packet
      *                              it may receive null if packet receive failed

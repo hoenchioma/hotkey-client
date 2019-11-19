@@ -36,9 +36,12 @@ public class ConnectionHeartbeat extends TimerTask {
                                     throw new IllegalArgumentException();
                                 }
 
+                                // calculate the network latency
+                                // (calculating the time taken to send and receive a data packet)
                                 double latency = (System.currentTimeMillis() - startTime) / 2.0;
                                 avgLatency = (avgLatency * count + latency) / (++count);
 
+                                // log the network latency after at specific intervals
                                 if (System.currentTimeMillis() - globalStartTime > LATENCY_REPORT_INTERVAL) {
                                     Log.i(TAG, "run: " + String.format("connection latency %.2f ms", avgLatency));
 
@@ -49,6 +52,8 @@ public class ConnectionHeartbeat extends TimerTask {
                                 Log.e(TAG, "run: error in ping packet", e);
                                 Log.i(TAG, "run: closing connection ...");
 
+                                // if there was any error while receiving the ping packet
+                                // the connection has been lost
                                 ConnectionManager.getInstance().closeConnection();
                             }
                         }
