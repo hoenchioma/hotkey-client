@@ -25,6 +25,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.databinding.FragmentConnectionsBinding;
+import com.rfw.hotkey.net.ConnectionHeartbeat;
 import com.rfw.hotkey.net.ConnectionManager;
 import com.rfw.hotkey.net.connection.BluetoothConnection;
 import com.rfw.hotkey.net.connection.Connection;
@@ -36,7 +37,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.util.Date;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.rfw.hotkey.util.Utils.getIntPref;
@@ -47,6 +51,9 @@ public class ConnectionsFragment extends Fragment {
 
     private View contextView;
     private ConnectionsViewModel viewModel;
+
+    private Timer heartbeatTimer = new Timer();
+    private TimerTask connectionHeartbeat;
 
     @Nullable
     @Override
@@ -124,6 +131,23 @@ public class ConnectionsFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         processQRCodeResult(resultCode, requestCode, data);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        connectionHeartbeat = new ConnectionHeartbeat();
+        try {
+            heartbeatTimer.schedule(connectionHeartbeat, new Date(), Constants.Net.HEART_BEAT_INTERVAL);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        connectionHeartbeat.cancel();
+        super.onPause();
     }
 
     @Override

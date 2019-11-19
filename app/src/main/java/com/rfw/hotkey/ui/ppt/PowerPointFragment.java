@@ -27,13 +27,14 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
 
     private boolean mouseMoved = false;
     private boolean scrollMoved = false;
+    private boolean isPointerOn = false;
     private float initX = 0;
     private float initY = 0;
     private float disX;
     private float disY;
 
     private TextView touchpad;
-    private ImageButton fullScreenButton, upButton, leftButton, downButton, righButton;
+    private ImageButton fullScreenButton, upButton, leftButton, downButton, righButton, pointerButton;
     private Button fromThisSlideButton, fromTheBeginningButton;
     private Boolean isFullScreen;
 
@@ -58,7 +59,8 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
                         mouseMoved = false;
                         disX = 0;
                         disY = 0;
-                        Log.d("powerPoint Fragment pointer", disX + " " + disY);
+                        //sendMessageToServer("on","pointer_status");
+                        //Log.d("powerPoint Fragment pointer", disX + " " + disY);
                         break;
                     case MotionEvent.ACTION_MOVE:
                         disX = event.getX() - initX;
@@ -66,14 +68,14 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
                         initX = event.getX();
                         initY = event.getY();
                         try {
-                            sendMessageToServer("TouchpadMove", (int) disX, (int) disY);
+                            sendMessageToServer("pointer", (int) disX, (int) disY);
+                           // Log.d("powerPoint Fragment pointer", disX + " " + disY);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         mouseMoved = true;
-                        Log.d("powerPoint Fragment pointer", disX + " " + disY);
+                        //Log.d("powerPoint Fragment pointer", disX + " " + disY);
                         break;
-
 
                 }
                 return true;
@@ -93,7 +95,10 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
         leftButton = rootView.findViewById(R.id.ppt_leftButtonID);
         downButton = rootView.findViewById(R.id.ppt_downButtonID);
         righButton = rootView.findViewById(R.id.ppt_rightButtonID);
+        pointerButton = rootView.findViewById(R.id.ppt_pointerID);
+        touchpad.setVisibility(View.INVISIBLE);
         //touchpad.setOnClickListener(this);
+        touchpad.setOnTouchListener(this);
         fullScreenButton.setOnClickListener(this);
         upButton.setOnClickListener(this);
         leftButton.setOnClickListener(this);
@@ -101,6 +106,7 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
         righButton.setOnClickListener(this);
         fromThisSlideButton.setOnClickListener(this);
         fromTheBeginningButton.setOnClickListener(this);
+        pointerButton.setOnClickListener(this);
     }
 
     @Override
@@ -166,6 +172,18 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
                 sendMessageToServer("RIGHT", "modifier");
                 Log.d("onclick", "RIGHT");
                 break;
+            case R.id.ppt_pointerID:
+                if(!isPointerOn){
+                    touchpad.setVisibility(View.VISIBLE);
+                    isPointerOn = true;
+                    sendMessageToServer("on","point");
+                }
+                else {
+                    touchpad.setVisibility(View.INVISIBLE);
+                    isPointerOn = false;
+                    sendMessageToServer("off","point");
+                }
+                break;
             default:
                 fromTheBeginningButton.setVisibility(View.INVISIBLE);
                 fromThisSlideButton.setVisibility(View.INVISIBLE);
@@ -203,18 +221,31 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
      */
     private void sendMessageToServer(String action, int moveX, int moveY) throws JSONException {
         JSONObject packet = new JSONObject();
-        packet.put("type", "mouse");
-        switch (action) {
-            case "TouchpadMove":
-                try {
-                    packet.put("action", action);
-                    packet.put("deltaX", moveX);
-                    packet.put("deltaY", moveY);
-                } catch (JSONException e) {
-                    Log.e("PowerPointFragment", "sendMessageToServer: error sending mouse movement", e);
-                }
-                break;
+        try {
+            packet.put("type", "ppt");
+            packet.put("action", action);
+            packet.put("deltaX", moveX);
+            packet.put("deltaY", moveY);
+            ConnectionManager.getInstance().sendPacket(packet);
+
+        } catch (JSONException e) {
+            Log.e("PowerPointFragment", "sendMessageToServer: error sending key-press", e);
         }
+
+//        packet.put("type", "ppt");
+//        switch (action) {
+//            case "pointer":
+//                try {
+//                    packet.put("action", action);
+//                    packet.put("deltaX", moveX);
+//                    packet.put("deltaY", moveY);
+//                    Log.d("powerPoint", moveX + " " + moveY);
+//                    ConnectionManager.getInstance().sendPacket(packet);
+//                } catch (JSONException e) {
+//                    Log.e("PowerPointFragment", "sendMessageToServer: error sending pointer movement", e);
+//                }
+//                break;
+//        }
     }
 
     @Override

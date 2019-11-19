@@ -32,8 +32,9 @@ import static com.rfw.hotkey.util.Utils.getIntPref;
  * @author Shadman Wadith
  */
 public class PDFFragment extends Fragment implements View.OnClickListener {
-    private static final long BUTTON_PRESS_DELAY = 100;
+    private static final String KEY_PDF_READER_PLATFORM = "pdfPlatform";
 
+    private static final long BUTTON_PRESS_DELAY = 100;
     private static final int PLATFORM_ADOBE = 1;
     private static final int PLATFORM_EVINCE = 2;
 
@@ -63,6 +64,33 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_pdf, container, false);
         initialization(rootView);
 
+        upButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                if(event.getAction() == MotionEvent.ACTION_DOWN ) {
+
+                    Log.d("LoopExecutor", "it works");
+                    if (buttonPresser == null) {
+                        buttonPresser = new LoopedExecutor(BUTTON_PRESS_DELAY) {
+                            @Override
+                            public void task() {
+                                Log.d("LoopExecutor", "it works");
+                                sendMessageToServer("UP", "modifier", String.valueOf(getPlatform()));
+                            }
+                        };
+                        buttonPresser.start();
+                    }
+                }
+                else if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if (buttonPresser != null) {
+                        buttonPresser.end();
+                        buttonPresser = null;
+                    }
+                }
+                return false;
+            }
+        });
         downButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -79,7 +107,8 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                         };
                         buttonPresser.start();
                     }
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                }
+                else if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (buttonPresser != null) {
                         buttonPresser.end();
                         buttonPresser = null;
@@ -117,11 +146,14 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         fitHeightButton.setOnClickListener(this);
         fitWidthButton.setOnClickListener(this);
         fullScreenButton.setOnClickListener(this);
-        upButton.setOnClickListener(this);
+        //upButton.setOnClickListener(this);
         leftButton.setOnClickListener(this);
+        //downButton.setOnClickListener(this);
         rightButton.setOnClickListener(this);
         zoomInButton.setOnClickListener(this);
         zoomOutButton.setOnClickListener(this);
+
+        //downButton.setOnTouchListener(this);
         pdfPlatformLayout.setVisibility(View.INVISIBLE);
     }
 
@@ -138,7 +170,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.pdf_findPageButtonID:
                 //TODO Make a dialog
-                openFindPageDialog();
+                openDialog();
                 break;
             case R.id.pdf_fullScreenButtonID:
                 if (!isFullScreen) {
@@ -208,7 +240,7 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         Log.d("PDF More", String.valueOf(getPlatform()));
     }
 
-    private void openFindPageDialog() {
+    private void openDialog() {
         PDFFindPageDialog pdfFindPageDialog = new PDFFindPageDialog(this);
         assert getFragmentManager() != null;
         pdfFindPageDialog.show(getFragmentManager(), "Goto Page Dialog");
