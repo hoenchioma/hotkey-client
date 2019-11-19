@@ -1,6 +1,10 @@
 package com.rfw.hotkey.ui.pdf;
 
 import android.annotation.SuppressLint;
+
+import android.content.Context;
+import android.annotation.SuppressLint;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,17 +32,11 @@ import java.util.Objects;
 
 import static com.rfw.hotkey.util.Utils.getIntPref;
 
-/**
- * @author Shadman Wadith
- * @version 1.0
- * @since 2019-07-01
- */
-public class PDFFragment extends Fragment implements View.OnClickListener {
-    private static final long BUTTON_PRESS_DELAY = 100;
 
+public class PDFFragment extends Fragment implements View.OnClickListener {
+    private static final String KEY_PDF_READER_PLATFORM = "pdfPlatform";
     private static final int PLATFORM_ADOBE = 1;
     private static final int PLATFORM_EVINCE = 2;
-
     private LinearLayout pdfButtonLayout;
     private RelativeLayout pdfPlatformLayout;
     private ImageButton fullScreenButton;
@@ -58,6 +56,9 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
     private LoopedExecutor buttonPresser = null;
 
     @SuppressLint("ClickableViewAccessibility")
+    private  static  final long BUTTON_PRESS_DELAY = 100 ;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,6 +66,33 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_pdf, container, false);
         initialization(rootView);
 
+        upButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                if(event.getAction() == MotionEvent.ACTION_DOWN ) {
+
+                    Log.d("LoopExecutor", "it works");
+                    if (buttonPresser == null) {
+                        buttonPresser = new LoopedExecutor(BUTTON_PRESS_DELAY) {
+                            @Override
+                            public void task() {
+                                Log.d("LoopExecutor", "it works");
+                                sendMessageToServer("UP", "modifier", String.valueOf(getPlatform()));
+                            }
+                        };
+                        buttonPresser.start();
+                    }
+                }
+                else if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if (buttonPresser != null) {
+                        buttonPresser.end();
+                        buttonPresser = null;
+                    }
+                }
+                return false;
+            }
+        });
         downButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -81,7 +109,8 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                         };
                         buttonPresser.start();
                     }
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                }
+                else if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (buttonPresser != null) {
                         buttonPresser.end();
                         buttonPresser = null;
@@ -119,11 +148,14 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
         fitHeightButton.setOnClickListener(this);
         fitWidthButton.setOnClickListener(this);
         fullScreenButton.setOnClickListener(this);
-        upButton.setOnClickListener(this);
+        //upButton.setOnClickListener(this);
         leftButton.setOnClickListener(this);
+        //downButton.setOnClickListener(this);
         rightButton.setOnClickListener(this);
         zoomInButton.setOnClickListener(this);
         zoomOutButton.setOnClickListener(this);
+
+        //downButton.setOnTouchListener(this);
         pdfPlatformLayout.setVisibility(View.INVISIBLE);
     }
 
