@@ -120,4 +120,8 @@ public class FragmentHelper {
             fragmentManager.popBackStack();
         }
     }
+
+    public Fragment getCurrentFragment() {
+        return fragmentManager.findFragmentByTag(currentFragmentTag);
+    }
 }
