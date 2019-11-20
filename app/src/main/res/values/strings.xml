@@ -72,4 +72,24 @@
     <string name="edit_macro_name">Enter Macro Name</string>
     <string name="save_macro">Save</string>
     <string name="cancel_macro">Cancel</string>
+    <string name="goto_page">Goto Page :</string>
+    <string name="page_number">Page Number</string>
+    <string name="beginning">Beginning</string>
+    <string name="current">Current</string>
+    <string name="select_platform">Select Platform</string>
+    <string name="acrobat_reader">Acrobat Reader</string>
+    <string name="evince_reader">Evince Reader</string>
+    <string name="fit_width">FIT Width</string>
+    <string name="fit_height">FIT Height</string>
+    <string name="copy">Copy</string>
+    <string name="home">Home</string>
+    <string name="tab">Tab</string>
+    <string name="paste">Paste</string>
+    <string name="pgup">PgUp</string>
+    <string name="shift">Shift</string>
+    <string name="up">Up</string>
+    <string name="pgdn">PgDn</string>
+    <string name="left">Left</string>
+    <string name="key_down">Down</string>
+    <string name="key_right">Right</string>
 </resources>

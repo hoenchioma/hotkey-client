@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
+ * a fragment to handle a keyboard View and other buttons like TAB ESCAPE HOME etc
  * @author Shadman Wadith
  */
 

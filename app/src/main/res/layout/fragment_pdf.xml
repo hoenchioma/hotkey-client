@@ -58,7 +58,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Platform"
+        android:text="@string/select_platform"
         android:layout_centerHorizontal="true"
         android:textSize="30dp"/>
         <LinearLayout
@@ -125,7 +125,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Acrobat Reader"
+                    android:text="@string/acrobat_reader"
                     android:layout_weight="1"/>
                 <Space
                     android:layout_width="wrap_content"
@@ -134,7 +134,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Evince Reader"
+                    android:text="@string/evince_reader"
                     android:layout_weight="1"/>
 
             </LinearLayout>
@@ -167,7 +167,7 @@
             android:id="@+id/pdf_fitWidthButtonID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FIT Width" />
+            android:text="@string/fit_width" />
 
         <Space
             android:layout_width="wrap_content"
@@ -196,7 +196,7 @@
             android:id="@+id/pdf_fitHeightButtonID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FIT Height"/>
+            android:text="@string/fit_height"/>
 
 
 
