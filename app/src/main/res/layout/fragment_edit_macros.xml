@@ -18,7 +18,7 @@
             android:id="@+id/macroNameFieldID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:hint="Enter Macro Name"
             android:paddingLeft="16dp"
             android:paddingTop="16dp"
@@ -44,6 +44,19 @@
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
             android:text="Save" />
+
+        <Button
+            android:id="@+id/cancelMacroButtonID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:insetLeft="10dp"
+            android:insetTop="25dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:text="Cancel" />
 
     </LinearLayout>
 

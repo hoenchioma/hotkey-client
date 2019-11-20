@@ -18,8 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.rfw.hotkey.R;
+import com.rfw.hotkey.ui.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +31,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Fragment which gives the user a layout to set a
+ * combination of  keyboard keys for creating a macro key
+ *
+ * @author Farhan Kabir
+ */
 
 public class EditMacrosFragment extends Fragment {
     private static final String TAG = "EditMacrosFragment";
@@ -39,6 +47,7 @@ public class EditMacrosFragment extends Fragment {
     private ArrayList<String> selectedKeys;
     private GridView gridView;
     private Button saveMacroButton;
+    private Button cancelMacroButton;
     private EditText macroNameText;
 
     static final String[] keyboardKeys = new String[]{
@@ -67,6 +76,7 @@ public class EditMacrosFragment extends Fragment {
         selectedKeys = new ArrayList<String>();
         gridView = (GridView) v.findViewById(R.id.macroKeyboardID);
         saveMacroButton = (Button) v.findViewById(R.id.saveMacroButtonID);
+        cancelMacroButton = (Button) v.findViewById(R.id.cancelMacroButtonID);
         macroNameText = (EditText) v.findViewById(R.id.macroNameTextID);
         Bundle bundle = getArguments();
         keyIndex = -1;
@@ -113,8 +123,8 @@ public class EditMacrosFragment extends Fragment {
                 tv.setText(keyboardLayout.get(position));
 
                 if (!selectedKeys.contains(keyboardLayout.get(position)))
-                    tv.setBackgroundColor(Color.parseColor("#2c2f33"));
-                else tv.setBackgroundColor(Color.parseColor("#7289da"));
+                    tv.setBackgroundResource(R.color.colorPrimary);
+                else tv.setBackgroundResource(R.color.colorAccent);
 
                 return tv;
             }
@@ -126,10 +136,10 @@ public class EditMacrosFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String buttonName = parent.getItemAtPosition(position).toString();
                 if (!selectedKeys.contains(buttonName)) {
-                    gridView.getChildAt(position).setBackgroundColor(Color.parseColor("#7289da"));
+                    gridView.getChildAt(position).setBackgroundResource(R.color.colorAccent);
                     selectedKeys.add(buttonName);
                 } else {
-                    gridView.getChildAt(position).setBackgroundColor(Color.parseColor("#2c2f33"));
+                    gridView.getChildAt(position).setBackgroundResource(R.color.colorPrimary);
                     selectedKeys.remove(buttonName);
                 }
             }
@@ -139,24 +149,6 @@ public class EditMacrosFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!macroNameText.getText().toString().equals("")) {
-                    /*JSONObject macroKey = new JSONObject();
-                    try {
-                        macroKey.put("type", "macro");
-                        macroKey.put("name",macroNameText.getText().toString());
-                        macroKey.put("size", Integer.toString(selectedKeys.size()));
-                        for(int i =0; i < selectedKeys.size(); i++){
-                            macroKey.put(Integer.toString(i), selectedKeys.get(i));
-                        }
-
-                        SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString("macroKey" + Integer.toString(keyIndex), macroKey.toString());
-                        editor.putString("macroKeySize", Integer.toString(keyIndex + 1));
-                        editor.apply();
-                        Toast.makeText(getContext(),"Macro Saved", Toast.LENGTH_SHORT).show();
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }*/
                     JSONObject macroKey = new JSONObject();
                     try {
                         macroKey.put("type", "macro");
@@ -178,6 +170,13 @@ public class EditMacrosFragment extends Fragment {
                 } else {
                     Toast.makeText(getContext(), "Macro Name Empty", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        cancelMacroButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().popBackStack();
             }
         });
 
