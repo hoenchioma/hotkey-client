@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.rfw.hotkey.R;
+import com.rfw.hotkey.ui.gamepad.GamepadActivity;
 import com.rfw.hotkey.ui.live_screen.LiveScreenActivity;
 import com.rfw.hotkey.ui.macros.MacrosFragment;
 import com.rfw.hotkey.ui.multimedia.MultimediaFragment;
@@ -30,6 +31,7 @@ public class ExtrasFragment extends Fragment {
     private MaterialButton pptButton;
     private MaterialButton multimediaButton;
     private MaterialButton pdfButton;
+    private MaterialButton gamepadButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -47,12 +49,14 @@ public class ExtrasFragment extends Fragment {
         multimediaButton = rootView.findViewById(R.id.multimediaButton);
         pdfButton = rootView.findViewById(R.id.pdfButton);
         liveScreenButton = rootView.findViewById(R.id.liveScreenButton);
+        gamepadButton = rootView.findViewById(R.id.gamepadButton);
 
         pptButton.setOnClickListener(view -> pushFragment(new PowerPointFragment()));
         macrosButton.setOnClickListener(view -> pushFragment(new MacrosFragment()));
         multimediaButton.setOnClickListener(view -> pushFragment(new MultimediaFragment()));
         pdfButton.setOnClickListener(view -> pushFragment(new PDFFragment()));
 
+        gamepadButton   .setOnClickListener(view -> startActivity(new Intent(getActivity(), GamepadActivity.class)));
         liveScreenButton.setOnClickListener(view -> startActivity(new Intent(getActivity(), LiveScreenActivity.class)));
     }
 
