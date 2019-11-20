@@ -36,6 +36,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rfw.hotkey.ui.MainActivity" />
         </activity>
+        <activity android:name=".ui.gamepad.GamepadActivity"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ui.connections.QRCodeReaderActivity"
             android:label="@string/title_qr_code_scanner"

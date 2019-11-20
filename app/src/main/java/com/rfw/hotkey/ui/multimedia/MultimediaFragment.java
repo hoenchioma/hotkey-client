@@ -1,31 +1,24 @@
 package com.rfw.hotkey.ui.multimedia;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.DrawableRes;
-import androidx.fragment.app.Fragment;
-
-import android.util.JsonReader;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
+import com.rfw.hotkey.util.misc.DispatchKeyEventHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.logging.Level;
 
-
-public class MultimediaFragment extends Fragment {
+public class MultimediaFragment extends Fragment implements DispatchKeyEventHandler {
     private static final String TAG = "MultimediaFragment";
 
     @Override
@@ -107,6 +100,33 @@ public class MultimediaFragment extends Fragment {
         });
 
         return v;
+    }
+
+    /**
+     * Method to be invoked by dispatchKeyEvent from enclosing activity
+     * (return null means not handled)
+     */
+    @Override
+    public Boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                try {
+                    sendMessageToServer("volumeUp");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                try {
+                    sendMessageToServer("volumeDown");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            default:
+                return DispatchKeyEventHandler.super.dispatchKeyEvent(event);
+        }
     }
 
     private void sendMessageToServer(String action) throws JSONException {

@@ -99,4 +99,18 @@ public class FragmentHelper {
 //        }
 //        return null;
     }
+
+    public void popBackStack() {
+        fragmentManager.popBackStack();
+    }
+
+    public void clearBackStack() {
+        for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+            fragmentManager.popBackStack();
+        }
+    }
+
+    public Fragment getCurrentFragment() {
+        return fragmentManager.findFragmentByTag(currentFragmentTag);
+    }
 }
