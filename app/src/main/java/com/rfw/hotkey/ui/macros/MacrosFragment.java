@@ -29,6 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Fragment which shows s Gridview containing
+ * custom keyboard key combinations and executes them
+ * when pressed
+ *
+ * @author Farhan Kabir
+ */
 
 public class MacrosFragment extends Fragment {
     private static final String TAG = "MacrosFragment";

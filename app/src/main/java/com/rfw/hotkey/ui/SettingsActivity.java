@@ -16,6 +16,11 @@ import com.rfw.hotkey.util.ui.MyEditTextPref;
 
 import java.util.Objects;
 
+/**
+ * Activity for changing various preferences withing the app
+ *
+ * @author Raheeb Hassan
+ */
 public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        // exit with sliding animation to the right (to match with the animation for starting this activity)
         overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
     }
 

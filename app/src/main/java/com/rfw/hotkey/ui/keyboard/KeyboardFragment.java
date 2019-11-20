@@ -21,8 +21,6 @@ import org.json.JSONObject;
 
 /**
  * @author Shadman Wadith
- * @version 1.0
- * @since 2019-07-01
  */
 
 public class KeyboardFragment extends Fragment implements View.OnClickListener {

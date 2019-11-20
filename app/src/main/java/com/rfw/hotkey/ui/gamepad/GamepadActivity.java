@@ -31,6 +31,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Activity for gamepad layout and
+ * editing gamepad keys
+ *
+ * @author Farhan Kabir
+ */
+
 public class GamepadActivity extends AppCompatActivity {
 
     private ArrayList<ImageView> buttons;
@@ -53,9 +60,16 @@ public class GamepadActivity extends AppCompatActivity {
 
     private boolean setRightStick;
 
+    /**
+     * Keyboard layout for any keyboard keys
+     * to simulate any key of keyboard.
+     * Add new keys and map them in server accordingly.
+     */
+
+
     static final String[] keyboardKeys = new String[]{
-            "0","1", "2", "3", "4",
-            "5","6", "7", "8", "9",
+            "0", "1", "2", "3", "4",
+            "5", "6", "7", "8", "9",
 
             "ESC", "ALT", "CTRL", "SHIFT", "DEL",
             "INS", "HOME", "END", "PGUP", "PGDN",
@@ -65,7 +79,7 @@ public class GamepadActivity extends AppCompatActivity {
             "k", "l", "m", "n", "o",
             "p", "q", "r", "s", "t",
             "u", "v", "w", "x", "y",
-            "z"
+            "z","UP","DOWN","LEFT","RIGHT"
 
     };
 
@@ -117,22 +131,19 @@ public class GamepadActivity extends AppCompatActivity {
 
         init();
 
-        for(int i = 0; i < buttons.size(); i++) buttons.get(i).setOnTouchListener(onTouchListener());
+        for (int i = 0; i < buttons.size(); i++)
+            buttons.get(i).setOnTouchListener(onTouchListener());
 
         Intent intent = getIntent();
-        if(intent.getBooleanExtra("gamepadEditLayout", false)) {
+        if (intent.getBooleanExtra("gamepadEditLayout", false)) {
             editLayout = true;
         }
 
-        if(editLayout){
+        if (editLayout) {
             editButton.setVisibility(View.VISIBLE);
             saveButton.setVisibility(View.VISIBLE);
             cancelButton.setVisibility(View.VISIBLE);
             menuButton.setVisibility(View.INVISIBLE);
-
-            editButton.setColorFilter(R.color.colorAccent);
-            saveButton.setColorFilter(R.color.colorAccent);
-            cancelButton.setColorFilter(R.color.colorAccent);
 
             saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -155,7 +166,7 @@ public class GamepadActivity extends AppCompatActivity {
             editButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(curIndex != -1) {
+                    if (curIndex != -1) {
                         keyBoardGrid.setVisibility(View.VISIBLE);
 
                         keyBoardGrid.setAdapter(new ArrayAdapter<String>(
@@ -183,8 +194,8 @@ public class GamepadActivity extends AppCompatActivity {
                                 tv.setText(gridKeys.get(position));
 
                                 if (tv.getText().toString().equals(actions.get(curIndex)))
-                                    tv.setBackgroundColor(Color.parseColor("#7289da"));
-                                else tv.setBackgroundColor(Color.parseColor("#23272a"));
+                                    tv.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                                else tv.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 
                                 return tv;
                             }
@@ -200,8 +211,7 @@ public class GamepadActivity extends AppCompatActivity {
                                 keyBoardGrid.setVisibility(View.INVISIBLE);
                             }
                         });
-                    }
-                    else Toast.makeText(getApplicationContext(),
+                    } else Toast.makeText(getApplicationContext(),
                             "Invalid key selected", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -215,52 +225,6 @@ public class GamepadActivity extends AppCompatActivity {
             intnt.putExtra("gamepadEditLayout", true);
             startActivity(intnt);
         });
-
-        /*rightStick.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-
-                if(!editLayout){
-                    int x = (int) event.getRawX();
-                    int y = (int) event.getRawY();
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            xDelta =(int) x - rightStick.getLeft();
-                            yDelta = (int) y - rightStick.getTop();
-                            widthV = rightStick.getWidth();
-                            heightV = rightStick.getHeight();
-                            break;
-
-                        case MotionEvent.ACTION_UP:
-                            rightStick.setLeft(RSX);
-                            rightStick.setTop(RSY);
-                            rightStick.setRight(view.getLeft() + widthV);
-                            rightStick.setBottom(view.getTop() + heightV);
-                            break;
-
-                        case MotionEvent.ACTION_MOVE:
-                           // if(){
-                            rightStick.setLeft(x - xDelta);
-                            rightStick.setTop(y - yDelta);
-                            rightStick.setRight(view.getLeft() + widthV);
-                            rightStick.setBottom(view.getTop() + heightV);
-                        //}
-                            break;
-                    }
-                    try {
-                        JSONObject packet = new JSONObject();
-                        packet.put("type", "mouse");
-                        packet.put("action", "TouchpadMove");
-                        packet.put("deltaX", disRSX);
-                        packet.put("deltaY", disRSY);
-                        ConnectionManager.getInstance().sendPacket(packet);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                return false;
-            }
-        });*/
     }
 
     private View.OnTouchListener onTouchListener() {
@@ -269,15 +233,15 @@ public class GamepadActivity extends AppCompatActivity {
             @SuppressLint({"ClickableViewAccessibility", "ResourceAsColor"})
             @Override
             public boolean onTouch(View view, MotionEvent event) {
-                if(editLayout) {
-                    if(curIndex != -1){
-                        buttons.get(curIndex).setColorFilter(R.color.colorAccent);
+                if (editLayout) {
+                    if (!view.getTag().equals("rightStick")) {
+                        if (curIndex != -1)
+                            buttons.get(curIndex).setColorFilter(getResources().getColor(R.color.colorAccent));
+                        curIndex = Integer.parseInt((String) view.getTag());
+                        buttons.get(curIndex).clearColorFilter();
                     }
-                    curIndex = Integer.parseInt((String) view.getTag());
-                    buttons.get(curIndex).clearColorFilter();
-                }
-                else {
-                    if(!view.getTag().equals("rightStick")) {
+                } else {
+                    if (!view.getTag().equals("rightStick")) {
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:
                                 if (!actions.get(Integer.parseInt((String) view.getTag())).equals("") && !pressedButtons.contains(actions.get(Integer.parseInt((String) view.getTag())))) {
@@ -312,11 +276,10 @@ public class GamepadActivity extends AppCompatActivity {
                                 }
                                 break;
                         }
-                    }
-                    else{
+                    } else {
                         final int x = (int) event.getRawX();
                         final int y = (int) event.getRawY();
-                        if(setRightStick){
+                        if (setRightStick) {
                             RSX = view.getLeft();
                             RSY = view.getTop();
                             setRightStick = false;
@@ -356,14 +319,14 @@ public class GamepadActivity extends AppCompatActivity {
                                 view.setTop(RSY);
                                 view.setRight(view.getLeft() + widthV);
                                 view.setBottom(view.getTop() + heightV);
-                                if(rightStickHandler != null){
+                                if (rightStickHandler != null) {
                                     rightStickHandler.end();
                                     rightStickHandler = null;
                                 }
                                 break;
 
                             case MotionEvent.ACTION_MOVE:
-                                if((x - xDelta > RSX - 100) && (x - xDelta < RSX + 100) && (y - yDelta > RSY - 100) && (y - yDelta < RSY + 100)){
+                                if ((x - xDelta > RSX - 100) && (x - xDelta < RSX + 100) && (y - yDelta > RSY - 100) && (y - yDelta < RSY + 100)) {
                                     view.setLeft(x - xDelta);
                                     view.setTop(y - yDelta);
                                     view.setRight(view.getLeft() + widthV);
@@ -398,7 +361,7 @@ public class GamepadActivity extends AppCompatActivity {
         };
     }
 
-    void init(){
+    void init() {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("HotkeyGamepadData", MODE_PRIVATE);
         keyBoardGrid.setVisibility(View.INVISIBLE);
         editButton.setVisibility(View.INVISIBLE);
@@ -406,21 +369,25 @@ public class GamepadActivity extends AppCompatActivity {
         cancelButton.setVisibility(View.INVISIBLE);
         curIndex = -1;
         String data;
-        menuButton.setColorFilter(R.color.colorAccent);
-        //rightStick.setColorFilter(R.color.colorAccent);
+        menuButton.setColorFilter(getResources().getColor(R.color.colorAccent));
+        editButton.setColorFilter(getResources().getColor(R.color.colorAccent));
+        saveButton.setColorFilter(getResources().getColor(R.color.colorAccent));
+        cancelButton.setColorFilter(getResources().getColor(R.color.colorAccent));
+        //rightStickBase.setColorFilter(getResources().getColor(R.color.colorAccent));
         try {
             JSONObject buttonData;
-            for(int i = 0; i < buttons.size() - 1; i++){
-                buttons.get(i).setColorFilter(R.color.colorAccent);
+            for (int i = 0; i < buttons.size() - 1; i++) {
+                buttons.get(i).setColorFilter(getResources().getColor(R.color.colorAccent));
                 actions.add("");
                 data = sharedPref.getString("buttonData" + Integer.toString(i), null);
-                if(data != null){
+                if (data != null) {
                     buttonData = new JSONObject(data);
-                    actions.set( i, buttonData.getString("action"));
+                    actions.set(i, buttonData.getString("action"));
                 }
                 buttons.get(i).setTag(Integer.toString(i));
             }
             buttons.get(buttons.size() - 1).setTag("rightStick");
+            buttons.get(buttons.size() - 1).setColorFilter(getResources().getColor(R.color.colorAccent));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -430,9 +397,9 @@ public class GamepadActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("HotkeyGamepadData", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         JSONObject buttonData;
-        for(int i = 0; i < buttons.size(); i++){
+        for (int i = 0; i < buttons.size() - 1; i++) {
             buttonData = new JSONObject();
-            buttonData.put("action",actions.get(i));
+            buttonData.put("action", actions.get(i));
             editor.putString("buttonData" + Integer.toString(i), buttonData.toString());
         }
         editor.apply();

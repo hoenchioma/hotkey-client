@@ -10,6 +10,11 @@ import com.rfw.hotkey.net.connection.Connection;
 import static com.rfw.hotkey.util.Constants.LiveScreen.COMPRESS_RATIO;
 import static com.rfw.hotkey.util.Constants.LiveScreen.FPS;
 
+/**
+ * Receiver for live screen frames from server
+ *
+ * @author Raheeb Hassan
+ */
 public interface LiveScreenReceiver {
     /**
      * get the connection type of receiver

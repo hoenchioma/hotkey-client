@@ -33,8 +33,10 @@ import static com.rfw.hotkey.util.Utils.getFloatPref;
 import static com.rfw.hotkey.util.Utils.getIntPref;
 
 /**
- * An example full-live_screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+ * A fullscreen activity which shows a live feed of
+ * the connected desktop's screen
+ *
+ * @author Raheeb Hassan
  */
 public class LiveScreenActivity extends AppCompatActivity {
     private static final String TAG = "LiveScreenActivity";

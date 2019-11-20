@@ -20,6 +20,11 @@ import com.rfw.hotkey.R;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Activity for scanning QR code
+ *
+ * @author Raheeb Hassan
+ */
 public class QRCodeReaderActivity extends AppCompatActivity implements BarcodeReaderFragment.BarcodeReaderListener {
     public static final String KEY_CAPTURED_BARCODE = "key_captured_barcode";
     public static final String KEY_CAPTURED_RAW_BARCODE = "key_captured_raw_barcode";
@@ -125,5 +130,6 @@ public class QRCodeReaderActivity extends AppCompatActivity implements BarcodeRe
 
     }
 
+    // serializable functor
     public interface BarcodeChecker extends Function<Barcode, Boolean>, Serializable {}
 }

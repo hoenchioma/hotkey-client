@@ -235,7 +235,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/rightStickBaseID"
         android:layout_width="176dp"
         android:layout_height="174dp"
@@ -254,6 +254,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/colorAccent"
         tools:ignore="MissingConstraints"/>
 
     <ImageView

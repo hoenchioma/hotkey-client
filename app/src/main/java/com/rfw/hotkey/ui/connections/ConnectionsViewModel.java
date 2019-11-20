@@ -3,6 +3,11 @@ package com.rfw.hotkey.ui.connections;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.ViewModel;
 
+/**
+ * View model for ConnectionsFragment
+ *
+ * @author Raheeb Hassan
+ */
 public class ConnectionsViewModel extends ViewModel {
     public ObservableField<State> state = new ObservableField<>(State.NOT_CONNECTED);
     public String computerName;

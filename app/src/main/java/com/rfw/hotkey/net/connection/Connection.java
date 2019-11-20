@@ -29,10 +29,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.rfw.hotkey.util.Device.getDeviceName;
 
+/**
+ * Contains necessary info and I/O streams related to a connection
+ *
+ * @author Raheeb Hassan
+ */
 public abstract class Connection {
     private static final String TAG = "Connection";
 
+    // unique identifier for corresponding server (must match with server to work)
     private static final String SERVER_UUID = "8fbdf1a6-1185-43a7-952a-3f38f6af0c36";
+    // version of corresponding server (must match with server to work)
     private static final int SERVER_VERSION = 2;
 
     private ObservableBoolean active = new ObservableBoolean(false);
@@ -200,7 +207,7 @@ public abstract class Connection {
     }
 
     /**
-     * send a JSON packet and receive a response immediately
+     * send a JSON packet and receive a response immediately (uses default timeout)
      *
      * @param receivedPacketHandler function to handle received packet
      *                              it may receive null if packet receive failed

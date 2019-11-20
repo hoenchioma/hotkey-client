@@ -68,4 +68,8 @@
     <!-- Live Screen -->
     <string name="live_screen_only_wifi">Only available on Wifi</string>
 
+    <!-- Edit Macros -->
+    <string name="edit_macro_name">Enter Macro Name</string>
+    <string name="save_macro">Save</string>
+    <string name="cancel_macro">Cancel</string>
 </resources>

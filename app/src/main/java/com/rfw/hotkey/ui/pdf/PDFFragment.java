@@ -1,10 +1,6 @@
 package com.rfw.hotkey.ui.pdf;
 
 import android.annotation.SuppressLint;
-
-import android.content.Context;
-import android.annotation.SuppressLint;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,11 +28,16 @@ import java.util.Objects;
 
 import static com.rfw.hotkey.util.Utils.getIntPref;
 
-
+/**
+ * @author Shadman Wadith
+ */
 public class PDFFragment extends Fragment implements View.OnClickListener {
     private static final String KEY_PDF_READER_PLATFORM = "pdfPlatform";
+
+    private static final long BUTTON_PRESS_DELAY = 100;
     private static final int PLATFORM_ADOBE = 1;
     private static final int PLATFORM_EVINCE = 2;
+
     private LinearLayout pdfButtonLayout;
     private RelativeLayout pdfPlatformLayout;
     private ImageButton fullScreenButton;
@@ -54,9 +55,6 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
     private Button fitHeightButton, fitWidthButton;
     private boolean isFullScreen;
     private LoopedExecutor buttonPresser = null;
-
-    @SuppressLint("ClickableViewAccessibility")
-    private  static  final long BUTTON_PRESS_DELAY = 100 ;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override

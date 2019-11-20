@@ -3,8 +3,6 @@ package com.rfw.hotkey.ui.keyboard;
 import android.content.Context;
 import android.text.InputType;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.EditorInfo;
@@ -12,13 +10,13 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
-import com.rfw.hotkey.net.ConnectionManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Objects;
 
+/**
+ * A dummy view for capturing raw input from keyboard
+ *
+ * @author Raheeb Hassan
+ */
 public class KeyboardView extends FrameLayout {
     private static final String TAG = "KeyboardView";
 
@@ -53,6 +51,7 @@ public class KeyboardView extends FrameLayout {
     @Override
     public boolean performClick() {
         super.performClick();
+        // on click, show soft keyboard
         requestFocus();
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         Objects.requireNonNull(imm).showSoftInput(this, InputMethodManager.SHOW_FORCED);

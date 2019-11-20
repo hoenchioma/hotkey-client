@@ -21,6 +21,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
+/**
+ * Live screen receiver which communicates over WiFi/LAN
+ * (over TCP)
+ *
+ * @author Raheeb Hassan
+ */
 public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
     private static final String TAG = "WiFiLiveScreenReceiver";
 
@@ -63,6 +69,7 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
             ServerSocket serverSocket = new ServerSocket(0); // bind to any available port
             Log.i(TAG, "start: server port: " + serverSocket.getLocalPort());
 
+            // set timeout for serverSocket.connect()
             serverSocket.setSoTimeout(Constants.SERVER_SOCKET_TIMEOUT);
 
             JSONObject packet = new JSONObject()
@@ -75,6 +82,7 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
                     .put("fps", fps)
                     .put("compressRatio", compressRatio);
 
+            // connect in another thread
             connectionThread = new Thread(() -> {
                 try {
                     socket = serverSocket.accept();
@@ -103,6 +111,7 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
 
     @Override
     public void stop() {
+        // send command to server to stop sending frames
         try {
             JSONObject packet = new JSONObject();
 
@@ -128,6 +137,7 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
     private class Receiver extends Thread {
         @Override
         public void run() {
+            // join connection thread (to ensure there is connection before receiving)
             try {
                 connectionThread.join();
             } catch (InterruptedException e) {

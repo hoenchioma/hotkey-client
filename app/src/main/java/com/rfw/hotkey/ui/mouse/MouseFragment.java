@@ -18,6 +18,12 @@ import com.rfw.hotkey.net.ConnectionManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Fragment which creates a touchpad screen
+ * on the device and emulates as one
+ *
+ * @author Farhan Kabir
+ */
 
 public class MouseFragment extends Fragment {
 
@@ -54,18 +60,17 @@ public class MouseFragment extends Fragment {
         touchpad.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getPointerCount() == 2){
+                if (event.getPointerCount() == 2) {
                     //Toast.makeText(getContext(),"RightClick", Toast.LENGTH_SHORT).show();
                     try {
-                        sendMessageToServer("RightClick",0, 0);
+                        sendMessageToServer("RightClick", 0, 0);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-                else if(event.getPointerCount() == 3){
+                } else if (event.getPointerCount() == 3) {
                     //Toast.makeText(getContext(),"RightClick", Toast.LENGTH_SHORT).show();
                     try {
-                        sendMessageToServer("ScrollClick",0, 0);
+                        sendMessageToServer("ScrollClick", 0, 0);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
