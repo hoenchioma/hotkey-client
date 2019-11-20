@@ -24,7 +24,6 @@ import org.json.JSONObject;
  *
  * @author Farhan Kabir
  */
-
 public class MouseFragment extends Fragment {
 
     private static final String TAG = "MouseFragment";

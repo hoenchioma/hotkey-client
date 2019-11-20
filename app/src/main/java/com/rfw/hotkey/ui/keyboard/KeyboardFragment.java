@@ -20,10 +20,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * a fragment to handle a keyboard View and other buttons like TAB ESCAPE HOME etc
+ * Fragment to show a virtual keyboard to emulate keypresses
+ * on the desktop computer
+ *
  * @author Shadman Wadith
  */
-
 public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = KeyboardFragment.class.getCanonicalName();

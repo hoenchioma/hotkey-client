@@ -22,9 +22,9 @@ import org.json.JSONObject;
 /**
  * A fragment to help user to control ppt slides and also use pointer
  * feature : page change, laser pointer, full Screen
+ *
  * @author  Shadman Wadith
  */
-
 public class PowerPointFragment extends Fragment implements View.OnClickListener, View.OnTouchListener {
 
     private boolean mouseMoved = false;

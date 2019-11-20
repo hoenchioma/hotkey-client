@@ -29,8 +29,9 @@ import java.util.Objects;
 import static com.rfw.hotkey.util.Utils.getIntPref;
 
 /**
- * A fragment that helps user  to control PDF like Adobe Acrobat Reader and Evince Reader
- * feature : page change , zoom in and out, go to desired page,
+ * Fragment that helps user to control PDF like Adobe Acrobat Reader and Evince Reader
+ * feature : page change , zoom in and out, go to desired page
+ *
  * @author Shadman Wadith
  */
 public class PDFFragment extends Fragment implements View.OnClickListener {

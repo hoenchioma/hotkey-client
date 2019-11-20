@@ -37,7 +37,6 @@ import java.util.List;
  *
  * @author Farhan Kabir
  */
-
 public class GamepadActivity extends AppCompatActivity {
 
     private ArrayList<ImageView> buttons;
