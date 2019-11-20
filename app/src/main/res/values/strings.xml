@@ -70,4 +70,6 @@
 
     <!-- Edit Macros -->
     <string name="edit_macro_name">Enter Macro Name</string>
+    <string name="save_macro">Save</string>
+    <string name="cancel_macro">Cancel</string>
 </resources>
