@@ -12,12 +12,13 @@ import androidx.fragment.app.Fragment;
 
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
+import com.rfw.hotkey.util.misc.DispatchKeyEventHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class MultimediaFragment extends Fragment {
+public class MultimediaFragment extends Fragment implements DispatchKeyEventHandler {
     private static final String TAG = "MultimediaFragment";
 
     @Override
@@ -105,6 +106,7 @@ public class MultimediaFragment extends Fragment {
      * Method to be invoked by dispatchKeyEvent from enclosing activity
      * (return null means not handled)
      */
+    @Override
     public Boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
         switch (keyCode) {
@@ -123,7 +125,7 @@ public class MultimediaFragment extends Fragment {
                 }
                 return true;
             default:
-                return null;
+                return DispatchKeyEventHandler.super.dispatchKeyEvent(event);
         }
     }
 

@@ -17,8 +17,7 @@ import com.rfw.hotkey.R;
 import com.rfw.hotkey.ui.connections.ConnectionsFragment;
 import com.rfw.hotkey.ui.keyboard.KeyboardFragment;
 import com.rfw.hotkey.ui.mouse.MouseFragment;
-
-import java.lang.reflect.Method;
+import com.rfw.hotkey.util.misc.DispatchKeyEventHandler;
 
 public class MainActivity extends AppCompatActivity {
     private View contextView;
@@ -81,14 +80,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         Fragment currFrag = fragmentHelper.getCurrentFragment();
-        // check if fragment has method "dispatchKeyEvent", if it does propagate event
         try {
             assert currFrag != null;
-            Method dispatchKeyEventMethod = currFrag.getClass().getMethod("dispatchKeyEvent", KeyEvent.class);
-            if (!dispatchKeyEventMethod.getReturnType().equals(Boolean.class)) throw new AssertionError();
-            Object res = dispatchKeyEventMethod.invoke(currFrag, event);
-            assert res != null;
-            return (Boolean) res;
+            return ((DispatchKeyEventHandler) currFrag).dispatchKeyEvent(event);
         } catch (Exception e) {
             return super.dispatchKeyEvent(event);
         }
