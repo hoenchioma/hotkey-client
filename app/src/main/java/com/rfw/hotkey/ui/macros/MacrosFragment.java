@@ -36,7 +36,6 @@ import java.util.Objects;
  *
  * @author Farhan Kabir
  */
-
 public class MacrosFragment extends Fragment {
     private static final String TAG = "MacrosFragment";
     private SharedPreferences sharedPref;

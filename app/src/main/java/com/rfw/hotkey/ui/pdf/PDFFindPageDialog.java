@@ -16,7 +16,10 @@ import com.rfw.hotkey.R;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
+
 /**
+ * Dialog which shows the option to goto desired page of PDF by typing the page number
+ *
  * @author  Shadman Wadith
  */
 public class PDFFindPageDialog extends AppCompatDialogFragment {

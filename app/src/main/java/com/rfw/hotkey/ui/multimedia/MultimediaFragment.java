@@ -39,7 +39,6 @@ public class MultimediaFragment extends Fragment implements DispatchKeyEventHand
         View v = inflater.inflate(R.layout.fragment_multimedia, container, false);
         buttonPresser = null;
 
-
         ImageView playPauseIcon = (ImageView) v.findViewById(R.id.playPauseID);
         ImageView volumeUp = (ImageView) v.findViewById(R.id.volumeUpID);
         ImageView volumeDown = (ImageView) v.findViewById(R.id.volumeDownID);

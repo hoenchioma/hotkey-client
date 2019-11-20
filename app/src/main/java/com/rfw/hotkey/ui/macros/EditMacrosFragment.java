@@ -18,10 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.rfw.hotkey.R;
-import com.rfw.hotkey.ui.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,7 +35,6 @@ import java.util.Objects;
  *
  * @author Farhan Kabir
  */
-
 public class EditMacrosFragment extends Fragment {
     private static final String TAG = "EditMacrosFragment";
     private int keyIndex;
