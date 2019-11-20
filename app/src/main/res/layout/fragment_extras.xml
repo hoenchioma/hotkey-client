@@ -44,6 +44,12 @@
             app:icon="@drawable/ic_music_video_white_24dp"
             android:contentDescription="@string/extras_multimedia_btn_desc" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/gamepadButton"
+            style="@style/ExtrasMenuIconStyle"
+            app:icon="@drawable/ic_gamepad_white"
+            android:contentDescription="@string/extras_gamepad_btn_desc" />
+
     </androidx.gridlayout.widget.GridLayout>
 
 </ScrollView>
