@@ -2,6 +2,7 @@ package com.rfw.hotkey.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,8 @@ import com.rfw.hotkey.R;
 import com.rfw.hotkey.ui.connections.ConnectionsFragment;
 import com.rfw.hotkey.ui.keyboard.KeyboardFragment;
 import com.rfw.hotkey.ui.mouse.MouseFragment;
+
+import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity {
     private View contextView;
@@ -72,6 +75,23 @@ public class MainActivity extends AppCompatActivity {
 
         // set default values for settings (in case preference activity hasn't been invoked yet)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+    }
+
+    // override dispatchKeyEvent to propagate it to current fragment
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        Fragment currFrag = fragmentHelper.getCurrentFragment();
+        // check if fragment has method "dispatchKeyEvent", if it does propagate event
+        try {
+            assert currFrag != null;
+            Method dispatchKeyEventMethod = currFrag.getClass().getMethod("dispatchKeyEvent", KeyEvent.class);
+            if (!dispatchKeyEventMethod.getReturnType().equals(Boolean.class)) throw new AssertionError();
+            Object res = dispatchKeyEventMethod.invoke(currFrag, event);
+            assert res != null;
+            return (Boolean) res;
+        } catch (Exception e) {
+            return super.dispatchKeyEvent(event);
+        }
     }
 
     public void replaceFragment(@NonNull Fragment newFragment, int newFragIndex) {

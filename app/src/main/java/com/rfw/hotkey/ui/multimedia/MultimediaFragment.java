@@ -2,6 +2,7 @@ package com.rfw.hotkey.ui.multimedia;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,6 +99,32 @@ public class MultimediaFragment extends Fragment {
         });
 
         return v;
+    }
+
+    /**
+     * Method to be invoked by dispatchKeyEvent from enclosing activity
+     * (return null means not handled)
+     */
+    public Boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                try {
+                    sendMessageToServer("volumeUp");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                try {
+                    sendMessageToServer("volumeDown");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            default:
+                return null;
+        }
     }
 
     private void sendMessageToServer(String action) throws JSONException {
