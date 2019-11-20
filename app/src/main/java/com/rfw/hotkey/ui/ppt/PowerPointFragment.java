@@ -3,6 +3,7 @@ package com.rfw.hotkey.ui.ppt;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
+import com.rfw.hotkey.util.misc.DispatchKeyEventHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +25,8 @@ import org.json.JSONObject;
  * @author  Shadman Wadith
  */
 
-public class PowerPointFragment extends Fragment implements View.OnClickListener, View.OnTouchListener {
+public class PowerPointFragment extends Fragment
+        implements View.OnClickListener, View.OnTouchListener, DispatchKeyEventHandler {
 
     private boolean mouseMoved = false;
     private boolean scrollMoved = false;
@@ -252,5 +255,24 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
         return false;
+    }
+
+    /**
+     * Method to be invoked by dispatchKeyEvent from enclosing activity
+     * (return null means not handled)
+     */
+    @Override
+    public Boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                leftButton.performClick();
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                righButton.performClick();
+                return true;
+            default:
+                return DispatchKeyEventHandler.super.dispatchKeyEvent(event);
+        }
     }
 }
