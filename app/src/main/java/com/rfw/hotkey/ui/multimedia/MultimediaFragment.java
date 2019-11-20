@@ -45,6 +45,8 @@ public class MultimediaFragment extends Fragment {
         ImageView nextIcon = (ImageView) v.findViewById(R.id.nextID);
         ImageView prevIcon = (ImageView) v.findViewById(R.id.prevID);
 
+        playPauseIcon.setColorFilter(getResources().getColor(R.color.colorAccent));
+
         playPauseIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

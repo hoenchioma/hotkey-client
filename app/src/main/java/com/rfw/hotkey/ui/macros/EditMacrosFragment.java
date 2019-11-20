@@ -50,6 +50,12 @@ public class EditMacrosFragment extends Fragment {
     private Button cancelMacroButton;
     private EditText macroNameText;
 
+    /**
+     * Keyboard layout for any keyboard keys
+     * to simulate any key of keyboard.
+     * Add new keys and map them in server accordingly.
+     */
+
     static final String[] keyboardKeys = new String[]{
             "0", "1", "2", "3", "4",
             "5", "6", "7", "8", "9",
