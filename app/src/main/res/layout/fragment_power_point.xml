@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/powerPointLayoutID"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10"
+    tools:context=".ui.ppt.PowerPointFragment">
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <ImageButton
+        android:id="@+id/ppt_pointerID"
+        style="@style/GeneralIconStyle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        android:layout_weight="0.2"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleX="1.3"
+        android:scaleY="1.3"
+        android:src="@drawable/pointer2_200px" />
+
+    <TextView
+        android:id="@+id/pointerCursorID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/pointer_cursor_bg_200px"
+        android:scaleX="0.55"
+        android:scaleY="1" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fromTheBeginningButtonID"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Beginning"
+            android:visibility="invisible" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fromThisSlideButtonID"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/ppt_presentationButtonID"
+            style="@style/GeneralIconStyle"
+            android:layout_centerHorizontal="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleX="1.8"
+            android:scaleY="1.8"
+            android:src="@drawable/ic_powerpoint_presentation_white">
+
+        </ImageButton>
+
+    </RelativeLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="20">
+
+
+        <ImageButton
+            android:id="@+id/ppt_upButtonID"
+            style="@style/GeneralIconStyle"
+            android:layout_centerHorizontal="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:rotation="-90"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:src="@drawable/ic_forward_white_24dp">
+
+        </ImageButton>
+
+
+    </RelativeLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="16">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="6" />
+
+        <ImageButton
+            android:id="@+id/ppt_leftButtonID"
+            style="@style/GeneralIconStyle"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:rotation="180"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:src="@drawable/ic_forward_white_24dp">
+
+        </ImageButton>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+        <ImageButton
+            android:id="@+id/ppt_downButtonID"
+            style="@style/GeneralIconStyle"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:rotation="90"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:src="@drawable/ic_forward_white_24dp">
+
+        </ImageButton>
+
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+        <ImageButton
+            android:id="@+id/ppt_rightButtonID"
+            style="@style/GeneralIconStyle"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:src="@drawable/ic_forward_white_24dp">
+
+        </ImageButton>
+
+    </LinearLayout>
+
+
+</LinearLayout>

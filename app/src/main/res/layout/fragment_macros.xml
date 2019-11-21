@@ -1,0 +1,30 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.macros.MacrosFragment">
+
+    <ImageView
+        android:id="@+id/addMacroButtonID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_add_light_grey_24dp" />
+
+    <GridView
+        android:id="@+id/macroGridID"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/addMacroButtonID"
+        android:columnWidth="150dp"
+        android:gravity="center"
+        android:numColumns="5"
+        android:stretchMode="columnWidth">
+
+    </GridView>
+
+</RelativeLayout>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.multimedia.MultimediaFragment">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_weight="3"
+            android:layout_height="120dp" />
+
+        <ImageButton
+            android:id="@+id/playPauseID"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            style="@style/GeneralIconStyle"
+            android:layout_weight="1"
+            android:src="@drawable/play_pause_default" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_weight="3"
+            android:layout_height="120dp" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/prevID"
+            android:scaleX="2"
+            android:scaleY="2"
+            android:layout_width="wrap_content"
+            style="@style/GeneralIconStyle"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_skip_previous_24dp" />
+
+        <ImageButton
+            android:id="@+id/nextID"
+            android:scaleX="2"
+            android:scaleY="2"
+            style="@style/GeneralIconStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_skip_next_24dp" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <ImageButton
+            android:id="@+id/volumeDownID"
+            style="@style/GeneralIconStyle"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_remove_default" />
+
+        <ImageButton
+            android:id="@+id/muteID"
+            style="@style/GeneralIconStyle"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_volume_mute_default" />
+
+        <ImageButton
+            android:id="@+id/volumeUpID"
+            style="@style/GeneralIconStyle"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_add_default" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
