@@ -21,10 +21,13 @@
             android:layout_weight="3"
             android:layout_height="120dp" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/playPauseID"
             android:layout_width="wrap_content"
             android:layout_height="120dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            style="@style/GeneralIconStyle"
             android:layout_weight="1"
             android:src="@drawable/play_pause_default" />
 
@@ -44,15 +47,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/prevID"
+            android:scaleX="2"
+            android:scaleY="2"
             android:layout_width="wrap_content"
+            style="@style/GeneralIconStyle"
             android:layout_height="80dp"
             android:layout_weight="1"
             android:src="@drawable/ic_skip_previous_24dp" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/nextID"
+            android:scaleX="2"
+            android:scaleY="2"
+            style="@style/GeneralIconStyle"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:layout_weight="1"
@@ -70,22 +79,25 @@
         android:orientation="horizontal">
 
 
-        <ImageView
+        <ImageButton
             android:id="@+id/volumeDownID"
+            style="@style/GeneralIconStyle"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_weight="1"
             android:src="@drawable/ic_remove_default" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/muteID"
+            style="@style/GeneralIconStyle"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_weight="1"
             android:src="@drawable/ic_volume_mute_default" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/volumeUpID"
+            style="@style/GeneralIconStyle"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="100dp"

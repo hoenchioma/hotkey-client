@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
@@ -39,14 +40,14 @@ import java.util.List;
  */
 public class GamepadActivity extends AppCompatActivity {
 
-    private ArrayList<ImageView> buttons;
+    private ArrayList<ImageButton> buttons;
     private ArrayList<String> actions;
     private ArrayList<String> pressedButtons;
     private boolean editLayout;
-    private ImageView editButton;
-    private ImageView saveButton;
-    private ImageView cancelButton;
-    private ImageView menuButton;
+    private ImageButton editButton;
+    private ImageButton saveButton;
+    private ImageButton cancelButton;
+    private ImageButton menuButton;
     private GridView keyBoardGrid;
 
     private int xDelta;
@@ -56,7 +57,7 @@ public class GamepadActivity extends AppCompatActivity {
     private int RSX;
     private int RSY;
     private int curIndex;
-
+    private final int rightStickLimit = 150;
     private boolean setRightStick;
 
     /**
@@ -73,11 +74,11 @@ public class GamepadActivity extends AppCompatActivity {
             "ESC", "ALT", "CTRL", "SHIFT", "DEL",
             "INS", "HOME", "END", "PGUP", "PGDN",
 
-            "a", "b", "c", "d", "e",
+            "A", "b", "c", "D", "E",
             "f", "g", "h", "i", "j",
             "k", "l", "m", "n", "o",
-            "p", "q", "r", "s", "t",
-            "u", "v", "w", "x", "y",
+            "p", "q", "r", "S", "t",
+            "u", "v", "W", "x", "y",
             "z","UP","DOWN","LEFT","RIGHT"
 
     };
@@ -97,7 +98,7 @@ public class GamepadActivity extends AppCompatActivity {
         setRightStick = true;
 
 
-        buttons = new ArrayList<ImageView>();
+        buttons = new ArrayList<ImageButton>();
         actions = new ArrayList<>();
         pressedButtons = new ArrayList<>();
 
@@ -128,7 +129,7 @@ public class GamepadActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.saveButtonID);
         menuButton = findViewById(R.id.gamepadMenuID);
 
-        init();
+        initialization();
 
         for (int i = 0; i < buttons.size(); i++)
             buttons.get(i).setOnTouchListener(onTouchListener());
@@ -292,17 +293,19 @@ public class GamepadActivity extends AppCompatActivity {
                                 yDelta = y - view.getTop();
                                 widthV = view.getWidth();
                                 heightV = view.getHeight();
-
+                               // Log.d("RS error",RSX+" "+RSY+" "+view.getLeft()+" "+view.getTop());
                                 if (rightStickHandler == null) {
                                     rightStickHandler = new LoopedExecutor(BUTTON_PRESS_DELAY) {
                                         @Override
                                         public void task() {
                                             try {
+
+                                                Log.d("RSerror",RSX+" "+RSY+" "+view.getLeft()+" "+view.getTop()+" "+( view.getLeft() -RSX) +" "+ ( view.getTop()-RSY) );
                                                 JSONObject packet = new JSONObject();
                                                 packet.put("type", "mouse");
                                                 packet.put("action", "TouchpadMove");
-                                                packet.put("deltaX", RSX - view.getLeft());
-                                                packet.put("deltaY", RSY - view.getTop());
+                                                packet.put("deltaX", (view.getLeft() - RSX));
+                                                packet.put("deltaY",  (view.getTop() -RSY));
                                                 ConnectionManager.getInstance().sendPacket(packet);
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
@@ -325,11 +328,12 @@ public class GamepadActivity extends AppCompatActivity {
                                 break;
 
                             case MotionEvent.ACTION_MOVE:
-                                if ((x - xDelta > RSX - 100) && (x - xDelta < RSX + 100) && (y - yDelta > RSY - 100) && (y - yDelta < RSY + 100)) {
+                                if ((x - xDelta > RSX - rightStickLimit) && (x - xDelta < RSX + rightStickLimit) && (y - yDelta > RSY - rightStickLimit) && (y - yDelta < RSY + rightStickLimit)) {
                                     view.setLeft(x - xDelta);
                                     view.setTop(y - yDelta);
                                     view.setRight(view.getLeft() + widthV);
                                     view.setBottom(view.getTop() + heightV);
+                                    //Log.d("RS error",RSX+" "+RSY+" "+view.getLeft()+" "+view.getTop());
                                 }
 
                                 if (rightStickHandler == null) {
@@ -340,8 +344,8 @@ public class GamepadActivity extends AppCompatActivity {
                                                 JSONObject packet = new JSONObject();
                                                 packet.put("type", "mouse");
                                                 packet.put("action", "TouchpadMove");
-                                                packet.put("deltaX", RSX - view.getLeft());
-                                                packet.put("deltaY", RSY - view.getTop());
+                                                packet.put("deltaX", (view.getLeft() -RSX));
+                                                packet.put("deltaY", (view.getTop() - RSY));
                                                 ConnectionManager.getInstance().sendPacket(packet);
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
@@ -360,7 +364,7 @@ public class GamepadActivity extends AppCompatActivity {
         };
     }
 
-    void init() {
+    void initialization() {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("HotkeyGamepadData", MODE_PRIVATE);
         keyBoardGrid.setVisibility(View.INVISIBLE);
         editButton.setVisibility(View.INVISIBLE);

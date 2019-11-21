@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
 
@@ -39,12 +39,12 @@ public class MultimediaFragment extends Fragment implements DispatchKeyEventHand
         View v = inflater.inflate(R.layout.fragment_multimedia, container, false);
         buttonPresser = null;
 
-        ImageView playPauseIcon = (ImageView) v.findViewById(R.id.playPauseID);
-        ImageView volumeUp = (ImageView) v.findViewById(R.id.volumeUpID);
-        ImageView volumeDown = (ImageView) v.findViewById(R.id.volumeDownID);
-        ImageView mute = (ImageView) v.findViewById(R.id.muteID);
-        ImageView nextIcon = (ImageView) v.findViewById(R.id.nextID);
-        ImageView prevIcon = (ImageView) v.findViewById(R.id.prevID);
+        ImageButton playPauseIcon = (ImageButton) v.findViewById(R.id.playPauseID);
+        ImageButton volumeUp = (ImageButton) v.findViewById(R.id.volumeUpID);
+        ImageButton volumeDown = (ImageButton) v.findViewById(R.id.volumeDownID);
+        ImageButton mute = (ImageButton) v.findViewById(R.id.muteID);
+        ImageButton nextIcon = (ImageButton) v.findViewById(R.id.nextID);
+        ImageButton prevIcon = (ImageButton) v.findViewById(R.id.prevID);
 
         playPauseIcon.setColorFilter(getResources().getColor(R.color.colorAccent));
 

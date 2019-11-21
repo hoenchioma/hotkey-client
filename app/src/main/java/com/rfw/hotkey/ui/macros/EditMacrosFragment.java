@@ -166,6 +166,7 @@ public class EditMacrosFragment extends Fragment {
                         if (added) editor.putString("macroKeySize", Integer.toString(keyIndex + 1));
                         editor.apply();
                         Toast.makeText(getContext(), "Macro Saved", Toast.LENGTH_SHORT).show();
+                        getFragmentManager().popBackStack();
 
                     } catch (JSONException e) {
                         e.printStackTrace();
