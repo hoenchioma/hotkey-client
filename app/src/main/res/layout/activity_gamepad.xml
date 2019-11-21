@@ -7,7 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.gamepad.GamepadActivity">
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/leftStickBotID"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -26,7 +29,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/leftStickLeftID"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -45,7 +51,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/leftStickTopID"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -64,7 +73,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/leftStickRightID"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -83,7 +95,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/leftLeftID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -102,7 +117,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/leftBotID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -121,7 +139,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/leftRightID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -140,7 +161,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/leftTopID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -159,7 +183,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/rightLeftID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -178,7 +205,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/rightBotID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -197,7 +227,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/rightRightID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -216,7 +249,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/rightTopID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -235,7 +271,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/rightStickBaseID"
         android:layout_width="176dp"
         android:layout_height="174dp"
@@ -257,7 +293,10 @@
         app:tint="@color/colorAccent"
         tools:ignore="MissingConstraints"/>
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/rightStickID"
         android:layout_width="66dp"
         android:layout_height="65dp"
@@ -274,7 +313,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/LBID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -293,7 +335,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/LTID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -314,7 +359,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/LSID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -333,7 +381,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/RTID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -352,7 +403,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/RBID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -371,7 +425,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/RSID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -390,7 +447,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/menuID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -409,7 +469,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/startID"
         android:layout_width="44dp"
         android:layout_height="47dp"
@@ -428,7 +491,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/saveButtonID"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -447,7 +513,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/editButtonID"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -466,7 +535,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        style="@style/GeneralIconStyle"
+        android:scaleY="2"
+        android:scaleX="2"
         android:id="@+id/cancelButtonID"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -485,7 +557,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
+    <ImageButton
+        android:scaleY="2"
+        android:scaleX="2"
+        style="@style/GeneralIconStyle"
         android:id="@+id/gamepadMenuID"
         android:layout_width="60dp"
         android:layout_height="60dp"
