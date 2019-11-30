@@ -136,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    public void popFragment() { fragmentHelper.popBackStack(); }
+
     private void highlightButton(MaterialButton button) {
         // un-highlight previous button
         if (highlightedButton != null) {

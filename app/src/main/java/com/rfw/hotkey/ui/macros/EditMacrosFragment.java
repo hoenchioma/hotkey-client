@@ -8,7 +8,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,9 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.rfw.hotkey.R;
+import com.rfw.hotkey.ui.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,13 +82,16 @@ public class EditMacrosFragment extends Fragment {
         saveMacroButton = (Button) v.findViewById(R.id.saveMacroButtonID);
         cancelMacroButton = (Button) v.findViewById(R.id.cancelMacroButtonID);
         macroNameText = (EditText) v.findViewById(R.id.macroNameTextID);
+
         Bundle bundle = getArguments();
         keyIndex = -1;
         if (bundle != null) {
             added = false;
             keyIndex = bundle.getInt("keyIndex");
             try {
-                JSONObject jsonObject = new JSONObject(sharedPref.getString("macroKey" + Integer.toString(keyIndex), null));
+                String val = sharedPref.getString("macroKey" + keyIndex, null);
+                assert val != null;
+                JSONObject jsonObject = new JSONObject(val);
                 int keySize = jsonObject.getInt("size");
                 for (int i = 0; i < keySize; i++)
                     selectedKeys.add(jsonObject.getString(Integer.toString(i)));
@@ -103,9 +107,12 @@ public class EditMacrosFragment extends Fragment {
         }
 
         gridView.setAdapter(new ArrayAdapter<String>(
-                inflater.getContext(), android.R.layout.simple_list_item_1, keyboardLayout) {
-            public View getView(int position, View convertView, ViewGroup parent) {
+                inflater.getContext(),
+                android.R.layout.simple_list_item_1,
+                keyboardLayout) {
 
+            @NonNull
+            public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
 
                 TextView tv = (TextView) view;
@@ -125,28 +132,41 @@ public class EditMacrosFragment extends Fragment {
 
                 tv.setText(keyboardLayout.get(position));
 
+                // set highlight (according to saved state)
                 if (!selectedKeys.contains(keyboardLayout.get(position)))
-                    tv.setBackgroundResource(R.color.colorPrimary);
+                    tv.setBackgroundResource(android.R.color.transparent);
                 else tv.setBackgroundResource(R.color.colorAccent);
+
+                // set on click listener
+                tv.setOnClickListener(v1 -> {
+                    String buttonName = tv.getText().toString();
+                    if (!selectedKeys.contains(buttonName)) {
+                        tv.setBackgroundResource(R.color.colorAccent);
+                        selectedKeys.add(buttonName);
+                    } else {
+                        tv.setBackgroundResource(android.R.color.transparent);
+                        selectedKeys.remove(buttonName);
+                    }
+                });
 
                 return tv;
             }
         });
 
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String buttonName = parent.getItemAtPosition(position).toString();
-                if (!selectedKeys.contains(buttonName)) {
-                    gridView.getChildAt(position).setBackgroundResource(R.color.colorAccent);
-                    selectedKeys.add(buttonName);
-                } else {
-                    gridView.getChildAt(position).setBackgroundResource(R.color.colorPrimary);
-                    selectedKeys.remove(buttonName);
-                }
-            }
-        });
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String buttonName = parent.getItemAtPosition(position).toString();
+//                if (!selectedKeys.contains(buttonName)) {
+//                    gridView.getChildAt(position).setBackgroundResource(R.color.colorAccent);
+//                    selectedKeys.add(buttonName);
+//                } else {
+//                    gridView.getChildAt(position).setBackgroundResource(android.R.color.transparent);
+//                    selectedKeys.remove(buttonName);
+//                }
+//            }
+//        });
 
         saveMacroButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,7 +186,8 @@ public class EditMacrosFragment extends Fragment {
                         if (added) editor.putString("macroKeySize", Integer.toString(keyIndex + 1));
                         editor.apply();
                         Toast.makeText(getContext(), "Macro Saved", Toast.LENGTH_SHORT).show();
-                        getFragmentManager().popBackStack();
+
+                        popFragmentBackStack();
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -180,13 +201,17 @@ public class EditMacrosFragment extends Fragment {
         cancelMacroButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().popBackStack();
+                popFragmentBackStack();
             }
         });
 
 
         return v;
 
+    }
+
+    private void popFragmentBackStack() {
+        ((MainActivity) Objects.requireNonNull(getActivity())).popFragment();
     }
 
 }
