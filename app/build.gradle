@@ -5,7 +5,7 @@ ext.minSdkVersion = 15
 // version numbers
 ext.majorVersion = 1
 ext.minorVersion = 0
-ext.patchVersion = 0
+ext.patchVersion = 1
 ext.preRelease= "beta"
 
 android {
