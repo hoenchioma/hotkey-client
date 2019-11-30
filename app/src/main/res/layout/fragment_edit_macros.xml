@@ -1,29 +1,27 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/mainContainer"
-    tools:context=".ui.macros.EditMacrosFragment">
+    tools:context=".ui.macros.EditMacrosFragment"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/macroSaveLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:paddingRight="16dp"
+        android:paddingTop="16dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/macroNameFieldID"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="@string/edit_macro_name"
-            android:paddingLeft="16dp"
-            android:paddingTop="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="5dp"
+            android:hint="@string/edit_macro_name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/macroNameTextID"
@@ -32,32 +30,35 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/saveMacroButtonID"
+        <LinearLayout
+            android:id="@+id/macroSaveLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:insetLeft="10dp"
-            android:insetTop="25dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:text="@string/save_macro" />
+            android:layout_height="56dp"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/cancelMacroButtonID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:insetLeft="10dp"
-            android:insetTop="25dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:text="@string/cancel_macro" />
+            <Button
+                android:id="@+id/saveMacroButtonID"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="5dp"
+                android:text="@string/save_macro" />
 
+            <Button
+                android:id="@+id/cancelMacroButtonID"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="5dp"
+                android:text="@string/cancel_macro" />
+
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -65,7 +66,6 @@
         android:id="@+id/macroKeyboardID"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/macroSaveLayout"
         android:columnWidth="150dp"
         android:gravity="center"
         android:numColumns="5"
@@ -77,4 +77,4 @@
 
     </GridView>
 
-</RelativeLayout>
+</LinearLayout>
