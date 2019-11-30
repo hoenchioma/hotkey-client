@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,8 +29,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Fragment which gives the user a layout to set a
@@ -42,7 +46,7 @@ public class EditMacrosFragment extends Fragment {
     private boolean added;
     private SharedPreferences sharedPref;
 
-    private ArrayList<String> selectedKeys;
+    private Set<String> selectedKeys;
     private GridView gridView;
     private Button saveMacroButton;
     private Button cancelMacroButton;
@@ -54,7 +58,7 @@ public class EditMacrosFragment extends Fragment {
      * Add new keys and map them in server accordingly.
      */
 
-    static final String[] keyboardKeys = new String[]{
+    private static final String[] keyboardKeys = new String[]{
             "0", "1", "2", "3", "4",
             "5", "6", "7", "8", "9",
 
@@ -67,7 +71,6 @@ public class EditMacrosFragment extends Fragment {
             "P", "Q", "R", "S", "T",
             "U", "V", "W", "X", "Y",
             "Z"
-
     };
 
     private final List<String> keyboardLayout = new ArrayList<String>(Arrays.asList(keyboardKeys));
@@ -77,7 +80,7 @@ public class EditMacrosFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_edit_macros, container, false);
         sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
-        selectedKeys = new ArrayList<String>();
+        selectedKeys = new HashSet<>();
         gridView = (GridView) v.findViewById(R.id.macroKeyboardID);
         saveMacroButton = (Button) v.findViewById(R.id.saveMacroButtonID);
         cancelMacroButton = (Button) v.findViewById(R.id.cancelMacroButtonID);
@@ -112,7 +115,7 @@ public class EditMacrosFragment extends Fragment {
                 keyboardLayout) {
 
             @NonNull
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
 
                 TextView tv = (TextView) view;
@@ -131,6 +134,8 @@ public class EditMacrosFragment extends Fragment {
                 tv.setGravity(Gravity.CENTER);
 
                 tv.setText(keyboardLayout.get(position));
+
+                Log.d(TAG, "getView: " + tv.getText().toString());
 
                 // set highlight (according to saved state)
                 if (!selectedKeys.contains(keyboardLayout.get(position)))
@@ -177,14 +182,17 @@ public class EditMacrosFragment extends Fragment {
                         macroKey.put("type", "macro");
                         macroKey.put("name", macroNameText.getText().toString());
                         macroKey.put("size", Integer.toString(selectedKeys.size()));
-                        for (int i = 0; i < selectedKeys.size(); i++) {
-                            macroKey.put(Integer.toString(i), selectedKeys.get(i));
+
+                        int i = 0;
+                        for (String key: selectedKeys) {
+                            macroKey.put(Integer.toString(i++), key);
                         }
 
                         SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString("macroKey" + Integer.toString(keyIndex), macroKey.toString());
+                        editor.putString("macroKey" + keyIndex, macroKey.toString());
                         if (added) editor.putString("macroKeySize", Integer.toString(keyIndex + 1));
                         editor.apply();
+
                         Toast.makeText(getContext(), "Macro Saved", Toast.LENGTH_SHORT).show();
 
                         popFragmentBackStack();
@@ -198,13 +206,7 @@ public class EditMacrosFragment extends Fragment {
             }
         });
 
-        cancelMacroButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popFragmentBackStack();
-            }
-        });
-
+        cancelMacroButton.setOnClickListener(v12 -> popFragmentBackStack());
 
         return v;
 
