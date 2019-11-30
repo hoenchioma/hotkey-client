@@ -138,35 +138,35 @@ public class EditMacrosFragment extends Fragment {
                 else tv.setBackgroundResource(R.color.colorAccent);
 
                 // set on click listener
-                tv.setOnClickListener(v1 -> {
-                    String buttonName = tv.getText().toString();
-                    if (!selectedKeys.contains(buttonName)) {
-                        tv.setBackgroundResource(R.color.colorAccent);
-                        selectedKeys.add(buttonName);
-                    } else {
-                        tv.setBackgroundResource(android.R.color.transparent);
-                        selectedKeys.remove(buttonName);
-                    }
-                });
+//                tv.setOnClickListener(v1 -> {
+//                    String buttonName = tv.getText().toString();
+//                    if (!selectedKeys.contains(buttonName)) {
+//                        tv.setBackgroundResource(R.color.colorAccent);
+//                        selectedKeys.add(buttonName);
+//                    } else {
+//                        tv.setBackgroundResource(android.R.color.transparent);
+//                        selectedKeys.remove(buttonName);
+//                    }
+//                });
 
                 return tv;
             }
         });
 
 
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String buttonName = parent.getItemAtPosition(position).toString();
-//                if (!selectedKeys.contains(buttonName)) {
-//                    gridView.getChildAt(position).setBackgroundResource(R.color.colorAccent);
-//                    selectedKeys.add(buttonName);
-//                } else {
-//                    gridView.getChildAt(position).setBackgroundResource(android.R.color.transparent);
-//                    selectedKeys.remove(buttonName);
-//                }
-//            }
-//        });
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String buttonName = ((TextView) view).getText().toString();
+                if (!selectedKeys.contains(buttonName)) {
+                    view.setBackgroundResource(R.color.colorAccent);
+                    selectedKeys.add(buttonName);
+                } else {
+                    view.setBackgroundResource(android.R.color.transparent);
+                    selectedKeys.remove(buttonName);
+                }
+            }
+        });
 
         saveMacroButton.setOnClickListener(new View.OnClickListener() {
             @Override
