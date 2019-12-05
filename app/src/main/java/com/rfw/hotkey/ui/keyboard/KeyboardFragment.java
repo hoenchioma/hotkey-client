@@ -1,7 +1,6 @@
 package com.rfw.hotkey.ui.keyboard;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +10,20 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Fragment to show a virtual keyboard to emulate keypresses
@@ -33,11 +39,11 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
     private Button copyButton;
     private Button escButton;
-    private Button homeButton;
     private Button tabButton;
     private Button pasteButton;
     private Button pgupButton;
     private Button shiftButton;
+    private Button ctrlButton;
     private Button upButton;
     private Button pgdnButton;
     private Button leftButton;
@@ -45,6 +51,8 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
     private Button righButton;
 
     private LinearLayout emptySpace;
+
+    private Set<String> modifiers = new HashSet<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -59,14 +67,14 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
                 if (event.getUnicodeChar() == 0) { // control character
                     if (keyCode == KeyEvent.KEYCODE_DEL) { // backspace
-                        sendKeyToServer("char", String.valueOf('\b'));
+                        sendKey(String.valueOf('\b'));
                         return true;
                     } else if (keyCode == KeyEvent.KEYCODE_ENTER) { // enter
-                        sendKeyToServer("char", String.valueOf('\n'));
+                        sendKey(String.valueOf('\n'));
                         return true;
                     }
                 } else { // text character
-                    sendKeyToServer("char", String.valueOf((char) event.getUnicodeChar()));
+                    sendKey(String.valueOf((char) event.getUnicodeChar()));
                     return true;
                 }
             }
@@ -86,26 +94,28 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
     private void init(View rootView) {
         keyboardView = rootView.findViewById(R.id.keyboardView);
-
         emptySpace = rootView.findViewById(R.id.emptySpace);
 
+        // buttons
         copyButton = rootView.findViewById(R.id.copyButtonID);
-        escButton = rootView.findViewById(R.id.escButtonID);
-        homeButton = rootView.findViewById(R.id.homeButtonID);
-        tabButton = rootView.findViewById(R.id.tabButtonID);
         pasteButton = rootView.findViewById(R.id.pasteButtonID);
-        pgupButton = rootView.findViewById(R.id.pgupButtonID);
+        escButton = rootView.findViewById(R.id.escButtonID);
+        tabButton = rootView.findViewById(R.id.tabButtonID);
         shiftButton = rootView.findViewById(R.id.shiftButtonID);
-        upButton = rootView.findViewById(R.id.upButtonID);
+        ctrlButton = rootView.findViewById(R.id.ctrlButtonID);
+        pgupButton = rootView.findViewById(R.id.pgupButtonID);
         pgdnButton = rootView.findViewById(R.id.pgdnButtonID);
+        upButton = rootView.findViewById(R.id.upButtonID);
         leftButton = rootView.findViewById(R.id.leftButtonID);
         downButton = rootView.findViewById(R.id.downButtonID);
         righButton = rootView.findViewById(R.id.rightButtonID);
+
+        // onClick listeners
         copyButton.setOnClickListener(this);
-//      homeButton.setOnTouchListener(this);
-        homeButton.setOnClickListener(this);
         escButton.setOnClickListener(this);
         tabButton.setOnClickListener(this);
+        shiftButton.setOnClickListener(this);
+        ctrlButton.setOnClickListener(this);
         pasteButton.setOnClickListener(this);
         pgupButton.setOnClickListener(this);
         upButton.setOnClickListener(this);
@@ -113,82 +123,94 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
         leftButton.setOnClickListener(this);
         downButton.setOnClickListener(this);
         righButton.setOnClickListener(this);
-//      shiftButton.setOnTouchListener(this);
-//      rootView.setOnTouchListener(this);
     }
-
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.escButtonID:
-                sendKeyToServer("modifier", "ESC");
-                Log.d("onclick", "ESC");
+            case R.id.escButtonID:   sendKey("ESC");   break;
+            case R.id.tabButtonID:   sendKey("TAB");   break;
+            case R.id.copyButtonID:  sendKey("COPY");  break;
+            case R.id.pasteButtonID: sendKey("PASTE"); break;
+            case R.id.pgupButtonID:  sendKey("PGUP");  break;
+            case R.id.pgdnButtonID:  sendKey("PGDN");  break;
+            case R.id.upButtonID:    sendKey("UP");    break;
+            case R.id.leftButtonID:  sendKey("LEFT");  break;
+            case R.id.downButtonID:  sendKey("DOWN");  break;
+            case R.id.rightButtonID: sendKey("RIGHT"); break;
+            case R.id.shiftButtonID:
+                toggleModifier("SHIFT", (MaterialButton) view);
                 break;
-            case R.id.copyButtonID:
-                sendKeyToServer("command", "COPY");
-                Log.d("onclick", "COPY");
+            case R.id.ctrlButtonID:
+                toggleModifier("CTRL", (MaterialButton) view);
                 break;
-            case R.id.homeButtonID:
-                sendKeyToServer("modifier", "HOME");
-                Log.d("onclick", "HOME");
-                break;
-            case R.id.tabButtonID:
-                sendKeyToServer("modifier", "TAB");
-                Log.d("onclick", "TAB");
-                break;
-            case R.id.pasteButtonID:
-                sendKeyToServer("command", "PASTE");
-                Log.d("onclick", "PASTE");
-                break;
-            case R.id.pgupButtonID:
-                sendKeyToServer("modifier", "PGUP");
-                Log.d("onclick", "PGUP");
-                break;
-//            case R.id.shiftButtonID:
-//                sendKeyToServer("TYPE_HOLD");
-//                sendKeyToServer("SHIFT");
-//                Log.d("onclick", "SHIFT");
-//                break;
-            case R.id.upButtonID:
-                sendKeyToServer("modifier", "UP");
-                Log.d("onclick", "UP");
-                break;
-            case R.id.pgdnButtonID:
-                sendKeyToServer("modifier", "PGDN");
-                Log.d("onclick", "PGDN");
-                break;
-            case R.id.leftButtonID:
-                sendKeyToServer("modifier", "LEFT");
-                Log.d("onclick", "LEFT");
-                break;
-            case R.id.downButtonID:
-                sendKeyToServer("modifier", "DOWN");
-                Log.d("onclick", "DOWN");
-                break;
-            case R.id.rightButtonID:
-                sendKeyToServer("modifier", "RIGHT");
-                Log.d("onclick", "RIGHT");
-                break;
+            default:
         }
+    }
+
+    private void toggleModifier(String keyword, MaterialButton button) {
+        if (!modifiers.contains(keyword)) {
+            modifiers.add(keyword);
+            button.setBackgroundTintList(
+                    ContextCompat.getColorStateList(
+                            Objects.requireNonNull(getContext()),
+                            R.color.white
+                    )
+            );
+            button.setTextColor(
+                    ContextCompat.getColorStateList(
+                            Objects.requireNonNull(getContext()),
+                            R.color.colorAccent
+                    )
+            );
+        } else {
+            modifiers.remove(keyword);
+            button.setBackgroundTintList(
+                    ContextCompat.getColorStateList(
+                            Objects.requireNonNull(getContext()),
+                            R.color.colorAccent
+                    )
+            );
+            button.setTextColor(
+                    ContextCompat.getColorStateList(
+                            Objects.requireNonNull(getContext()),
+                            R.color.white
+                    )
+            );
+        }
+    }
+
+    private void sendKey(String key) {
+        send("type", key);
+    }
+
+    private void sendKeyPress(String key) {
+        send("press", key);
+    }
+
+    private void sendKeyRelease(String key) {
+        send("release", key);
     }
 
     /**
      * sends the message of specified action to Connection Manager
      *
-     * @param action type of the key being sent (char, modifier, etc.)
+     * @param action the type of action (type, press, release)
      * @param key    key being sent
      */
-    private void sendKeyToServer(String action, String key) {
-        JSONObject packet = new JSONObject();
+    private void send(String action, String key) {
         try {
-            packet.put("type", "keyboard");
-            packet.put("action", action);
-            packet.put("key", key);
+            JSONArray modifierArray = new JSONArray();
+            for (String i: modifiers) modifierArray.put(i);
+            JSONObject packet = new JSONObject()
+                    .put("type", "keyboard")
+                    .put("action", action)
+                    .put("key", key)
+                    .put("modifiers", modifierArray);
+            ConnectionManager.getInstance().sendPacket(packet);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ConnectionManager.getInstance().sendPacket(packet);
     }
 
 }

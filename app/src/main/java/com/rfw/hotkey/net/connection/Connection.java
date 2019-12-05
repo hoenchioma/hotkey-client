@@ -33,7 +33,7 @@ public abstract class Connection {
     private static final String TAG = "Connection";
 
     private static final String SERVER_UUID = "8fbdf1a6-1185-43a7-952a-3f38f6af0c36";
-    private static final int SERVER_VERSION = 2;
+    private static final int SERVER_VERSION = 3;
 
     private ObservableBoolean active = new ObservableBoolean(false);
     private String computerName;

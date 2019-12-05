@@ -92,4 +92,6 @@
     <string name="left">Left</string>
     <string name="key_down">Down</string>
     <string name="key_right">Right</string>
+    <string name="esc">ESC</string>
+    <string name="ctrl">Ctrl</string>
 </resources>
