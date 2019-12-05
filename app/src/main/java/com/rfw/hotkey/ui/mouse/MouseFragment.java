@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -42,8 +43,9 @@ public class MouseFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_mouse, container, false);
         TextView touchpad = (TextView) v.findViewById(R.id.touchpadID);
         TextView scroll = (TextView) v.findViewById(R.id.scrollID);
-        Button leftClick = (Button) v.findViewById(R.id.leftClickID);
-        Button rightClick = (Button) v.findViewById(R.id.rightClickID);
+        ImageButton leftClick = (ImageButton) v.findViewById(R.id.leftClickID);
+        ImageButton rightClick = (ImageButton) v.findViewById(R.id.rightClickID);
+        ImageButton scrollButton = (ImageButton) v.findViewById(R.id.scrollbuttonClickID);
 
         touchpad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +57,7 @@ public class MouseFragment extends Fragment {
                 }
             }
         });
+
 
         touchpad.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -156,7 +159,16 @@ public class MouseFragment extends Fragment {
                 }
             }
         });
-
+        scrollButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    sendMessageToServer("ScrollClick", 0, 0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         leftClick.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
