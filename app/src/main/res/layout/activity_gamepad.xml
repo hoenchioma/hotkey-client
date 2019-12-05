@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gamepad"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.gamepad.GamepadActivity">
+
+    <ImageButton
+        android:id="@+id/leftStickBotID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="55dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
+
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/left_stick_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/leftStickTopID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="55dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
+
+        android:layout_marginBottom="112dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/left_stick_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/leftStickRightID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="55dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginLeft="128dp"
+
+        android:layout_marginBottom="64dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/left_stick_right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/leftStickLeftID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="55dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+
+        android:layout_marginBottom="64dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/left_stick_left"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/leftTopID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginLeft="76dp"
+
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="300dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/top_top_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/leftBotID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginLeft="76dp"
+
+        android:layout_marginTop="144dp"
+        android:layout_marginBottom="200dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/top_bottom_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/leftRightID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+
+        android:layout_marginStart="120dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="254dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/top_right_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/leftLeftID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="254dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/top_left_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/rightTopID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="76dp"
+
+        android:layout_marginRight="76dp"
+        android:layout_marginBottom="305dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/rightLeftID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="120dp"
+
+        android:layout_marginRight="120dp"
+        android:layout_marginBottom="257dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/rightRightID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="32dp"
+
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="257dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/rightBotID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="144dp"
+        android:layout_marginEnd="76dp"
+
+        android:layout_marginRight="76dp"
+        android:layout_marginBottom="207dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/rightStickBaseID"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/ic_empty_circle_default"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/colorAccent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/rightStickID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="66dp"
+        android:layout_height="65dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="65dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/ic_target_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/LBID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+
+        android:layout_marginStart="33dp"
+        android:layout_marginLeft="33dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/trigger_button"
+        app:layout_constraintStart_toEndOf="@+id/LTID"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/LTID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="33dp"
+        android:layout_marginLeft="33dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/trigger_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/LSID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="210dp"
+        android:layout_marginLeft="210dp"
+
+        android:layout_marginBottom="75dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/RTID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_marginEnd="33dp"
+
+        android:layout_marginRight="33dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/trigger_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/RBID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/trigger_button"
+        app:layout_constraintEnd_toStartOf="@+id/RTID"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/RSID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_marginEnd="210dp"
+
+        android:layout_marginRight="210dp"
+        android:layout_marginBottom="75dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/menuID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="254dp"
+        android:layout_marginLeft="254dp"
+
+        android:layout_marginBottom="137dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/startID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="44dp"
+        android:layout_height="47dp"
+
+        android:layout_marginEnd="254dp"
+        android:layout_marginRight="254dp"
+        android:layout_marginBottom="137dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/ic_gamepad_buttons_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/saveButtonID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="22dp"
+
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/ic_save_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/editButtonID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/ic_edit_key_default"
+        app:layout_constraintEnd_toStartOf="@+id/saveButtonID"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/cancelButtonID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="10dp"
+
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="22dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/ic_cancel_default"
+        app:layout_constraintStart_toEndOf="@+id/saveButtonID"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/gamepadMenuID"
+        style="@style/GeneralIconStyle"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+
+        android:layout_marginTop="92dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/ic_menu_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+        <GridView
+        android:id="@+id/keyGridID"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="150dp"
+        android:gravity="center"
+        android:numColumns="6"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        android:stretchMode="columnWidth" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

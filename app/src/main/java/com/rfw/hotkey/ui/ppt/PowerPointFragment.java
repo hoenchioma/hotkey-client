@@ -1,13 +1,18 @@
 package com.rfw.hotkey.ui.ppt;
 
 import android.annotation.SuppressLint;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,22 +21,35 @@ import androidx.fragment.app.Fragment;
 
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
+import com.rfw.hotkey.util.misc.DispatchKeyEventHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * A fragment to help user to control ppt slides and also use pointer
+ * feature : page change, laser pointer, full Screen
+ *
+ * @author  Shadman Wadith
+ */
+public class PowerPointFragment extends Fragment
+        implements View.OnClickListener, View.OnTouchListener, DispatchKeyEventHandler {
 
-public class PowerPointFragment extends Fragment implements View.OnClickListener, View.OnTouchListener {
 
     private boolean mouseMoved = false;
     private boolean scrollMoved = false;
+    private boolean isPointerOn = false;
     private float initX = 0;
     private float initY = 0;
     private float disX;
     private float disY;
+    private CountDownTimer countDownTimer;
+    private boolean isTimerRunning;
+    private long timerPauseOffSet;
 
+    private Chronometer timer;
     private TextView touchpad;
-    private ImageButton fullScreenButton, upButton, leftButton, downButton, righButton;
+    private ImageButton fullScreenButton, upButton, leftButton, downButton, righButton, pointerButton;
     private Button fromThisSlideButton, fromTheBeginningButton;
     private Boolean isFullScreen;
 
@@ -43,6 +61,14 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
         View rootView = inflater.inflate(R.layout.fragment_power_point, container, false);
         initialization(rootView);
 
+
+        timer.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                resetTimer();
+                return false;
+            }
+        });
         touchpad.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("LongLogTag")
             @Override
@@ -56,7 +82,8 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
                         mouseMoved = false;
                         disX = 0;
                         disY = 0;
-                        Log.d("powerPoint Fragment pointer", disX + " " + disY);
+                        //sendMessageToServer("on","pointer_status");
+                        //Log.d("powerPoint Fragment pointer", disX + " " + disY);
                         break;
                     case MotionEvent.ACTION_MOVE:
                         disX = event.getX() - initX;
@@ -64,14 +91,14 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
                         initX = event.getX();
                         initY = event.getY();
                         try {
-                            sendMessageToServer("TouchpadMove", (int) disX, (int) disY);
+                            sendMessageToServer("pointer", (int) disX, (int) disY);
+                           // Log.d("powerPoint Fragment pointer", disX + " " + disY);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         mouseMoved = true;
-                        Log.d("powerPoint Fragment pointer", disX + " " + disY);
+                        //Log.d("powerPoint Fragment pointer", disX + " " + disY);
                         break;
-
 
                 }
                 return true;
@@ -83,6 +110,7 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
 
     private void initialization(View rootView) {
         isFullScreen = false;
+        timer = rootView.findViewById(R.id.ppt_timerID);
         touchpad = rootView.findViewById(R.id.pointerCursorID);
         fullScreenButton = rootView.findViewById(R.id.ppt_presentationButtonID);
         upButton = rootView.findViewById(R.id.ppt_upButtonID);
@@ -91,7 +119,18 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
         leftButton = rootView.findViewById(R.id.ppt_leftButtonID);
         downButton = rootView.findViewById(R.id.ppt_downButtonID);
         righButton = rootView.findViewById(R.id.ppt_rightButtonID);
+        pointerButton = rootView.findViewById(R.id.ppt_pointerID);
+        touchpad.setVisibility(View.INVISIBLE);
         //touchpad.setOnClickListener(this);
+
+//        Typeface myTypeface = Typeface.createFromAsset(this.getAssets(),
+//                "digital_font.ttf");
+//
+//        timer.setTypeface(myTypeface);
+
+
+        timer.setOnClickListener(this);
+        touchpad.setOnTouchListener(this);
         fullScreenButton.setOnClickListener(this);
         upButton.setOnClickListener(this);
         leftButton.setOnClickListener(this);
@@ -99,9 +138,9 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
         righButton.setOnClickListener(this);
         fromThisSlideButton.setOnClickListener(this);
         fromTheBeginningButton.setOnClickListener(this);
+        pointerButton.setOnClickListener(this);
     }
 
-    // TODO Create a POPUP menu for Slide full screen
     @Override
     public void onClick(View view) {
 
@@ -111,9 +150,6 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
             case R.id.ppt_presentationButtonID:
 
                 if (!isFullScreen) {
-                    //sendMessageToServer("F5", "modifier");
-                    //Log.d("onclick", "F5");
-                    //fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                     Toast.makeText(getActivity(), "Select Presentation Mode", Toast.LENGTH_SHORT).show();
                     if (fromThisSlideButton.getVisibility() == View.VISIBLE) {
                         fromTheBeginningButton.setVisibility(View.INVISIBLE);
@@ -126,7 +162,8 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
                 } else {
                     sendMessageToServer("ESC", "modifier");
                     Log.d("onclick", "ESC");
-                    fullScreenButton.setImageResource(R.drawable.ic_presentation_color);
+                    pauseTimer();
+                    fullScreenButton.setImageResource(R.drawable.ic_powerpoint_presentation_white);
                     Toast.makeText(getActivity(), "Normal Mode", Toast.LENGTH_SHORT).show();
                     isFullScreen = false;
                 }
@@ -136,6 +173,7 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
                 sendMessageToServer("current", "modifier");
                 Log.d("onclick", "current");
                 isFullScreen = true;
+                startTimer();
                 fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                 fromTheBeginningButton.setVisibility(View.INVISIBLE);
                 fromThisSlideButton.setVisibility(View.INVISIBLE);
@@ -144,6 +182,8 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
                 sendMessageToServer("beginning", "modifier");
                 Log.d("onclick", "beginning");
                 isFullScreen = true;
+                resetTimer();
+                startTimer();
                 fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                 fromTheBeginningButton.setVisibility(View.INVISIBLE);
                 fromThisSlideButton.setVisibility(View.INVISIBLE);
@@ -167,6 +207,26 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
                 //sendMessageToServer("modifier");
                 sendMessageToServer("RIGHT", "modifier");
                 Log.d("onclick", "RIGHT");
+                break;
+            case R.id.ppt_pointerID:
+                if(!isPointerOn){
+                    touchpad.setVisibility(View.VISIBLE);
+                    isPointerOn = true;
+                    sendMessageToServer("on","point");
+                }
+                else {
+                    touchpad.setVisibility(View.INVISIBLE);
+                    isPointerOn = false;
+                    sendMessageToServer("off","point");
+                }
+                break;
+            case R.id.ppt_timerID:
+                if(!isTimerRunning){
+                    startTimer();
+                }
+                else{
+                    pauseTimer();
+                }
                 break;
             default:
                 fromTheBeginningButton.setVisibility(View.INVISIBLE);
@@ -196,26 +256,84 @@ public class PowerPointFragment extends Fragment implements View.OnClickListener
             Log.e("PowerPointFragment", "sendMessageToServer: error sending key-press", e);
         }
     }
-
+    /**
+     * sends the message of specified action to Connection Manager
+     *
+     * @param moveX move x co-ordinate of pointer
+     * @param moveY move y co-ordinate of pointer
+     * @param action  type of the message
+     */
     private void sendMessageToServer(String action, int moveX, int moveY) throws JSONException {
         JSONObject packet = new JSONObject();
-        packet.put("type", "mouse");
-        switch (action) {
-            case "TouchpadMove":
-                try {
-                    packet.put("action", action);
-                    packet.put("deltaX", moveX);
-                    packet.put("deltaY", moveY);
-                } catch (JSONException e) {
-                    Log.e("PowerPointFragment", "sendMessageToServer: error sending mouse movement", e);
-                }
-                break;
+        try {
+            packet.put("type", "ppt");
+            packet.put("action", action);
+            packet.put("deltaX", moveX);
+            packet.put("deltaY", moveY);
+            ConnectionManager.getInstance().sendPacket(packet);
+
+        } catch (JSONException e) {
+            Log.e("PowerPointFragment", "sendMessageToServer: error sending key-press", e);
         }
+
+//        packet.put("type", "ppt");
+//        switch (action) {
+//            case "pointer":
+//                try {
+//                    packet.put("action", action);
+//                    packet.put("deltaX", moveX);
+//                    packet.put("deltaY", moveY);
+//                    Log.d("powerPoint", moveX + " " + moveY);
+//                    ConnectionManager.getInstance().sendPacket(packet);
+//                } catch (JSONException e) {
+//                    Log.e("PowerPointFragment", "sendMessageToServer: error sending pointer movement", e);
+//                }
+//                break;
+//        }
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
         return false;
+    }
+
+    /**
+     * Method to be invoked by dispatchKeyEvent from enclosing activity
+     * (return null means not handled)
+     */
+    @Override
+    public Boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                leftButton.performClick();
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                righButton.performClick();
+                return true;
+            default:
+                return DispatchKeyEventHandler.super.dispatchKeyEvent(event);
+        }
+    }
+
+    void startTimer(){
+        if(!isTimerRunning)
+        {
+            timer.setBase(SystemClock.elapsedRealtime()-timerPauseOffSet);
+            timer.start();
+            isTimerRunning = true;
+        }
+    }
+    void pauseTimer(){
+        if(isTimerRunning){
+            timer.stop();
+            timerPauseOffSet = SystemClock.elapsedRealtime()-timer.getBase();
+            isTimerRunning = false;
+        }
+    }
+    void resetTimer(){
+        timer.setBase(SystemClock.elapsedRealtime());
+        timerPauseOffSet = 0;
     }
 }

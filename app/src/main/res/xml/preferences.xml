@@ -11,6 +11,12 @@
             app:onlyNum="true"
             app:defaultValue="2000" />
 
+        <CheckBoxPreference
+            app:key="@string/settings_key_enter_ip"
+            app:title="@string/settings_title_enter_ip"
+            app:summary="@string/settings_summary_enter_ip"
+            app:defaultValue="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_title_live_screen">
@@ -30,6 +36,37 @@
             android:max="100"
             app:showSeekBarValue="true"
             app:defaultValue="25" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/settings_title_pdf">
+
+        <ListPreference
+            app:key="@string/settings_key_pdf_platform"
+            app:title="@string/settings_title_pdf_platform"
+            app:summary="%s"
+            app:entries="@array/settings_pdf_platform_entries"
+            app:entryValues="@array/settings_pdf_platform_values"
+            app:defaultValue="1"
+            app:dialogTitle="@string/settings_dialog_title_pdf_platform" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/settings_title_gamepad">
+
+        <Preference
+            app:key="@string/settings_key_gamepad_edit_layout"
+            app:title="@string/settings_title_gamepad_edit_layout"
+            app:summary="@string/settings_summary_gamepad_edit_layout">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="com.rfw.hotkey"
+                android:targetClass="com.rfw.hotkey.ui.gamepad.GamepadActivity">
+                <extra
+                    android:name="gamepadEditLayout"
+                    android:value="true" />
+            </intent>
+        </Preference>
 
     </PreferenceCategory>
 

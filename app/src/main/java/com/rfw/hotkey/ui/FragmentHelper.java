@@ -11,11 +11,17 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A helper class for switching and handling fragments
+ *
+ * @author Raheeb Hassan
+ */
 public class FragmentHelper {
     private Activity activity;
     private FragmentManager fragmentManager;
     private int fragmentContainerID;
 
+    // hashmap for saving the states of the fragments
     private Map<Class, Fragment.SavedState> fragmentSavedStates = new HashMap<>();
     private String currentFragmentTag = null;
 
@@ -30,6 +36,11 @@ public class FragmentHelper {
      *
      * @param saveState whether the state of the previous fragment will be saved
      * @param restoreState whether the state of the new fragment will be loaded (if saved before)
+     * @param anim integer array with the ids for the animations (size = 2 or 4)
+     *             anim[0]: entry animation for new fragment
+     *             anim[1]: exit animation for old fragment
+     *             (if size == 4)
+     *             anim[2], anim[3]: same as anim[0], anim[1] but for when reversing fragment transition using backstack
      */
     public void replaceFragment(@NonNull Fragment newFragment, boolean saveState, boolean restoreState, boolean addToBackStack, int[] anim) {
         if (anim != null && anim.length != 4 && anim.length != 2) throw new AssertionError();
@@ -98,5 +109,19 @@ public class FragmentHelper {
 //                return fragment;
 //        }
 //        return null;
+    }
+
+    public void popBackStack() {
+        fragmentManager.popBackStack();
+    }
+
+    public void clearBackStack() {
+        for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+            fragmentManager.popBackStack();
+        }
+    }
+
+    public Fragment getCurrentFragment() {
+        return fragmentManager.findFragmentByTag(currentFragmentTag);
     }
 }
