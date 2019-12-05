@@ -33,41 +33,170 @@
                 android:layout_height="match_parent"
                 android:layout_weight="4" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/escButtonID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="ESC" />
+                android:src="@drawable/ic_exit_to_app_white_24dp"
+                style="@style/GeneralIconStyle"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
 
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="5" />
+                android:layout_weight="2" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/copyButtonID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/copy" />
-
+                android:src="@drawable/ic_content_copy_white_24dp"
+                style="@style/GeneralIconStyle"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
 
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="5" />
+                android:layout_weight="2" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/homeButtonID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/home" />
+                android:src="@drawable/ic_home_white_24dp"
+                style="@style/GeneralIconStyle"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
+
+            <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+            <ImageButton
+                android:id="@+id/pasteButtonID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_content_paste_white_24dp"
+                style="@style/GeneralIconStyle"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2" />
+
+            <ImageButton
+                android:id="@+id/tabButtonID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_keyboard_tab_white_24dp"
+                style="@style/GeneralIconStyle"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
+
+
 
         </LinearLayout>
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="20">
+
+
+            <ImageButton
+                android:id="@+id/upButtonID"
+                style="@style/GeneralIconStyle"
+                android:layout_centerHorizontal="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:rotation="-90"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:src="@drawable/ic_forward_white_24dp">
+
+            </ImageButton>
+
+
+        </RelativeLayout>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5" />
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="16">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="6" />
+
+            <ImageButton
+                android:id="@+id/leftButtonID"
+                style="@style/GeneralIconStyle"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:rotation="180"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:src="@drawable/ic_forward_white_24dp">
+
+            </ImageButton>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+
+            <ImageButton
+                android:id="@+id/downButtonID"
+                style="@style/GeneralIconStyle"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:rotation="90"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:src="@drawable/ic_forward_white_24dp">
+
+            </ImageButton>
+
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+
+            <ImageButton
+                android:id="@+id/rightButtonID"
+                style="@style/GeneralIconStyle"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:src="@drawable/ic_forward_white_24dp">
+
+            </ImageButton>
+
+        </LinearLayout>
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -79,7 +208,7 @@
                 android:layout_weight="4" />
 
             <Button
-                android:id="@+id/tabButtonID"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -91,7 +220,7 @@
                 android:layout_weight="5" />
 
             <Button
-                android:id="@+id/pasteButtonID"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -136,7 +265,7 @@
                 android:layout_weight="5" />
 
             <Button
-                android:id="@+id/upButtonID"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -169,7 +298,7 @@
                 android:layout_weight="4" />
 
             <Button
-                android:id="@+id/leftButtonID"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -181,7 +310,7 @@
                 android:layout_weight="5" />
 
             <Button
-                android:id="@+id/downButtonID"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -194,13 +323,13 @@
                 android:layout_weight="5" />
 
             <Button
-                android:id="@+id/rightButtonID"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/key_right" />
 
-        </LinearLayout>
+        </LinearLayout>-->
 
         <!-- dummy view for capturing click -->
         <LinearLayout
