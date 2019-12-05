@@ -1,7 +1,10 @@
 package com.rfw.hotkey.ui.ppt;
 
 import android.annotation.SuppressLint;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -9,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +35,7 @@ import org.json.JSONObject;
 public class PowerPointFragment extends Fragment
         implements View.OnClickListener, View.OnTouchListener, DispatchKeyEventHandler {
 
+
     private boolean mouseMoved = false;
     private boolean scrollMoved = false;
     private boolean isPointerOn = false;
@@ -38,7 +43,11 @@ public class PowerPointFragment extends Fragment
     private float initY = 0;
     private float disX;
     private float disY;
+    private CountDownTimer countDownTimer;
+    private boolean isTimerRunning;
+    private long timerPauseOffSet;
 
+    private Chronometer timer;
     private TextView touchpad;
     private ImageButton fullScreenButton, upButton, leftButton, downButton, righButton, pointerButton;
     private Button fromThisSlideButton, fromTheBeginningButton;
@@ -52,6 +61,14 @@ public class PowerPointFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_power_point, container, false);
         initialization(rootView);
 
+
+        timer.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                resetTimer();
+                return false;
+            }
+        });
         touchpad.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("LongLogTag")
             @Override
@@ -93,6 +110,7 @@ public class PowerPointFragment extends Fragment
 
     private void initialization(View rootView) {
         isFullScreen = false;
+        timer = rootView.findViewById(R.id.ppt_timerID);
         touchpad = rootView.findViewById(R.id.pointerCursorID);
         fullScreenButton = rootView.findViewById(R.id.ppt_presentationButtonID);
         upButton = rootView.findViewById(R.id.ppt_upButtonID);
@@ -104,6 +122,14 @@ public class PowerPointFragment extends Fragment
         pointerButton = rootView.findViewById(R.id.ppt_pointerID);
         touchpad.setVisibility(View.INVISIBLE);
         //touchpad.setOnClickListener(this);
+
+//        Typeface myTypeface = Typeface.createFromAsset(this.getAssets(),
+//                "digital_font.ttf");
+//
+//        timer.setTypeface(myTypeface);
+
+
+        timer.setOnClickListener(this);
         touchpad.setOnTouchListener(this);
         fullScreenButton.setOnClickListener(this);
         upButton.setOnClickListener(this);
@@ -136,7 +162,8 @@ public class PowerPointFragment extends Fragment
                 } else {
                     sendMessageToServer("ESC", "modifier");
                     Log.d("onclick", "ESC");
-                    fullScreenButton.setImageResource(R.drawable.ic_presentation_color);
+                    pauseTimer();
+                    fullScreenButton.setImageResource(R.drawable.ic_powerpoint_presentation_white);
                     Toast.makeText(getActivity(), "Normal Mode", Toast.LENGTH_SHORT).show();
                     isFullScreen = false;
                 }
@@ -146,6 +173,7 @@ public class PowerPointFragment extends Fragment
                 sendMessageToServer("current", "modifier");
                 Log.d("onclick", "current");
                 isFullScreen = true;
+                startTimer();
                 fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                 fromTheBeginningButton.setVisibility(View.INVISIBLE);
                 fromThisSlideButton.setVisibility(View.INVISIBLE);
@@ -154,6 +182,8 @@ public class PowerPointFragment extends Fragment
                 sendMessageToServer("beginning", "modifier");
                 Log.d("onclick", "beginning");
                 isFullScreen = true;
+                resetTimer();
+                startTimer();
                 fullScreenButton.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
                 fromTheBeginningButton.setVisibility(View.INVISIBLE);
                 fromThisSlideButton.setVisibility(View.INVISIBLE);
@@ -188,6 +218,14 @@ public class PowerPointFragment extends Fragment
                     touchpad.setVisibility(View.INVISIBLE);
                     isPointerOn = false;
                     sendMessageToServer("off","point");
+                }
+                break;
+            case R.id.ppt_timerID:
+                if(!isTimerRunning){
+                    startTimer();
+                }
+                else{
+                    pauseTimer();
                 }
                 break;
             default:
@@ -277,5 +315,25 @@ public class PowerPointFragment extends Fragment
             default:
                 return DispatchKeyEventHandler.super.dispatchKeyEvent(event);
         }
+    }
+
+    void startTimer(){
+        if(!isTimerRunning)
+        {
+            timer.setBase(SystemClock.elapsedRealtime()-timerPauseOffSet);
+            timer.start();
+            isTimerRunning = true;
+        }
+    }
+    void pauseTimer(){
+        if(isTimerRunning){
+            timer.stop();
+            timerPauseOffSet = SystemClock.elapsedRealtime()-timer.getBase();
+            isTimerRunning = false;
+        }
+    }
+    void resetTimer(){
+        timer.setBase(SystemClock.elapsedRealtime());
+        timerPauseOffSet = 0;
     }
 }
