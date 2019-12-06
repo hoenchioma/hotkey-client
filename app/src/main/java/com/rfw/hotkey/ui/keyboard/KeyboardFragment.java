@@ -1,8 +1,10 @@
 package com.rfw.hotkey.ui.keyboard;
 
 import android.os.Bundle;
+import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -31,28 +35,32 @@ import java.util.Set;
  *
  * @author Shadman Wadith
  */
-public class KeyboardFragment extends Fragment implements View.OnClickListener {
+public class KeyboardFragment extends Fragment implements
+        View.OnClickListener,
+        View.OnTouchListener {
 
-    private static final String TAG = KeyboardFragment.class.getCanonicalName();
+    private static final String TAG = "KeyboardFragment";
 
     private KeyboardView keyboardView;
 
-    private Button copyButton;
-    private Button escButton;
-    private Button tabButton;
-    private Button pasteButton;
-    private Button pgupButton;
-    private Button shiftButton;
-    private Button ctrlButton;
-    private Button upButton;
-    private Button pgdnButton;
-    private Button leftButton;
-    private Button downButton;
-    private Button righButton;
+    private Set<String> modifiers = new HashSet<>(); // set containing the active modifiers
+    private Set<String> pressedKeys = new HashSet<>(); // set containing the currently pressed keys
 
-    private LinearLayout emptySpace;
-
-    private Set<String> modifiers = new HashSet<>();
+    // saves the corresponding keyword for a button
+    private static final SparseArray<String> keyword = new SparseArray<String>() {{
+        append(R.id.escButtonID  , "ESC"   );
+        append(R.id.tabButtonID  , "TAB"   );
+        append(R.id.copyButtonID , "COPY"  );
+        append(R.id.pasteButtonID, "PASTE" );
+        append(R.id.pgupButtonID , "PGUP"  );
+        append(R.id.pgdnButtonID , "PGDN"  );
+        append(R.id.upButtonID   , "UP"    );
+        append(R.id.leftButtonID , "LEFT"  );
+        append(R.id.downButtonID , "DOWN"  );
+        append(R.id.rightButtonID, "RIGHT" );
+        append(R.id.shiftButtonID, "SHIFT" );
+        append(R.id.ctrlButtonID , "CTRL"  );
+    }};
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -60,9 +68,59 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
                              @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_keyboard, container, false);
+
         init(rootView);
 
-        // handle key presses
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        keyboardView.performClick();
+    }
+
+    /**
+     * Initialize the buttons and onclick listeners
+     */
+    private void init(View rootView) {
+        keyboardView = rootView.findViewById(R.id.keyboardView);
+        LinearLayout emptySpace = rootView.findViewById(R.id.emptySpace);
+
+        // buttons
+        Button copyButton = rootView.findViewById(R.id.copyButtonID);
+        Button pasteButton = rootView.findViewById(R.id.pasteButtonID);
+        Button escButton = rootView.findViewById(R.id.escButtonID);
+        Button tabButton = rootView.findViewById(R.id.tabButtonID);
+        Button shiftButton = rootView.findViewById(R.id.shiftButtonID);
+        Button ctrlButton = rootView.findViewById(R.id.ctrlButtonID);
+        Button pgupButton = rootView.findViewById(R.id.pgupButtonID);
+        Button pgdnButton = rootView.findViewById(R.id.pgdnButtonID);
+        Button upButton = rootView.findViewById(R.id.upButtonID);
+        Button leftButton = rootView.findViewById(R.id.leftButtonID);
+        Button downButton = rootView.findViewById(R.id.downButtonID);
+        Button rightButton = rootView.findViewById(R.id.rightButtonID);
+
+        // onClick listeners
+        copyButton.setOnClickListener(this);
+        escButton.setOnClickListener(this);
+        tabButton.setOnClickListener(this);
+        shiftButton.setOnClickListener(this);
+        ctrlButton.setOnClickListener(this);
+        pasteButton.setOnClickListener(this);
+        pgupButton.setOnClickListener(this);
+        pgdnButton.setOnClickListener(this);
+//        upButton.setOnClickListener(this);
+//        leftButton.setOnClickListener(this);
+//        downButton.setOnClickListener(this);
+//        rightButton.setOnClickListener(this);
+
+        upButton.setOnTouchListener(this);
+        downButton.setOnTouchListener(this);
+        leftButton.setOnTouchListener(this);
+        rightButton.setOnTouchListener(this);
+
+        // handle raw key presses from soft keyboard
         keyboardView.setOnKeyListener((v, keyCode, event) -> {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
                 if (event.getUnicodeChar() == 0) { // control character
@@ -82,89 +140,61 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
         });
 
         emptySpace.setOnClickListener(v -> keyboardView.performClick());
-
-        return rootView;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        keyboardView.performClick();
-    }
-
-    private void init(View rootView) {
-        keyboardView = rootView.findViewById(R.id.keyboardView);
-        emptySpace = rootView.findViewById(R.id.emptySpace);
-
-        // buttons
-        copyButton = rootView.findViewById(R.id.copyButtonID);
-        pasteButton = rootView.findViewById(R.id.pasteButtonID);
-        escButton = rootView.findViewById(R.id.escButtonID);
-        tabButton = rootView.findViewById(R.id.tabButtonID);
-        shiftButton = rootView.findViewById(R.id.shiftButtonID);
-        ctrlButton = rootView.findViewById(R.id.ctrlButtonID);
-        pgupButton = rootView.findViewById(R.id.pgupButtonID);
-        pgdnButton = rootView.findViewById(R.id.pgdnButtonID);
-        upButton = rootView.findViewById(R.id.upButtonID);
-        leftButton = rootView.findViewById(R.id.leftButtonID);
-        downButton = rootView.findViewById(R.id.downButtonID);
-        righButton = rootView.findViewById(R.id.rightButtonID);
-
-        // onClick listeners
-        copyButton.setOnClickListener(this);
-        escButton.setOnClickListener(this);
-        tabButton.setOnClickListener(this);
-        shiftButton.setOnClickListener(this);
-        ctrlButton.setOnClickListener(this);
-        pasteButton.setOnClickListener(this);
-        pgupButton.setOnClickListener(this);
-        upButton.setOnClickListener(this);
-        pgdnButton.setOnClickListener(this);
-        leftButton.setOnClickListener(this);
-        downButton.setOnClickListener(this);
-        righButton.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.escButtonID:   sendKey("ESC");   break;
-            case R.id.tabButtonID:   sendKey("TAB");   break;
-            case R.id.copyButtonID:  sendKey("COPY");  break;
-            case R.id.pasteButtonID: sendKey("PASTE"); break;
-            case R.id.pgupButtonID:  sendKey("PGUP");  break;
-            case R.id.pgdnButtonID:  sendKey("PGDN");  break;
-            case R.id.upButtonID:    sendKey("UP");    break;
-            case R.id.leftButtonID:  sendKey("LEFT");  break;
-            case R.id.downButtonID:  sendKey("DOWN");  break;
-            case R.id.rightButtonID: sendKey("RIGHT"); break;
-            case R.id.shiftButtonID:
-                toggleModifier("SHIFT", (MaterialButton) view);
-                break;
-            case R.id.ctrlButtonID:
-                toggleModifier("CTRL", (MaterialButton) view);
-                break;
-            default:
-        }
-    }
-
-    private void toggleModifier(String keyword, MaterialButton button) {
-        if (!modifiers.contains(keyword)) {
-            modifiers.add(keyword);
-            button.setBackgroundTintList(
-                    ContextCompat.getColorStateList(
-                            Objects.requireNonNull(getContext()),
-                            R.color.white
-                    )
-            );
-            button.setTextColor(
-                    ContextCompat.getColorStateList(
-                            Objects.requireNonNull(getContext()),
-                            R.color.colorAccent
-                    )
-            );
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.shiftButtonID || id == R.id.ctrlButtonID) {
+            toggleModifier(keyword.get(id), (MaterialButton) v); // toggle modifier
         } else {
+            sendKey(keyword.get(id)); // send key press
+        }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        int id = v.getId();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                sendKeyPress(keyword.get(id));
+//                Log.d(TAG, "onTouch: action down on " + keyword.get(id));
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                sendKeyRelease(keyword.get(id));
+//                Log.d(TAG, "onTouch: action up on " + keyword.get(id));
+                break;
+        }
+        return false; // always return false so the button can handle the event
+    }
+
+    private void toggleModifier(@NonNull String keyword, @NonNull MaterialButton button) {
+        if (!modifiers.contains(keyword)) { // turn on modifier
+            modifiers.add(keyword);
+
+            // highlight button
+            button.setBackgroundTintList(
+                    ContextCompat.getColorStateList(
+                            Objects.requireNonNull(getContext()),
+                            R.color.white
+                    )
+            );
+            button.setTextColor(
+                    ContextCompat.getColorStateList(
+                            Objects.requireNonNull(getContext()),
+                            R.color.colorAccent
+                    )
+            );
+
+            // if there's a currently pressed key (send modifier change)
+            if (!pressedKeys.isEmpty()) {
+                sendModifier(keyword, false);
+            }
+        } else { // turn off modifier
             modifiers.remove(keyword);
+
+            // unhighlight button
             button.setBackgroundTintList(
                     ContextCompat.getColorStateList(
                             Objects.requireNonNull(getContext()),
@@ -177,19 +207,42 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
                             R.color.white
                     )
             );
+
+            // if there's a currently pressed key (send modifier change)
+            if (!pressedKeys.isEmpty()) {
+                sendModifier(keyword, true);
+            }
         }
     }
 
-    private void sendKey(String key) {
-        send("type", key);
+    private void sendKey(@NonNull String key) {
+        send("type", key, modifiers);
     }
 
-    private void sendKeyPress(String key) {
-        send("press", key);
+    private void sendKeyPress(@NonNull String key) {
+        if (pressedKeys.isEmpty()) {
+            send("press", key, modifiers);
+        } else {
+            send("press", key, null);
+        }
+        pressedKeys.add(key);
     }
 
-    private void sendKeyRelease(String key) {
-        send("release", key);
+    private void sendKeyRelease(@NonNull String key) {
+        pressedKeys.remove(key);
+        if (pressedKeys.isEmpty()) {
+            send("release", key, modifiers);
+        } else {
+            send("release", key, null);
+        }
+    }
+
+    private void sendModifier(@NonNull String modifier, boolean release) {
+        if (!release) {
+            send("press", null, Collections.singletonList(modifier));
+        } else {
+            send("release", null, Collections.singletonList(modifier));
+        }
     }
 
     /**
@@ -197,11 +250,15 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
      *
      * @param action the type of action (type, press, release)
      * @param key    key being sent
+     * @param modifiers modifiers to send with the packet
      */
-    private void send(String action, String key) {
+    private void send(@NonNull String action, @Nullable String key, @Nullable Collection<String> modifiers) {
         try {
-            JSONArray modifierArray = new JSONArray();
-            for (String i: modifiers) modifierArray.put(i);
+            JSONArray modifierArray = null;
+            if (modifiers != null) {
+                modifierArray = new JSONArray();
+                for (String i : modifiers) modifierArray.put(i);
+            }
             JSONObject packet = new JSONObject()
                     .put("type", "keyboard")
                     .put("action", action)
@@ -212,5 +269,4 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-
 }
