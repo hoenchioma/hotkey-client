@@ -41,6 +41,10 @@ public class KeyboardFragment extends Fragment implements
 
     private static final String TAG = "KeyboardFragment";
 
+    private static final String ACTION_PRESS = "press";
+    private static final String ACTION_RELEASE = "release";
+    private static final String ACTION_TYPE = "type";
+
     private KeyboardView keyboardView;
 
     private Set<String> modifiers = new HashSet<>(); // set containing the active modifiers
@@ -216,14 +220,14 @@ public class KeyboardFragment extends Fragment implements
     }
 
     private void sendKey(@NonNull String key) {
-        send("type", key, modifiers);
+        send(ACTION_TYPE, key, modifiers);
     }
 
     private void sendKeyPress(@NonNull String key) {
         if (pressedKeys.isEmpty()) {
-            send("press", key, modifiers);
+            send(ACTION_PRESS, key, modifiers);
         } else {
-            send("press", key, null);
+            send(ACTION_PRESS, key, null);
         }
         pressedKeys.add(key);
     }
@@ -231,17 +235,17 @@ public class KeyboardFragment extends Fragment implements
     private void sendKeyRelease(@NonNull String key) {
         pressedKeys.remove(key);
         if (pressedKeys.isEmpty()) {
-            send("release", key, modifiers);
+            send(ACTION_RELEASE, key, modifiers);
         } else {
-            send("release", key, null);
+            send(ACTION_RELEASE, key, null);
         }
     }
 
     private void sendModifier(@NonNull String modifier, boolean release) {
         if (!release) {
-            send("press", null, Collections.singletonList(modifier));
+            send(ACTION_PRESS, null, Collections.singletonList(modifier));
         } else {
-            send("release", null, Collections.singletonList(modifier));
+            send(ACTION_RELEASE, null, Collections.singletonList(modifier));
         }
     }
 
