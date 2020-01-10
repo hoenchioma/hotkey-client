@@ -361,7 +361,7 @@ public class GamepadActivity extends AppCompatActivity {
     }
 
     private void initialization() {
-        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.key_gamepad_data), MODE_PRIVATE);
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.gamepad_data_key), MODE_PRIVATE);
         keyBoardGrid.setVisibility(View.INVISIBLE);
         editButton.setVisibility(View.INVISIBLE);
         saveButton.setVisibility(View.INVISIBLE);
@@ -400,7 +400,7 @@ public class GamepadActivity extends AppCompatActivity {
     }
 
     private void saveData() throws JSONException {
-        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.key_gamepad_data), MODE_PRIVATE);
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.gamepad_data_key), MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         JSONObject buttonData;
         for (int i = 0; i < buttons.size() - 1; i++) {
