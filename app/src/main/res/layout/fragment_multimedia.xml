@@ -27,6 +27,7 @@
             android:layout_height="120dp"
             android:scaleX="1"
             android:scaleY="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
             style="@style/GeneralIconStyle"
             android:layout_weight="1"
             android:src="@drawable/play_pause_default" />
@@ -52,6 +53,7 @@
             android:scaleX="2"
             android:scaleY="2"
             android:layout_width="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
             style="@style/GeneralIconStyle"
             android:layout_height="80dp"
             android:layout_weight="1"
@@ -61,6 +63,7 @@
             android:id="@+id/nextID"
             android:scaleX="2"
             android:scaleY="2"
+            android:background="?attr/selectableItemBackgroundBorderless"
             style="@style/GeneralIconStyle"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
@@ -83,6 +86,7 @@
             android:id="@+id/volumeDownID"
             style="@style/GeneralIconStyle"
             android:layout_width="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_height="100dp"
             android:layout_weight="1"
             android:src="@drawable/ic_remove_default" />
@@ -93,6 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_volume_mute_default" />
 
         <ImageButton
@@ -101,6 +106,7 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="100dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_add_default" />
 
 

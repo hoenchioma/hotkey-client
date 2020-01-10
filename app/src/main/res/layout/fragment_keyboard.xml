@@ -30,7 +30,9 @@
             <Button
                 android:id="@+id/copyButtonID"
                 style="@style/ButtonGridStyle"
-                android:text="@string/copy" />
+                app:icon="@drawable/ic_content_copy_white_24dp"
+                app:iconGravity="textStart"
+                android:paddingRight="5dp"/>
 
             <Button
                 android:id="@+id/tabButtonID"
@@ -45,7 +47,9 @@
             <Button
                 android:id="@+id/pasteButtonID"
                 style="@style/ButtonGridStyle"
-                android:text="@string/paste" />
+                app:icon="@drawable/ic_content_paste_white_24dp"
+                app:iconGravity="textStart"
+                android:paddingRight="5dp" />
 
             <Button
                 android:id="@+id/pgdnButtonID"
