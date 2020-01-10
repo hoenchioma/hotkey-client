@@ -202,7 +202,7 @@ public class KeyboardFragment extends Fragment implements
             button.setBackgroundTintList(
                     ContextCompat.getColorStateList(
                             Objects.requireNonNull(getContext()),
-                            R.color.colorAccent
+                            android.R.color.transparent
                     )
             );
             button.setTextColor(
