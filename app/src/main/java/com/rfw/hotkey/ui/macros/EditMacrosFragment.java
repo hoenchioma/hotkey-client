@@ -59,18 +59,28 @@ public class EditMacrosFragment extends Fragment {
      */
 
     private static final String[] keyboardKeys = new String[]{
+            // numbers
             "0", "1", "2", "3", "4",
             "5", "6", "7", "8", "9",
 
-            "ESC", "ALT", "CTRL", "SHIFT", "DEL",
+            // special keys
+            "ESC",
             "INS", "HOME", "END", "PGUP", "PGDN",
+            "WIN", "ALT", "CTRL", "SHIFT",
+            "BSPACE", "DEL", "ENTER",
 
+            // alphabets
             "A", "B", "C", "D", "E",
             "F", "G", "H", "I", "J",
             "K", "L", "M", "N", "O",
             "P", "Q", "R", "S", "T",
             "U", "V", "W", "X", "Y",
-            "Z"
+            "Z",
+
+            // symbols
+            "=", "-", "[", "]",
+            ",", ".", "'", "`", ";",
+            "/", "\\",
     };
 
     private final List<String> keyboardLayout = new ArrayList<String>(Arrays.asList(keyboardKeys));
