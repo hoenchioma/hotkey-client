@@ -16,4 +16,14 @@ public interface Constants {
         float COMPRESS_RATIO = IMAGE_QUALITY / 100.0f;
         int SOCKET_RECEIVE_TIMEOUT = 5000;
     }
+
+    interface Gamepad {
+        int RIGHT_STICK_SENSITIVITY_PERC = 100;
+        double RIGHT_STICK_SENSITIVITY = 1.0;
+    }
+
+    interface Mouse {
+        int MOUSE_SENSITIVITY_PERC = 100;
+        double MOUSE_SENSITVITY = 1.0;
+    }
 }

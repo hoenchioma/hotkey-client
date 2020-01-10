@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.rfw.hotkey.ui.keyboard.KeyboardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.rfw.hotkey.ui.keyboard.KeyboardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/keyboardView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.keyboard.KeyboardFragment">
 
     <!-- request focus by default -->
     <requestFocus />
@@ -13,331 +14,95 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="20"
-        tools:context="com.rfw.hotkey.ui.keyboard.KeyboardFragment">
+        android:orientation="vertical">
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <LinearLayout
+        <androidx.gridlayout.widget.GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="20">
+            android:padding="7dp"
+            app:columnCount="3">
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4" />
-
-            <ImageButton
+            <Button
                 android:id="@+id/escButtonID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_exit_to_app_white_24dp"
-                style="@style/GeneralIconStyle"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
+                style="@style/ButtonGridStyle"
+                android:text="@string/esc" />
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2" />
-
-            <ImageButton
+            <Button
                 android:id="@+id/copyButtonID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_content_copy_white_24dp"
-                style="@style/GeneralIconStyle"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
+                style="@style/ButtonGridStyle"
+                app:icon="@drawable/ic_content_copy_white_24dp"
+                app:iconGravity="textStart"
+                android:paddingRight="5dp"/>
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2" />
-
-            <ImageButton
-                android:id="@+id/homeButtonID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_home_white_24dp"
-                style="@style/GeneralIconStyle"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
-
-            <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2" />
-
-            <ImageButton
-                android:id="@+id/pasteButtonID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_content_paste_white_24dp"
-                style="@style/GeneralIconStyle"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2" />
-
-            <ImageButton
+            <Button
                 android:id="@+id/tabButtonID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_keyboard_tab_white_24dp"
-                style="@style/GeneralIconStyle"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
-
-
-
-        </LinearLayout>
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="20">
-
-
-            <ImageButton
-                android:id="@+id/upButtonID"
-                style="@style/GeneralIconStyle"
-                android:layout_centerHorizontal="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:rotation="-90"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
-                android:src="@drawable/ic_forward_white_24dp">
-
-            </ImageButton>
-
-
-        </RelativeLayout>
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="16">
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="6" />
-
-            <ImageButton
-                android:id="@+id/leftButtonID"
-                style="@style/GeneralIconStyle"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:rotation="180"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
-                android:src="@drawable/ic_forward_white_24dp">
-
-            </ImageButton>
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2" />
-
-            <ImageButton
-                android:id="@+id/downButtonID"
-                style="@style/GeneralIconStyle"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:rotation="90"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
-                android:src="@drawable/ic_forward_white_24dp">
-
-            </ImageButton>
-
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2" />
-
-            <ImageButton
-                android:id="@+id/rightButtonID"
-                style="@style/GeneralIconStyle"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
-                android:src="@drawable/ic_forward_white_24dp">
-
-            </ImageButton>
-
-        </LinearLayout>
-        <!--<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="20">
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4" />
-
-            <Button
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/ButtonGridStyle"
                 android:text="@string/tab" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5" />
-
-            <Button
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/paste" />
-
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5" />
 
             <Button
                 android:id="@+id/pgupButtonID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/ButtonGridStyle"
                 android:text="@string/pgup" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="20">
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4" />
-
             <Button
-                android:id="@+id/shiftButtonID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/shift" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5" />
-
-            <Button
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/up" />
-
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5" />
+                android:id="@+id/pasteButtonID"
+                style="@style/ButtonGridStyle"
+                app:icon="@drawable/ic_content_paste_white_24dp"
+                app:iconGravity="textStart"
+                android:paddingRight="5dp" />
 
             <Button
                 android:id="@+id/pgdnButtonID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/ButtonGridStyle"
                 android:text="@string/pgdn" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="20">
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4" />
+            <Button
+                android:id="@+id/shiftButtonID"
+                style="@style/ButtonGridStyle"
+                android:text="@string/shift"/>
 
             <Button
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/left" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5" />
+                android:id="@+id/upButtonID"
+                style="@style/ButtonGridStyle"
+                app:icon="@drawable/ic_arrow_up_white"
+                app:iconGravity="textStart"
+                android:paddingRight="5dp" />
 
             <Button
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/key_down" />
-
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5" />
+                android:id="@+id/ctrlButtonID"
+                style="@style/ButtonGridStyle"
+                android:text="@string/ctrl"/>
 
             <Button
+                android:id="@+id/leftButtonID"
+                style="@style/ButtonGridStyle"
+                app:icon='@drawable/ic_arrow_left_white'
+                app:iconGravity='textStart'
+                android:paddingRight="5dp" />
 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/key_right" />
+            <Button
+                android:id="@+id/downButtonID"
+                style="@style/ButtonGridStyle"
+                app:icon='@drawable/ic_arrow_down_white'
+                app:iconGravity='textStart'
+                android:paddingRight="5dp" />
 
-        </LinearLayout>-->
+            <Button
+                android:id="@+id/rightButtonID"
+                style="@style/ButtonGridStyle"
+                app:icon='@drawable/ic_arrow_right_white'
+                app:iconGravity='textStart'
+                android:paddingRight="5dp" />
+
+        </androidx.gridlayout.widget.GridLayout>
 
         <!-- dummy view for capturing click -->
         <LinearLayout
             android:id="@+id/emptySpace"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="20"/>
+            android:layout_weight="1"
+            android:orientation="horizontal" />
 
     </LinearLayout>
 

@@ -49,6 +49,10 @@
     <string name="settings_title_enter_ip">Enter IP address and port</string>
     <string name="settings_summary_enter_ip">Enter IP address and port instead of scanning QR code</string>
 
+    <string name="settings_key_mouse_sensitivity">mouseSensitivity</string>
+    <string name="settings_title_mouse_sensitivity">Mouse/touchpad sensitivity</string>
+    <string name="settings_title_mouse">Mouse/Touchpad</string>
+
     <string name="settings_key_live_screen_fps">liveScreenFPS</string>
     <string name="settings_title_live_screen_fps">FPS</string>
     <string name="settings_summary_builder_live_screen_fps">%s Hz</string>
@@ -61,6 +65,9 @@
     <string name="settings_title_gamepad_edit_layout">Edit Gamepad layout</string>
     <string name="settings_summary_gamepad_edit_layout">Edit the layout of the buttons in the gamepad</string>
 
+    <string name="settings_key_gamepad_right_stick_sensitivity">gamepadRightStickSensitivity</string>
+    <string name="settings_title_gamepad_right_stick_sensitivity">Right stick sensitivity</string>
+
     <string name="settings_key_pdf_platform">pdfPlatform</string>
     <string name="settings_title_pdf_platform">PDF Reader Program</string>
     <string name="settings_dialog_title_pdf_platform">Choose the PDF reader program to control</string>
@@ -72,6 +79,8 @@
     <string name="edit_macro_name">Enter Macro Name</string>
     <string name="save_macro">Save</string>
     <string name="cancel_macro">Cancel</string>
+
+    <!-- PDF -->
     <string name="goto_page">Goto Page :</string>
     <string name="page_number">Page Number</string>
     <string name="beginning">Beginning</string>
@@ -81,6 +90,8 @@
     <string name="evince_reader">Evince Reader</string>
     <string name="fit_width">FIT Width</string>
     <string name="fit_height">FIT Height</string>
+
+    <!-- Keyboard -->
     <string name="copy">Copy</string>
     <string name="home">Home</string>
     <string name="tab">Tab</string>
@@ -92,4 +103,9 @@
     <string name="left">Left</string>
     <string name="key_down">Down</string>
     <string name="key_right">Right</string>
+    <string name="esc">ESC</string>
+    <string name="ctrl">Ctrl</string>
+
+    <!-- Gamepad -->
+    <string name="gamepad_data_key">gamepadData</string>
 </resources>
