@@ -68,6 +68,14 @@
             </intent>
         </Preference>
 
+        <SeekBarPreference
+            app:key="@string/settings_key_gamepad_right_stick_sensitivity"
+            app:title="@string/settings_title_gamepad_right_stick_sensitivity"
+            app:min="10"
+            android:max="200"
+            app:showSeekBarValue="true"
+            app:defaultValue="100" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

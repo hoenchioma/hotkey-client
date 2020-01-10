@@ -61,6 +61,9 @@
     <string name="settings_title_gamepad_edit_layout">Edit Gamepad layout</string>
     <string name="settings_summary_gamepad_edit_layout">Edit the layout of the buttons in the gamepad</string>
 
+    <string name="settings_key_gamepad_right_stick_sensitivity">gamepadRightStickSensitivity</string>
+    <string name="settings_title_gamepad_right_stick_sensitivity">Right stick sensitivity</string>
+
     <string name="settings_key_pdf_platform">pdfPlatform</string>
     <string name="settings_title_pdf_platform">PDF Reader Program</string>
     <string name="settings_dialog_title_pdf_platform">Choose the PDF reader program to control</string>
