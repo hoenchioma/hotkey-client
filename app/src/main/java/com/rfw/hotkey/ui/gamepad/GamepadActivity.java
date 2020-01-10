@@ -75,6 +75,7 @@ public class GamepadActivity extends AppCompatActivity {
 
             "ESC", "ALT", "CTRL", "SHIFT", "DEL",
             "INS", "HOME", "END", "PGUP", "PGDN",
+            "SPACE", "TAB", "ENTER", "BSPACE",
 
             "A", "B", "C", "D", "E",
             "F", "G", "H", "I", "J",
@@ -83,7 +84,7 @@ public class GamepadActivity extends AppCompatActivity {
             "U", "V", "W", "X", "Y",
             "Z",
 
-            "UP","DOWN","LEFT","RIGHT"
+            "UP", "DOWN", "LEFT", "RIGHT"
     };
 
     final List<String> gridKeys = new ArrayList<String>(Arrays.asList(keyboardKeys));
