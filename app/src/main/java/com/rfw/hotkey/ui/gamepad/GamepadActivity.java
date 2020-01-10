@@ -250,7 +250,9 @@ public class GamepadActivity extends AppCompatActivity {
 
         // load and set right stick sensitivity
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        int rightStickSensitivityPerc = getIntPref(sharedPref, getString(R.string.settings_key_gamepad_right_stick_sensitivity), Constants.Gamepad.RIGHT_STICK_SENSITIVITY_PERC);
+        int rightStickSensitivityPerc = getIntPref(sharedPref,
+                getString(R.string.settings_key_gamepad_right_stick_sensitivity),
+                Constants.Gamepad.RIGHT_STICK_SENSITIVITY_PERC);
         rightStickSensitivity = rightStickSensitivityPerc / 100.0;
     }
 
@@ -283,8 +285,10 @@ public class GamepadActivity extends AppCompatActivity {
                             case MotionEvent.ACTION_UP:
                             case MotionEvent.ACTION_CANCEL:
                                 String key = actions.get(Integer.parseInt((String) view.getTag()));
-                                sendKey(KEY_ACTION_RELEASE, key);
-                                pressedButtons.remove(key);
+                                if (!key.isEmpty()) {
+                                    sendKey(KEY_ACTION_RELEASE, key);
+                                    pressedButtons.remove(key);
+                                }
                                 break;
                         }
                     } else {
@@ -357,7 +361,7 @@ public class GamepadActivity extends AppCompatActivity {
     }
 
     private void initialization() {
-        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("HotkeyGamepadData", MODE_PRIVATE);
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.key_gamepad_data), MODE_PRIVATE);
         keyBoardGrid.setVisibility(View.INVISIBLE);
         editButton.setVisibility(View.INVISIBLE);
         saveButton.setVisibility(View.INVISIBLE);
@@ -396,7 +400,7 @@ public class GamepadActivity extends AppCompatActivity {
     }
 
     private void saveData() throws JSONException {
-        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("HotkeyGamepadData", MODE_PRIVATE);
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.key_gamepad_data), MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         JSONObject buttonData;
         for (int i = 0; i < buttons.size() - 1; i++) {

@@ -97,4 +97,7 @@
     <string name="key_right">Right</string>
     <string name="esc">ESC</string>
     <string name="ctrl">Ctrl</string>
+
+    <!-- Gamepad -->
+    <string name="key_gamepad_data">gamepadData</string>
 </resources>
