@@ -21,4 +21,9 @@ public interface Constants {
         int RIGHT_STICK_SENSITIVITY_PERC = 100;
         double RIGHT_STICK_SENSITIVITY = 1.0;
     }
+
+    interface Mouse {
+        int MOUSE_SENSITIVITY_PERC = 100;
+        double MOUSE_SENSITVITY = 1.0;
+    }
 }

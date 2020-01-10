@@ -49,6 +49,10 @@
     <string name="settings_title_enter_ip">Enter IP address and port</string>
     <string name="settings_summary_enter_ip">Enter IP address and port instead of scanning QR code</string>
 
+    <string name="settings_key_mouse_sensitivity">mouseSensitivity</string>
+    <string name="settings_title_mouse_sensitivity">Mouse/touchpad sensitivity</string>
+    <string name="settings_title_mouse">Mouse/Touchpad</string>
+
     <string name="settings_key_live_screen_fps">liveScreenFPS</string>
     <string name="settings_title_live_screen_fps">FPS</string>
     <string name="settings_summary_builder_live_screen_fps">%s Hz</string>

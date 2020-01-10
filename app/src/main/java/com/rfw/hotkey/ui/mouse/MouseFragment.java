@@ -1,6 +1,7 @@
 package com.rfw.hotkey.ui.mouse;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,12 +12,18 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.rfw.hotkey.R;
 import com.rfw.hotkey.net.ConnectionManager;
+import com.rfw.hotkey.util.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Objects;
+
+import static com.rfw.hotkey.util.Utils.getIntPref;
 
 /**
  * Fragment which creates a touchpad screen
@@ -27,6 +34,8 @@ import org.json.JSONObject;
 public class MouseFragment extends Fragment {
 
     private static final String TAG = "MouseFragment";
+
+    private double mouseSensitivity = 1.0;
 
     private boolean mouseMoved = false;
     private boolean scrollMoved = false;
@@ -184,6 +193,13 @@ public class MouseFragment extends Fragment {
             }
         });
 
+        // load and set right stick sensitivity
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getActivity()));
+        int mouseSensitivityPerc = getIntPref(sharedPref,
+                getString(R.string.settings_key_mouse_sensitivity),
+                Constants.Mouse.MOUSE_SENSITIVITY_PERC);
+        mouseSensitivity = mouseSensitivityPerc / 100.0;
+
         return v;
     }
 
@@ -195,8 +211,8 @@ public class MouseFragment extends Fragment {
             case "TouchpadMove":
                 try {
                     packet.put("action", action);
-                    packet.put("deltaX", moveX);
-                    packet.put("deltaY", moveY);
+                    packet.put("deltaX", (int) (moveX * mouseSensitivity));
+                    packet.put("deltaY", (int) (moveY * mouseSensitivity));
                 } catch (JSONException e) {
                     Log.e("MouseFragment", "sendMessageToServer: error sending mouse movement", e);
                 }
