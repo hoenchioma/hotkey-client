@@ -172,9 +172,9 @@ public class LiveScreenActivity extends AppCompatActivity {
         // mouse control logic
         mContentView.setOnTouchListener((v, event) -> {
             if (event.getPointerCount() > 1) {
-                //Toast.makeText(getContext(),"RightClick", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"rightClick", Toast.LENGTH_SHORT).show();
                 try {
-                    sendMouse("RightClick", 0, 0);
+                    sendMouse("rightClick", 0, 0);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -192,7 +192,7 @@ public class LiveScreenActivity extends AppCompatActivity {
                     mouseInitX = event.getX();
                     mouseInitY = event.getY();
                     try {
-                        sendMouse("TouchpadMove", (int) mouseDisX, (int) mouseDisY);
+                        sendMouse("touchpadMove", (int) mouseDisX, (int) mouseDisY);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -200,7 +200,7 @@ public class LiveScreenActivity extends AppCompatActivity {
                 case MotionEvent.ACTION_UP:
                     if (mouseDisX == 0 && mouseDisY == 0) {
                         try {
-                            sendMouse("LeftClick", 0, 0);
+                            sendMouse("leftClick", 0, 0);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -315,7 +315,7 @@ public class LiveScreenActivity extends AppCompatActivity {
         JSONObject packet = new JSONObject();
         packet.put("type", "mouse");
         switch (action) {
-            case "TouchpadMove":
+            case "touchpadMove":
                 try {
                     packet.put("action", action);
                     packet.put("deltaX", (int) (moveX * mouseSensitivity));
@@ -324,21 +324,21 @@ public class LiveScreenActivity extends AppCompatActivity {
                     Log.e("MouseFragment", "sendMouse: error sending mouse movement", e);
                 }
                 break;
-            case "RightClick":
+            case "rightClick":
                 try {
                     packet.put("action", action);
                 } catch (JSONException e) {
                     Log.e("MouseFragment", "sendMouse: error sending right click", e);
                 }
                 break;
-            case "LeftClick":
+            case "leftClick":
                 try {
                     packet.put("action", action);
                 } catch (JSONException e) {
                     Log.e("MouseFragment", "sendMouse: error sending left click", e);
                 }
                 break;
-//            case "ScrollMove":
+//            case "scrollMove":
 //                try {
 //                    packet.put("action", action);
 //                    packet.put("deltaY", moveY);
@@ -346,7 +346,7 @@ public class LiveScreenActivity extends AppCompatActivity {
 //                    Log.e("MouseFragment", "sendMouse: error sending scroll movement", e);
 //                }
 //                break;
-//            case "ScrollClick":
+//            case "scrollClick":
 //                try {
 //                    packet.put("action", action);
 //                } catch (JSONException e) {

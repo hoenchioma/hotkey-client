@@ -444,7 +444,7 @@ public class GamepadActivity extends AppCompatActivity {
         try {
             JSONObject packet = new JSONObject()
                 .put("type", "mouse")
-                .put("action", "TouchpadMove")
+                .put("action", "touchpadMove")
                 .put("deltaX", (int) (deltaX * sensitivity))
                 .put("deltaY", (int) (deltaY * sensitivity));
             ConnectionManager.getInstance().sendPacket(packet);
