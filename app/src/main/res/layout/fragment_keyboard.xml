@@ -25,7 +25,7 @@
             <Button
                 android:id="@+id/escButtonID"
                 style="@style/ButtonGridStyle"
-                android:text="@string/esc" />
+                android:text="@string/key_esc" />
 
             <Button
                 android:id="@+id/copyButtonID"
@@ -37,12 +37,12 @@
             <Button
                 android:id="@+id/tabButtonID"
                 style="@style/ButtonGridStyle"
-                android:text="@string/tab" />
+                android:text="@string/key_tab" />
 
             <Button
                 android:id="@+id/pgupButtonID"
                 style="@style/ButtonGridStyle"
-                android:text="@string/pgup" />
+                android:text="@string/key_pgup" />
 
             <Button
                 android:id="@+id/pasteButtonID"
@@ -54,12 +54,12 @@
             <Button
                 android:id="@+id/pgdnButtonID"
                 style="@style/ButtonGridStyle"
-                android:text="@string/pgdn" />
+                android:text="@string/key_pgdn" />
 
             <Button
                 android:id="@+id/shiftButtonID"
                 style="@style/ButtonGridStyle"
-                android:text="@string/shift"/>
+                android:text="@string/key_shift"/>
 
             <Button
                 android:id="@+id/upButtonID"
@@ -71,7 +71,7 @@
             <Button
                 android:id="@+id/ctrlButtonID"
                 style="@style/ButtonGridStyle"
-                android:text="@string/ctrl"/>
+                android:text="@string/key_ctrl"/>
 
             <Button
                 android:id="@+id/leftButtonID"

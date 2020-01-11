@@ -37,6 +37,7 @@
 
     <!-- Settings -->
     <string name="settings_title_connect">Connect</string>
+    <string name="settings_title_mouse">Mouse/Touchpad</string>
     <string name="settings_title_live_screen">Live Screen</string>
     <string name="settings_title_gamepad">Gamepad</string>
     <string name="settings_title_pdf">PDF Assistant</string>
@@ -51,7 +52,6 @@
 
     <string name="settings_key_mouse_sensitivity">mouseSensitivity</string>
     <string name="settings_title_mouse_sensitivity">Mouse/touchpad sensitivity</string>
-    <string name="settings_title_mouse">Mouse/Touchpad</string>
 
     <string name="settings_key_live_screen_fps">liveScreenFPS</string>
     <string name="settings_title_live_screen_fps">FPS</string>
@@ -95,19 +95,18 @@
     <string name="fit_height">FIT Height</string>
 
     <!-- Keyboard -->
-    <string name="copy">Copy</string>
-    <string name="home">Home</string>
-    <string name="tab">Tab</string>
-    <string name="paste">Paste</string>
-    <string name="pgup">PgUp</string>
-    <string name="shift">Shift</string>
-    <string name="up">Up</string>
-    <string name="pgdn">PgDn</string>
-    <string name="left">Left</string>
-    <string name="key_down">Down</string>
-    <string name="key_right">Right</string>
-    <string name="esc">ESC</string>
-    <string name="ctrl">Ctrl</string>
+    <string name="key_esc">ESC</string>
+    <string name="key_tab">Tab</string>
+    <string name="key_shift">Shift</string>
+    <string name="key_ctrl">Ctrl</string>
+    <string name="key_pgup">PgUp</string>
+    <string name="key_pgdn">PgDn</string>
+    <string name="key_arrow_up">Up</string>
+    <string name="key_arrow_left">Left</string>
+    <string name="key_arrow_down">Down</string>
+    <string name="key_arrow_right">Right</string>
+    <string name="key_copy">Copy</string>
+    <string name="key_paste">Paste</string>
 
     <!-- Gamepad -->
     <string name="gamepad_data_key">gamepadData</string>
