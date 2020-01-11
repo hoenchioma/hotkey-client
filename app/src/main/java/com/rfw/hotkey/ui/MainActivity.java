@@ -88,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
         Fragment currFrag = fragmentHelper.getCurrentFragment();
         try {
             assert currFrag != null;
-            return ((DispatchKeyEventHandler) currFrag).dispatchKeyEvent(event);
+            Boolean res = ((DispatchKeyEventHandler) currFrag).dispatchKeyEvent(event);
+            return res != null ? res : super.dispatchKeyEvent(event);
         } catch (Exception e) {
             return super.dispatchKeyEvent(event);
         }
