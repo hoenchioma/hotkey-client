@@ -61,6 +61,9 @@
     <string name="settings_title_live_screen_img_quality">Image quality</string>
     <string name="settings_summary_live_screen_img_quality">Quality of image sent from server (Very high quality might cause lag)</string>
 
+    <string name="settings_key_live_screen_mouse_sensitivity">liveScreenMouseSensitivity</string>
+    <string name="settings_title_live_screen_mouse_sensitivity">Cursor sensitivity</string>
+
     <string name="settings_key_gamepad_edit_layout">gamepadEditLayout</string>
     <string name="settings_title_gamepad_edit_layout">Edit Gamepad layout</string>
     <string name="settings_summary_gamepad_edit_layout">Edit the layout of the buttons in the gamepad</string>

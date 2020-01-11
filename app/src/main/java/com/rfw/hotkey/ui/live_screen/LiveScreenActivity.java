@@ -41,10 +41,12 @@ import static com.rfw.hotkey.util.Utils.getIntPref;
 public class LiveScreenActivity extends AppCompatActivity {
     private static final String TAG = "LiveScreenActivity";
 
+    // mouse control variables
     private float mouseInitX = 0;
     private float mouseInitY = 0;
     private float mouseDisX;
     private float mouseDisY;
+    private double mouseSensitivity;
 
     /**
      * Whether or not the system UI should be auto-hidden after
@@ -172,14 +174,13 @@ public class LiveScreenActivity extends AppCompatActivity {
             if (event.getPointerCount() > 1) {
                 //Toast.makeText(getContext(),"RightClick", Toast.LENGTH_SHORT).show();
                 try {
-                    sendToServer("RightClick", 0, 0);
+                    sendMouse("RightClick", 0, 0);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-
                     mouseInitX = event.getX();
                     mouseInitY = event.getY();
                     mouseDisX = 0;
@@ -191,16 +192,15 @@ public class LiveScreenActivity extends AppCompatActivity {
                     mouseInitX = event.getX();
                     mouseInitY = event.getY();
                     try {
-                        sendToServer("TouchpadMove", (int) mouseDisX, (int) mouseDisY);
+                        sendMouse("TouchpadMove", (int) mouseDisX, (int) mouseDisY);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     break;
                 case MotionEvent.ACTION_UP:
-
                     if (mouseDisX == 0 && mouseDisY == 0) {
                         try {
-                            sendToServer("LeftClick", 0, 0);
+                            sendMouse("LeftClick", 0, 0);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -209,6 +209,13 @@ public class LiveScreenActivity extends AppCompatActivity {
             }
             return true;
         });
+
+        // load and set mouse sensitivity
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        int mouseSensitivityPerc = getIntPref(sharedPref,
+                getString(R.string.settings_key_live_screen_mouse_sensitivity),
+                Constants.LiveScreen.MOUSE_SENSITIVITY_PERC);
+        mouseSensitivity = mouseSensitivityPerc / 100.0;
 
         // make screen orientation landscape
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -304,48 +311,48 @@ public class LiveScreenActivity extends AppCompatActivity {
     }
 
 
-    private void sendToServer(String action, int moveX, int moveY) throws JSONException {
+    private void sendMouse(String action, int moveX, int moveY) throws JSONException {
         JSONObject packet = new JSONObject();
         packet.put("type", "mouse");
         switch (action) {
             case "TouchpadMove":
                 try {
                     packet.put("action", action);
-                    packet.put("deltaX", moveX);
-                    packet.put("deltaY", moveY);
+                    packet.put("deltaX", (int) (moveX * mouseSensitivity));
+                    packet.put("deltaY", (int) (moveY * mouseSensitivity));
                 } catch (JSONException e) {
-                    Log.e("MouseFragment", "sendToServer: error sending mouse movement", e);
+                    Log.e("MouseFragment", "sendMouse: error sending mouse movement", e);
                 }
                 break;
             case "RightClick":
                 try {
                     packet.put("action", action);
                 } catch (JSONException e) {
-                    Log.e("MouseFragment", "sendToServer: error sending right click", e);
+                    Log.e("MouseFragment", "sendMouse: error sending right click", e);
                 }
                 break;
             case "LeftClick":
                 try {
                     packet.put("action", action);
                 } catch (JSONException e) {
-                    Log.e("MouseFragment", "sendToServer: error sending left click", e);
+                    Log.e("MouseFragment", "sendMouse: error sending left click", e);
                 }
                 break;
-            case "ScrollMove":
-                try {
-                    packet.put("action", action);
-                    packet.put("deltaY", moveY);
-                } catch (JSONException e) {
-                    Log.e("MouseFragment", "sendToServer: error sending scroll movement", e);
-                }
-                break;
-            case "ScrollClick":
-                try {
-                    packet.put("action", action);
-                } catch (JSONException e) {
-                    Log.e("MouseFragment", "sendToServer: error sending scroll click", e);
-                }
-                break;
+//            case "ScrollMove":
+//                try {
+//                    packet.put("action", action);
+//                    packet.put("deltaY", moveY);
+//                } catch (JSONException e) {
+//                    Log.e("MouseFragment", "sendMouse: error sending scroll movement", e);
+//                }
+//                break;
+//            case "ScrollClick":
+//                try {
+//                    packet.put("action", action);
+//                } catch (JSONException e) {
+//                    Log.e("MouseFragment", "sendMouse: error sending scroll click", e);
+//                }
+//                break;
 
         }
         ConnectionManager.getInstance().sendPacket(packet);
