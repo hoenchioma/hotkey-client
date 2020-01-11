@@ -15,7 +15,7 @@ import java.util.TimerTask;
 public class ConnectionHeartbeat extends TimerTask {
     private static final String TAG = "ConnectionHeartbeat";
 
-    private static final long LATENCY_REPORT_INTERVAL = 60000; // ms
+    private static final long LATENCY_REPORT_INTERVAL = 5000; // ms
 
     private static long globalStartTime = System.currentTimeMillis();
     private static double avgLatency = 0;
