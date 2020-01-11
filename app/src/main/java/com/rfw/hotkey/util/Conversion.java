@@ -1,5 +1,11 @@
 package com.rfw.hotkey.util;
 
+/**
+ * Class containing static methods for interconversion
+ * between value types
+ *
+ * @author Raheeb Hassan
+ */
 public final class Conversion {
 
     private Conversion() {}

@@ -106,7 +106,8 @@ public class GamepadActivity extends AppCompatActivity {
 
     // delay of sending right stick movements
     private static final long RIGHT_STICK_DELAY = 20; // milliseconds
-    private double rightStickSensitivity = 1.0;
+    // mouse movement emulation sensitivity
+    private double rightStickSensitivity;
 
     private LoopedExecutor rightStickHandler = null;
 

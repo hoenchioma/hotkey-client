@@ -14,6 +14,8 @@ import com.rfw.hotkey.R;
  * Custom EditTextPreferences which supports
  * - automatically showing value in summary (with formatting)
  * - support only number input mode
+ *
+ * @author Raheeb Hassan
  */
 public class MyEditTextPref extends EditTextPreference {
     // format for building summary from value (use default summary if null)

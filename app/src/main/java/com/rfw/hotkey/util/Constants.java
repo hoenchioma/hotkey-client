@@ -1,5 +1,11 @@
 package com.rfw.hotkey.util;
 
+/**
+ * Interface containing constants and default values
+ * (used across the application)
+ *
+ * @author Raheeb Hassan
+ */
 public interface Constants {
     int SERVER_SOCKET_TIMEOUT = 5000; // in milliseconds
 
@@ -15,6 +21,8 @@ public interface Constants {
         int IMAGE_QUALITY = 25;
         float COMPRESS_RATIO = IMAGE_QUALITY / 100.0f;
         int SOCKET_RECEIVE_TIMEOUT = 5000;
+        int MOUSE_SENSITIVITY_PERC = 100;
+        double MOUSE_SENSITVITY = 1.0;
     }
 
     interface Gamepad {

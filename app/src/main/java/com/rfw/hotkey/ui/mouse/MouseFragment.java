@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -36,7 +35,7 @@ public class MouseFragment extends Fragment {
 
     private static final String TAG = "MouseFragment";
 
-    private double mouseSensitivity = 1.0;
+    private double mouseSensitivity;
 
     private boolean mouseMoved = false;
     private boolean scrollMoved = false;
@@ -205,7 +204,7 @@ public class MouseFragment extends Fragment {
             }
         });
 
-        // load and set right stick sensitivity
+        // load and set mouse sensitivity
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getActivity()));
         int mouseSensitivityPerc = getIntPref(sharedPref,
                 getString(R.string.settings_key_mouse_sensitivity),
