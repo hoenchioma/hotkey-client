@@ -67,7 +67,7 @@ public class EditMacrosFragment extends Fragment {
             "ESC",
             "INS", "HOME", "END", "PGUP", "PGDN",
             "WIN", "ALT", "CTRL", "SHIFT",
-            "BSPACE", "DEL", "ENTER",
+            "BACKSPACE", "DEL", "ENTER",
 
             // alphabets
             "A", "B", "C", "D", "E",

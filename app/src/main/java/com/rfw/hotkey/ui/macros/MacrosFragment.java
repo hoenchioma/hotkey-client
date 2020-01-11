@@ -40,6 +40,8 @@ public class MacrosFragment extends Fragment {
     private static final String TAG = "MacrosFragment";
     private SharedPreferences sharedPref;
 
+    private static final float FONT_SIZE = 15.0f;
+
     GridView gridView;
     ImageView addMacro;
 
@@ -81,6 +83,7 @@ public class MacrosFragment extends Fragment {
                 tv.setLayoutParams(params);
                 tv.setGravity(Gravity.CENTER);
                 tv.setText(macroKeys.get(position));
+                tv.setTextSize(FONT_SIZE);
                 return tv;
             }
         });

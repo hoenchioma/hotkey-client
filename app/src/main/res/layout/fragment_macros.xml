@@ -22,7 +22,7 @@
         android:layout_below="@id/addMacroButtonID"
         android:columnWidth="150dp"
         android:gravity="center"
-        android:numColumns="5"
+        android:numColumns="4"
         android:stretchMode="columnWidth">
 
     </GridView>
