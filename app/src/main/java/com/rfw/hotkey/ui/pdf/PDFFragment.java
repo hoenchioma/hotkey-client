@@ -187,20 +187,20 @@ public class PDFFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.pdf_fitHeightButtonID:
-                sendMessageToServer("fit_h", "modifier", String.valueOf(getPlatform()));
+                sendMessageToServer("fitHeight", "modifier", String.valueOf(getPlatform()));
                 Log.d("onclick", "FIT HEIGHT");
                 Log.d("pdf m", String.valueOf(getPlatform()));
                 break;
             case R.id.pdf_fitWidthButtonID:
-                sendMessageToServer("fit_w", "modifier", String.valueOf(getPlatform()));
+                sendMessageToServer("fitWidth", "modifier", String.valueOf(getPlatform()));
                 Log.d("onclick", "FIT WIDTH");
                 break;
             case R.id.pdf_zoomInButtonID:
-                sendMessageToServer("zoom_in", "modifier", String.valueOf(getPlatform()));
+                sendMessageToServer("zoomIn", "modifier", String.valueOf(getPlatform()));
                 Log.d("onclick", "ZOOM IN");
                 break;
             case R.id.pdf_zoomOutButtonID:
-                sendMessageToServer("zoom_out", "modifier", String.valueOf(getPlatform()));
+                sendMessageToServer("zoomOut", "modifier", String.valueOf(getPlatform()));
                 Log.d("onclick", "ZOOM OUT");
                 break;
             case R.id.pdf_upButtonID:

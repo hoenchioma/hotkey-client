@@ -35,7 +35,7 @@ public abstract class Connection {
     // unique identifier String for a hotkey server
     private static final String SERVER_UUID = "8fbdf1a6-1185-43a7-952a-3f38f6af0c36";
     // version number for server (only changed for connection and packet related changes)
-    private static final int SERVER_VERSION = 4;
+    private static final int SERVER_VERSION = 5;
 
     private ObservableBoolean active = new ObservableBoolean(false);
     private String computerName;
