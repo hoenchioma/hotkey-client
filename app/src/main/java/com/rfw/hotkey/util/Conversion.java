@@ -1,5 +1,7 @@
 package com.rfw.hotkey.util;
 
+import com.google.common.base.Charsets;
+
 /**
  * Class containing static methods for interconversion
  * between value types
@@ -62,7 +64,7 @@ public final class Conversion {
      */
     public static byte[] getUTF8Bytes(String str) {
         try {
-            return str.getBytes("UTF-8");
+            return str.getBytes(Charsets.UTF_8);
         } catch (Exception ex) {
             return null;
         }

@@ -30,7 +30,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.preference:preference:1.1.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 
     // google material design components
@@ -38,6 +38,9 @@ dependencies {
 
     // google mobile vision api
     implementation 'com.google.android.gms:play-services-vision:19.0.0'
+
+    // guava (google core libraries for Java)
+    implementation 'com.google.guava:guava:28.2-android'
 
     // test & androidTest dependencies
     testImplementation 'junit:junit:4.12'

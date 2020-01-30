@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.Nullable;
 
+import com.google.common.base.Charsets;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -72,7 +74,7 @@ public final class Utils {
                 }
                 count += read;
             }
-            return isUTF8 ? new String(baos.toByteArray(), "UTF-8") : new String(baos.toByteArray());
+            return isUTF8 ? new String(baos.toByteArray(), Charsets.UTF_8) : new String(baos.toByteArray());
         }
     }
 
