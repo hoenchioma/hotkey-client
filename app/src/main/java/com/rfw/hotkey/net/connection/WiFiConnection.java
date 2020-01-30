@@ -1,13 +1,20 @@
 package com.rfw.hotkey.net.connection;
 
+import com.google.common.base.Charsets;
 import com.rfw.hotkey.util.Constants;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * Subclass of Connection for WiFi/LAN based connection
@@ -18,6 +25,8 @@ public class WiFiConnection extends Connection {
     private String ipAddress;
     private int port;
     private int connectTimeOut;
+
+    private DatagramSocket datagramSocket;
 
     private Socket socket;
 
@@ -47,8 +56,23 @@ public class WiFiConnection extends Connection {
         socket.connect(new InetSocketAddress(ipAddress, port), connectTimeOut);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
+        datagramSocket = new DatagramSocket();
     }
 
+    @Override
+    protected synchronized void sendPacketUtil(JSONObject packet, boolean udp) throws IOException {
+        if (udp) {
+            try {
+                byte[] payload = packet.toString().getBytes(Charsets.UTF_8);
+                DatagramPacket datagramPacket = new DatagramPacket(payload, payload.length, InetAddress.getByName(ipAddress), port);
+                datagramSocket.send(datagramPacket);
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+        } else {
+            super.sendPacketUtil(packet, false);
+        }
+    }
 
     @Override
     protected synchronized void disconnectUtil() throws IOException {

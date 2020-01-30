@@ -168,22 +168,33 @@ public abstract class Connection {
      *
      * @param packet JSON object representing the packet to be sent
      */
-    @SuppressLint("StaticFieldLeak")
     public void sendJSONPacket(@NonNull JSONObject packet) {
+        sendJSONPacket(packet, false);
+    }
+
+    /**
+     * send a JSON packet asynchronously
+     *
+     * @param packet JSON object representing the packet to be sent
+     * @param udp whether to use UDP to send the JSON packet (only for WiFi type connection)
+     */
+    @SuppressLint("StaticFieldLeak")
+    public void sendJSONPacket(@NonNull JSONObject packet, boolean udp) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
             protected Boolean doInBackground(Void... args) {
                 boolean disconnect = false;
 
-                sendPacketUtil(packet);
-                if (out.checkError()) { // error while sending indicated broken connection
+                try {
+                    sendPacketUtil(packet, udp);
+                } catch (IOException e) {
                     Log.e(Connection.TAG, "sendJSONPacket.doInBackground: broken connection", new RuntimeException("broken connection"));
                     Log.i(Connection.TAG, "sendJSONPacket.doInBackground: closing connection ...");
                     try {
                         disconnectUtil(); // close connection (broken pipe)
-                    } catch (IOException e) {
-                        Log.e(TAG, "sendJSONPacket.doInBackground: error disconnecting", e);
+                    } catch (IOException ex) {
+                        Log.e(TAG, "sendJSONPacket.doInBackground: error disconnecting", ex);
                     }
                     disconnect = true;
                 }
@@ -219,14 +230,15 @@ public abstract class Connection {
                 JSONObject receivedPacket = null;
                 AtomicBoolean disconnect = new AtomicBoolean(false);
 
-                sendPacketUtil(packetToSend);
-                if (out.checkError()) { // error while sending indicated broken connection
+                try {
+                    sendPacketUtil(packetToSend);
+                } catch (IOException e) {
                     Log.e(Connection.TAG, "sendAndReceiveJSONPacket.doInBackground (sending): broken connection", new RuntimeException("broken connection"));
                     Log.i(Connection.TAG, "sendAndReceiveJSONPacket.doInBackground (sending): closing connection ...");
                     try {
                         disconnectUtil(); // close connection (broken pipe)
-                    } catch (IOException e) {
-                        Log.e(TAG, "sendAndReceiveJSONPacket.doInBackground (sending): error disconnecting", e);
+                    } catch (IOException ex) {
+                        Log.e(TAG, "sendAndReceiveJSONPacket.doInBackground (sending): error disconnecting", ex);
                     }
                     disconnect.set(true);
                 }
@@ -292,8 +304,13 @@ public abstract class Connection {
         sendAndReceiveJSONPacket(packetToSend, receivedPacketHandler, Constants.Net.SOCKET_RECEIVE_TIMEOUT);
     }
 
-    protected synchronized void sendPacketUtil(JSONObject packet) {
+    private void sendPacketUtil(JSONObject packet) throws IOException {
+        sendPacketUtil(packet, false);
+    }
+
+    protected synchronized void sendPacketUtil(JSONObject packet, boolean udp) throws IOException {
         out.println(packet);
+        if (out.checkError()) throw new IOException("IO error while sending packet");
     }
 
     /**
