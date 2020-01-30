@@ -143,7 +143,10 @@ public abstract class WiFiLiveScreenReceiver implements LiveScreenReceiver {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            // start receiver thread if connection successfully established
             if (socket != null && in != null) {
+                // main receiver thread
                 while (running) {
                     try {
                         int dataLength = in.readInt();
