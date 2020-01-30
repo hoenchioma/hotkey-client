@@ -50,6 +50,7 @@ public class EditMacrosFragment extends Fragment {
     private GridView gridView;
     private Button saveMacroButton;
     private Button cancelMacroButton;
+    private Button deleteButton;
     private EditText macroNameText;
 
     /**
@@ -95,6 +96,7 @@ public class EditMacrosFragment extends Fragment {
         saveMacroButton = (Button) v.findViewById(R.id.saveMacroButtonID);
         cancelMacroButton = (Button) v.findViewById(R.id.cancelMacroButtonID);
         macroNameText = (EditText) v.findViewById(R.id.macroNameTextID);
+        deleteButton = (Button) v.findViewById(R.id.deleteMacroButtonID);
 
         Bundle bundle = getArguments();
         keyIndex = -1;
@@ -182,7 +184,37 @@ public class EditMacrosFragment extends Fragment {
                 }
             }
         });
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!added){
+                    ArrayList<JSONObject> keyList = new ArrayList<>();
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    int macroCnt = Integer.parseInt(sharedPref.getString("macroKeySize", ""));
+                    editor.remove("macroKeySize");
+                    editor.apply();
+                    for (int i = 0; i < macroCnt; i++) {
+                        try {
+                            keyList.add(new JSONObject(sharedPref.getString("macroKey" + Integer.toString(i), null)));
+                            editor.remove("macroKey" + Integer.toString(i));
+                            editor.apply();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        editor.remove("macroKey" + Integer.toString(i));
+                        editor.apply();
+                    }
+                    keyList.remove(keyIndex);
+                    for(int i = 0; i < keyList.size(); i++){
+                        editor.putString("macroKey" + Integer.toString(i), keyList.get(i).toString());
+                    }
+                    editor.putString("macroKeySize",Integer.toString(keyList.size()));
+                    editor.apply();
 
+                }
+                popFragmentBackStack();
+            }
+        });
         saveMacroButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

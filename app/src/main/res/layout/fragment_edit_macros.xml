@@ -48,6 +48,16 @@
                 android:text="@string/save_macro" />
 
             <Button
+                android:id="@+id/deleteMacroButtonID"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="5dp"
+                android:text="@string/deleteMacro" />
+            <Button
                 android:id="@+id/cancelMacroButtonID"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -110,4 +110,5 @@
 
     <!-- Gamepad -->
     <string name="gamepad_data_key">gamepadData</string>
+    <string name="deleteMacro">Delete</string>
 </resources>
